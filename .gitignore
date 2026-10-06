@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+.wrangler/
+public/
+src/client/catalog.js
+.claude/settings.local.json
+native/src/
+native/prefix/
+native/include/

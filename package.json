@@ -1,0 +1,26 @@
+{
+  "name": "openoldfile",
+  "private": true,
+  "type": "module",
+  "description": "openoldfile.com: open legacy file formats in the browser, nothing uploaded",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "python3 -m http.server 5178 --bind 127.0.0.1 --directory public",
+    "test": "node scripts/build.mjs && node --test test/",
+    "deploy": "node scripts/build.mjs && NODE_OPTIONS='--dns-result-order=ipv4first --network-family-autoselection-attempt-timeout=2000' wrangler pages deploy public --project-name openoldfile --branch main --commit-dirty=true"
+  },
+  "devDependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
+    "@napi-rs/canvas": "^1.0.10",
+    "@ruffle-rs/ruffle": "^0.6.0",
+    "7z-wasm": "^1.2.0",
+    "chiptune3": "^0.8.9",
+    "esbuild": "^0.28.2",
+    "fflate": "^0.8.3",
+    "mupdf": "^1.28.1",
+    "rtf.js": "^3.0.9",
+    "spessasynth_lib": "^4.3.14",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  }
+}
