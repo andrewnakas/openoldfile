@@ -9,6 +9,8 @@ export const SITE = {
   // Shown on the contact and privacy pages. Route it with Cloudflare Email
   // Routing before launch.
   email: 'hello@openoldfile.com',
+  // Public source (AGPL-3.0, required by the MuPDF-based XPS viewer).
+  source: 'https://github.com/andrewnakas/openoldfile',
   // Sister sites that own neighbouring formats; linked from every footer.
   sisters: [
     { name: 'ExeBrowser', url: 'https://exebrowser.com/', blurb: 'run Windows and DOS programs in your browser' },

@@ -77,7 +77,7 @@ function footer() {
   <div class="wrap">
     <div class="footer-cols">${cols}</div>
     <div class="footer-sisters"><h3>Sister sites</h3><ul>${sisters}</ul></div>
-    <p class="footer-legal">Files are opened in your browser and never uploaded. <a href="/about/">About</a> · <a href="/privacy/">Privacy</a> · <a href="/contact/">Contact</a></p>
+    <p class="footer-legal">Files are opened in your browser and never uploaded. <a href="/about/">About</a> · <a href="/privacy/">Privacy</a> · <a href="/contact/">Contact</a> · <a href="${SITE.source}">Source code</a></p>
   </div>
 </footer>`;
 }
