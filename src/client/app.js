@@ -8,7 +8,8 @@
 
 import { sniff, extOf } from './sniff.js';
 import { CATALOG } from './catalog.js';
-import { isOpenError, routeTo, takeHandoff } from './ui-kit.js';
+import { isOpenError, routeTo, takeHandoff, el } from './ui-kit.js';
+import { SITE_EMAIL } from './catalog.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 
@@ -33,6 +34,7 @@ function makeUi(file) {
   const actions = $('#actions');
   result.replaceChildren();
   actions.replaceChildren();
+  $('#after').replaceChildren();
   result.hidden = false;
   let succeeded = false;
 
@@ -81,6 +83,7 @@ function makeUi(file) {
       succeeded = true;
       ui.progress('');
       track('convert_success', { source_ext: ui.ext, target_format: 'view' });
+      afterOpen(ui.ext);
     },
     saveBlob,
     baseName: file.name.replace(/\.[^.]+$/, '') || 'file'
@@ -97,6 +100,32 @@ export function saveBlob(blob, filename) {
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 60_000);
+}
+
+// ---------- after a file opens ------------------------------------------------------
+// One tap tells us whether the viewer got it right (the `feedback` event),
+// which convert_success alone can't: a garbled document still "opened".
+
+function reportLink(ext, problem) {
+  const body = `File extension: ${ext ? '.' + ext : '(none)'}\nWhat happened: ${problem}\nPage: ${location.href}\nBrowser: ${navigator.userAgent}\n\nWhat program made the file, and roughly when?\n`;
+  return el('a', { href: `mailto:${SITE_EMAIL}?subject=${encodeURIComponent(`A ${ext ? '.' + ext + ' ' : ''}file did not open right`)}&body=${encodeURIComponent(body)}` }, 'Tell us about it');
+}
+
+function afterOpen(ext) {
+  const after = $('#after');
+  const again = el('button', { type: 'button', class: 'link-btn', onclick: () => { $('#file').value = ''; $('#file').click(); } }, 'Open another file');
+  const vote = (good) => () => {
+    track('feedback', { source_ext: ext, value: good ? 'good' : 'bad' });
+    after.replaceChildren(good
+      ? el('span', {}, 'Thanks! ', again)
+      : el('span', {}, 'Sorry about that. ', reportLink(ext, 'It opened, but looked wrong or incomplete.'), ' (no need to attach the file) · ', again));
+  };
+  after.replaceChildren(
+    el('span', {}, 'Did it open correctly? '),
+    el('button', { type: 'button', class: 'vote', 'aria-label': 'Yes', onclick: vote(true) }, '👍'),
+    el('button', { type: 'button', class: 'vote', 'aria-label': 'No', onclick: vote(false) }, '👎'),
+    el('span', { class: 'muted' }, ' · '), again);
+  after.hidden = false;
 }
 
 // ---------- errors ----------------------------------------------------------------
@@ -126,6 +155,9 @@ function fail(err) {
   box.hidden = false;
   box.className = 'status status-error';
   box.textContent = (isOpenError(err) && err.message) || ERROR_TEXT[type] || ERROR_TEXT.decode;
+  const ext = extOf(currentFile?.name);
+  box.append(el('span', { class: 'status-help' }, ' ', reportLink(ext, `Error (${type}): ${box.textContent}`),
+    spec ? el('span', {}, ' or ', el('a', { href: '/' }, 'try the home page'), ', which works out the format from the contents.') : '.'));
 }
 
 // ---------- routing a file ----------------------------------------------------------
@@ -192,7 +224,8 @@ function explain(file, found) {
     track('route_planned', { source_ext: ext });
   } else {
     status.append(`We don't recognise ${ext ? 'this .' + ext + ' file' : 'this file'} yet. `,
-      'Tell us what made it via the contact page and it goes on the list.');
+      reportLink(ext, 'Not recognised.'), ' with what program made it and it goes on the list, or look it up in the ',
+      el('a', { href: '/extensions/' }, 'list of old file extensions'), '.');
     track('route_unknown', { source_ext: ext || '(none)' });
   }
 }
@@ -227,6 +260,17 @@ function wireDropZone() {
 
 wireDropZone();
 takeHandoff(handle);
+
+// Installed as an app, the site is offered in the system's "Open with" menu
+// for these formats (manifest file_handlers); the file arrives here.
+if ('launchQueue' in window) {
+  window.launchQueue.setConsumer(async (params) => {
+    const handleFile = params.files && params.files[0];
+    if (!handleFile) return;
+    track('file_launch');
+    handle(await handleFile.getFile());
+  });
+}
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   navigator.serviceWorker.register('/sw.js').catch(() => {});

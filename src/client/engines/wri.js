@@ -13,7 +13,7 @@
 // offset 4) at a property blob: a length byte then the bytes that differ
 // from the defaults.
 
-import { OpenError, el, bytes } from '../ui-kit.js';
+import { OpenError, el, bytes, printNode } from '../ui-kit.js';
 
 const PAGE = 128;
 const u16 = (b, o) => b[o] | (b[o + 1] << 8);
@@ -204,19 +204,4 @@ export async function open(file, ui) {
   ui.action('Download as Word-compatible HTML', () => new Blob([html()], { type: 'text/html' }), ui.baseName + '.html', 'html');
   ui.action('Download as text', () => new Blob([toText(doc)], { type: 'text/plain;charset=utf-8' }), ui.baseName + '.txt', 'txt');
   ui.button('Print or save as PDF', () => printNode(page, ui.baseName));
-}
-
-// Print just the document, not the page around it.
-function printNode(node, title) {
-  const frame = el('iframe', { style: 'position:fixed;width:0;height:0;border:0' });
-  document.body.append(frame);
-  const d = frame.contentDocument;
-  d.open();
-  d.write('<!doctype html><html><head><meta charset="utf-8"><title></title></head><body></body></html>');
-  d.close();
-  d.title = title;
-  d.body.append(d.importNode(node, true));
-  frame.contentWindow.focus();
-  frame.contentWindow.print();
-  setTimeout(() => frame.remove(), 1000);
 }

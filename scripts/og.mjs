@@ -66,3 +66,29 @@ function wrap(ctx, text, x, y, maxWidth, lineHeight, maxLines) {
   }
   ctx.fillText(line, x, y);
 }
+
+// App icons for the manifest: installing the site as an app (and with it
+// "Open with" for old formats) needs PNG icons, not just the SVG favicon.
+export async function makeIcons(svgPath, outDir) {
+  let createCanvas, loadImage;
+  try {
+    ({ createCanvas, loadImage } = await import('@napi-rs/canvas'));
+  } catch {
+    return false;
+  }
+  const { mkdirSync, writeFileSync, readFileSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  mkdirSync(outDir, { recursive: true });
+  const img = await loadImage(readFileSync(svgPath));
+  for (const size of [192, 512]) {
+    const c = createCanvas(size, size);
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#f6f1e7';
+    ctx.fillRect(0, 0, size, size);
+    // Maskable icons keep their content inside the central 80%.
+    const pad = size * 0.12;
+    ctx.drawImage(img, pad, pad, size - 2 * pad, size - 2 * pad);
+    writeFileSync(join(outDir, `icon-${size}.png`), c.toBuffer('image/png'));
+  }
+  return true;
+}

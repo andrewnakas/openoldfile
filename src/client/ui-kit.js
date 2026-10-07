@@ -42,6 +42,23 @@ export async function gunzip(data) {
 
 export const isGzip = (b) => b[0] === 0x1f && b[1] === 0x8b;
 
+// Print just the document, not the page around it. css: rules the copy
+// needs, since the site stylesheet is left behind.
+export function printNode(node, title, css = '') {
+  const frame = el('iframe', { style: 'position:fixed;width:0;height:0;border:0' });
+  document.body.append(frame);
+  const d = frame.contentDocument;
+  d.open();
+  d.write('<!doctype html><html><head><meta charset="utf-8"><title></title></head><body></body></html>');
+  d.close();
+  d.title = title;
+  if (css) d.head.append(Object.assign(d.createElement('style'), { textContent: css }));
+  d.body.append(d.importNode(node, true));
+  frame.contentWindow.focus();
+  frame.contentWindow.print();
+  setTimeout(() => frame.remove(), 1000);
+}
+
 // Tabs for multi-part results (sheets in a workbook, pages in a document).
 export function tabs(names, onSelect) {
   const bar = el('div', { class: 'tabs', role: 'tablist' });

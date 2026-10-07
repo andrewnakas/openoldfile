@@ -7,7 +7,8 @@
     "build": "node scripts/build.mjs",
     "serve": "python3 -m http.server 5178 --bind 127.0.0.1 --directory public",
     "test": "node scripts/build.mjs && node --test test/",
-    "deploy": "node scripts/build.mjs && NODE_OPTIONS='--dns-result-order=ipv4first --network-family-autoselection-attempt-timeout=2000' wrangler pages deploy public --project-name openoldfile --branch main --commit-dirty=true"
+    "deploy": "node scripts/build.mjs && NODE_OPTIONS='--dns-result-order=ipv4first --network-family-autoselection-attempt-timeout=2000' wrangler pages deploy public --project-name openoldfile --branch main --commit-dirty=true && node scripts/indexnow.mjs",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "devDependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",

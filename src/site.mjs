@@ -11,6 +11,9 @@ export const SITE = {
   email: 'hello@openoldfile.com',
   // Public source (AGPL-3.0, required by the MuPDF-based XPS viewer).
   source: 'https://github.com/andrewnakas/openoldfile',
+  // IndexNow key (Bing, Yandex, Seznam...): served as /<key>.txt and sent by
+  // scripts/indexnow.mjs after each deploy. Not a secret.
+  indexNowKey: 'e2f96172c3d9016c150b4a985a8d1405',
   // Sister sites that own neighbouring formats; linked from every footer.
   sisters: [
     { name: 'ExeBrowser', url: 'https://exebrowser.com/', blurb: 'run Windows and DOS programs in your browser' },

@@ -9,7 +9,7 @@
 // (annotation, footnote, header, footer) that hold their own streams.
 // Grammar from the interoperability spec in gadicc/amipro-sam (MIT).
 
-import { el, bytes } from '../ui-kit.js';
+import { el, bytes, printNode } from '../ui-kit.js';
 
 const TOGGLES = { '!': 'b', '"': 'i', '#': 'u', ')': 'u', '$': 'u', '&': 'sup', "'": 'sub', '%': 's' };
 const ALIGN = { '@': 'left', A: 'right', B: 'center', C: 'justify' };
@@ -200,4 +200,5 @@ export async function open(file, ui) {
   const html = () => `<!doctype html><html><head><meta charset="utf-8"><title>${ui.baseName.replace(/[<&]/g, '')}</title></head><body>${page.innerHTML}</body></html>`;
   ui.action('Download as Word-compatible HTML', () => new Blob([html()], { type: 'text/html' }), ui.baseName + '.html', 'html');
   ui.action('Download as text', () => new Blob([toText(doc)], { type: 'text/plain;charset=utf-8' }), ui.baseName + '.txt', 'txt');
+  ui.button('Print or save as PDF', () => printNode(page, ui.baseName));
 }

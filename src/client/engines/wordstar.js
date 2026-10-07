@@ -11,7 +11,7 @@
 // Lines starting with "." are dot commands (.pa page break, .he header...).
 // WordStar 5+ files begin with a 128-byte header (0x1D 0x7D).
 
-import { el, bytes } from '../ui-kit.js';
+import { el, bytes, printNode } from '../ui-kit.js';
 
 const CP437_HIGH = 'ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■ ';
 const cp437 = (c) => (c < 0x80 ? String.fromCharCode(c) : CP437_HIGH[c - 0x80]);
@@ -128,4 +128,5 @@ export async function open(file, ui) {
   const html = () => `<!doctype html><html><head><meta charset="utf-8"><title>${ui.baseName.replace(/[<&]/g, '')}</title><style>p{white-space:pre-wrap;font-family:"Courier New",monospace;margin:0}</style></head><body>${page.innerHTML}</body></html>`;
   ui.action('Download as Word-compatible HTML', () => new Blob([html()], { type: 'text/html' }), ui.baseName + '.html', 'html');
   ui.action('Download as text', () => new Blob([toText(doc)], { type: 'text/plain;charset=utf-8' }), ui.baseName + '.txt', 'txt');
+  ui.button('Print or save as PDF', () => printNode(page, ui.baseName, 'p{white-space:pre-wrap;font-family:"Courier New",monospace;margin:0}'));
 }
