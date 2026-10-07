@@ -17,6 +17,9 @@ const ascii = (b, start, len) => String.fromCharCode(...b.subarray(start, start 
 const TESTS = [
   (b) => (ascii(b, 0, 4) === 'ITSF' ? 'chm' : null),
   (b) => (ascii(b, 0, 4) === 'MSCF' ? 'cab' : null),
+  (b) => (ascii(b, 0, 7) === 'ZXTape!' && b[7] === 0x1a ? 'tzx' : null),
+  // .tap: no magic, but almost every tape starts with a 19-byte ROM header block.
+  (b) => (b[0] === 19 && b[1] === 0 && b[2] === 0 && b[3] <= 3 && b.subarray(2, 21).reduce((x, y) => x ^ y, 0) === 0 ? 'tzx' : null),
   (b) => (b[0] === 0x60 && b[1] === 0xea ? 'arj' : null),
   (b) => (/^-l[hz][0-9a-z ]-$/.test(ascii(b, 2, 5)) ? 'lzh' : null),
   (b) => (b[0] === 0x1f && b[1] === 0x9d ? 'z' : null),

@@ -18,11 +18,46 @@
 //   related   slugs to link to
 //   category  groups pages on the home page and in the nav
 
+//   convertTo the "Convert .X to ..." heading when the outputs list reads badly
+//   updated   date the page text last changed (sitemap lastmod); default UPDATED
+
+// Bump when a template change alters every page.
+export const UPDATED = '2026-10-07';
+
+// Each category also gets a hub page at /formats/<id>/.
 export const CATEGORIES = [
-  { id: 'documents', name: 'Documents and help files' },
-  { id: 'spreadsheets', name: 'Spreadsheets and databases' },
-  { id: 'archives', name: 'Archives and compressed files' },
-  { id: 'media', name: 'Flash, music and graphics' }
+  {
+    id: 'documents',
+    name: 'Documents and help files',
+    title: 'Open Old Document Files Online: WordPerfect, Works, Write',
+    h1: 'Open old word processor and help files',
+    desc: 'Read old documents in your browser: WordPerfect, Microsoft Works, Windows Write, WordStar, Ami Pro, ClarisWorks, MacWrite, WinHelp and CHM. Free, no upload.',
+    intro: 'Word processors came and went through the 1980s and 1990s, and most of them saved in their own format. Current versions of Word read only a few of them. Each page below reads one family of files in your browser and saves a copy you can open today, usually as HTML that Word and Google Docs import, as plain text, or as a PDF.'
+  },
+  {
+    id: 'spreadsheets',
+    name: 'Spreadsheets and databases',
+    title: 'Open Old Spreadsheet Files Online: Lotus, Quattro, dBASE',
+    h1: 'Open old spreadsheet and database files',
+    desc: 'View Lotus 1-2-3, Quattro Pro, Microsoft Works and dBASE files in your browser and save them as Excel or CSV. Free, nothing uploaded.',
+    intro: 'Before Excel took over, spreadsheets lived in Lotus 1-2-3, Quattro Pro and Microsoft Works, and records lived in dBASE and FoxPro tables. Excel now blocks or ignores most of these formats. These pages read the values straight from the file and save a modern .xlsx or .csv copy.'
+  },
+  {
+    id: 'archives',
+    name: 'Archives and disk images',
+    title: 'Open Old Archives Online: LZH, ARJ, CAB, .Z, D64, ADF',
+    h1: 'Open old archives and disk images',
+    desc: 'Extract LZH, ARJ, CAB and Unix .Z archives and browse Commodore 64 and Amiga disk images in your browser. Free, no software, no upload.',
+    intro: 'Bulletin boards, shareware CDs and early Unix systems packed files with compressors that modern systems no longer recognise, and home computers stored software on floppy disks that survive today as image files. These pages list what is inside and let you save the files one by one or all together as a .zip.'
+  },
+  {
+    id: 'media',
+    name: 'Flash, music and graphics',
+    title: 'Play Old Media Files Online: SWF, MIDI, MOD, RealMedia',
+    h1: 'Play old Flash, music, video and picture files',
+    desc: 'Play Flash SWF, MIDI and tracker music, convert RealMedia to MP4 and view PICT, WMF and EMF pictures in your browser. Free, nothing uploaded.',
+    intro: 'Flash games, MIDI tunes, Amiga tracker music, RealPlayer videos and the picture formats of classic Mac OS and Windows all lost their players. These pages play or draw them in your browser and, where it helps, save them as MP4, MP3, WAV, PNG or SVG.'
+  }
 ];
 
 export const FORMATS = [
@@ -199,6 +234,7 @@ export const FORMATS = [
   },
   {
     slug: 'hlp',
+    convertTo: 'HTML or RTF',
     needs: 'WinHlp32',
     category: 'documents',
     exts: ['hlp'],
@@ -225,6 +261,7 @@ export const FORMATS = [
   },
   {
     slug: 'pub',
+    convertTo: 'PDF or SVG',
     category: 'documents',
     exts: ['pub'],
     program: 'Microsoft Publisher',
@@ -275,6 +312,7 @@ export const FORMATS = [
   },
   {
     slug: 'cwk',
+    convertTo: 'HTML, PDF or Excel',
     needs: 'ClarisWorks or AppleWorks',
     category: 'documents',
     exts: ['cwk', 'cws', 'cwd', 'cwdb', 'cwpt', 'cwgr', 'cwss'],
@@ -374,6 +412,7 @@ export const FORMATS = [
   },
   {
     slug: 'chm',
+    convertTo: 'HTML or PDF',
     needs: 'Windows help viewer',
     category: 'documents',
     exts: ['chm'],
@@ -542,7 +581,33 @@ export const FORMATS = [
       ['Can it read .d71 and .d81 images?', 'Yes, both: the 1571 double-sided and 1581 3.5-inch formats.'],
       ['Is the image uploaded?', 'No. It is read in your browser.']
     ],
-    related: ['adf', 'lzh', 'mod']
+    related: ['adf', 'tzx', 'lzh']
+  },
+  {
+    slug: 'tzx',
+    category: 'archives',
+    needs: 'emulator',
+    exts: ['tzx', 'tap'],
+    program: 'ZX Spectrum tape images',
+    title: 'Open TZX and TAP Files Online (ZX Spectrum) | Free',
+    h1: 'Open ZX Spectrum tape files (.tzx, .tap) online',
+    desc: 'See what is on a ZX Spectrum .tzx or .tap tape, read its BASIC listing and loading screen, and save the tape as WAV audio. Free, nothing uploaded.',
+    engine: 'tape',
+    convertTo: 'WAV, TAP or text',
+    outputs: ['WAV tape audio', 'TAP (from TZX)', 'BASIC listing as text', 'loading screen as PNG'],
+    era: 'The ZX Spectrum (1982) loaded its software from cassette; .tap and .tzx files are how that tape library is preserved.',
+    about: [
+      'A .tap file holds the data blocks a Spectrum saved to tape, one after another. A .tzx file records the tape more exactly, including the fast custom loaders many games used, so it can rebuild the original sound. Emulators load both, but nothing else shows what is inside one.',
+      'This page lists every file on the tape the way the Spectrum announced it ("Program: name", "Bytes: name"), prints BASIC programs as a readable listing, shows loading screens, and can turn the whole tape back into a WAV file you can play into a real Spectrum or a tape-loading emulator. A TZX that only uses standard blocks can also be converted to .tap.'
+    ],
+    faq: [
+      ['How do I open a TZX file?', 'Drop it on this page to see the files on the tape, the BASIC listing and the loading screen. To play the game itself, load the .tzx in a Spectrum emulator such as Fuse or ZEsarUX.'],
+      ['How do I convert TZX to WAV?', 'Open the file here and press "Download tape audio (.wav)". Play the WAV into a real Spectrum\'s EAR socket, or load it in an emulator that reads audio.'],
+      ['How do I convert TZX to TAP?', 'If the tape only uses standard ROM blocks, a "Convert to .tap" button appears after it opens. Tapes with turbo loaders cannot be stored as .tap without losing data.'],
+      ['How can I see the BASIC program in a .tap file?', 'Open the file here: every BASIC program on the tape is shown as a listing with its keywords spelled out, and can be saved as a text file.'],
+      ['Is the file uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['d64', 'adf', 'mod']
   },
   {
     slug: 'adf',
@@ -774,7 +839,6 @@ export const ELSEWHERE = [
 // Formats with pages on the way. The sniffer recognises them and says so
 // honestly instead of failing.
 export const PLANNED = [
-  { exts: ['tzx', 'tap'], name: 'ZX Spectrum tape image' },
   { exts: ['dcr'], name: 'Shockwave movie' },
   { exts: ['sid'], name: 'C64 SID tune' }
 ];

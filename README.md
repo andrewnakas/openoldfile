@@ -38,6 +38,7 @@ owning one search intent ("open wk1 file", "open chm file on mac"...).
 | chm | .chm | 7-Zip wasm (LGPL) + own TOC/viewer |
 | archive | .lzh .lha .arj .cab .z .taz | 7-Zip wasm |
 | disk | .d64 .d71 .d81 (C64), .adf (Amiga OFS/FFS) | written for this site |
+| tape | .tzx .tap (ZX Spectrum): files, BASIC listings, loading screens, WAV and TAP export | written for this site |
 | xps | .xps .oxps | MuPDF (AGPL-3.0, so this repo's source must be public) |
 | swf | .swf | Ruffle (MIT/Apache) |
 | midi | .mid .rmi .kar | SpessaSynth (Apache) + GeneralUser GS sound bank |
@@ -59,8 +60,10 @@ Known gaps:
 - Ami Pro frames, tables and embedded pictures are not shown.
 - Embedded OLE objects (other than Paintbrush pictures in Write) appear as
   placeholders.
-- Next formats (C64 SID music, ZX Spectrum tapes, Shockwave) need an
-  emulator or a player that does not exist as a library yet.
+- Next formats (C64 SID music, Shockwave) need an emulator or a player
+  that does not exist as a library yet.
+- TZX CSW (0x18) and generalized-data (0x19) blocks are listed but left out
+  of the WAV render; jumps and call sequences are ignored.
 
 ## Deploying
 
@@ -76,7 +79,9 @@ is attached.
 
 `convert_start`, `convert_success` (the file opened), `convert_error`
 (`error_type`), `file_download` (`target_format`), `route_elsewhere`,
-`route_planned`, `route_unknown` (`source_ext`). Register `tool`,
+`route_planned`, `route_unknown` (`source_ext`), `feedback` (`source_ext`,
+`value` good/bad, from the "Did it open correctly?" buttons), `file_launch`
+(opened through the installed app's "Open with"). Register `tool`,
 `source_ext`, `target_format` and `error_type` as event-scoped custom
 dimensions **on the day GA4 is connected**; GA4 does not backfill.
 
@@ -91,8 +96,19 @@ dimensions **on the day GA4 is connected**; GA4 does not backfill.
 7. Add cross-links from exebrowser.com and macemu.com ("not a program? open the document").
 8. Push this repo public (MuPDF is AGPL).
 
+## Pages
+
+Besides one page per format: category hubs at `/formats/<category>/`
+(text in `CATEGORIES`), the A–Z extension index at `/extensions/`, and
+about/privacy/contact. Sitemap `lastmod` comes from each spec's `updated`
+field, else `UPDATED` in `src/formats.mjs`: bump it when a template change
+touches every page.
+
+`npm run deploy` ends by pinging IndexNow (`scripts/indexnow.mjs`) with
+every sitemap URL; the key file is built from `SITE.indexNowKey`.
+
 ## Next formats
 
-ZX Spectrum tapes (.tzx/.tap), Ami Pro (.sam), Shockwave (.dcr via
-dirplayer-rs) and C64 SID music. Pick by Bing keyword data and ChatGPT
+Microsoft Reader .lit and Help 2 .hxs (7-Zip opens both; needs sample
+files to test), Shockwave (.dcr via dirplayer-rs) and C64 SID music. Pick by Bing keyword data and ChatGPT
 landings once the site has traffic.

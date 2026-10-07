@@ -234,3 +234,52 @@ test('Ami Pro reader: text, styles, inline commands, footnotes', async () => {
   assert.ok(d.paragraphs[1].runs.some((r) => r.sub && r.text === '2'));
   assert.deepEqual(d.footnotes.map((p) => p.runs.map((r) => r.text).join('')), ['A footnote.']);
 });
+
+// A synthetic tape: a BASIC loader and a loading screen, as .tap and .tzx.
+function makeTape() {
+  const block = (flag, payload) => {
+    const d = Uint8Array.from([flag, ...payload, 0]);
+    d[d.length - 1] = d.subarray(0, -1).reduce((x, y) => x ^ y, 0);
+    return d;
+  };
+  const header = (type, name, len, p1, p2) => block(0, [type, ...name.padEnd(10).split('').map((c) => c.charCodeAt(0)), len & 255, len >> 8, p1 & 255, p1 >> 8, p2 & 255, p2 >> 8]);
+  // 10 BORDER 0: LOAD ""SCREEN$   (0 followed by its hidden 5-byte number)
+  const line = [0xe7, 0x30, 0x0e, 0, 0, 0, 0, 0, 0x3a, 0xef, 0x22, 0x22, 0xaa, 0x0d];
+  const prog = [0, 10, line.length, 0, ...line];
+  const screen = new Uint8Array(6912);
+  screen.fill(0xff, 0, 32); // top pixel row of the first third: ink
+  screen.fill(0x07 | (1 << 3), 6144); // white ink on blue paper
+  const blocks = [header(0, 'loader', prog.length, 10, prog.length), block(0xff, prog), header(3, 'screen', 6912, 16384, 32768), block(0xff, screen)];
+  const tap = Buffer.concat(blocks.flatMap((d) => [Buffer.from([d.length & 255, d.length >> 8]), Buffer.from(d)]));
+  const info = [0x32, 0, 0, 1, 0, 9, ...Buffer.from('Test Tape')];
+  info[1] = info.length - 3;
+  const tzx = Buffer.concat([Buffer.from('ZXTape!\x1a\x01\x14', 'latin1'), Buffer.from(info),
+    ...blocks.flatMap((d) => [Buffer.from([0x10, 0xe8, 0x03, d.length & 255, d.length >> 8]), Buffer.from(d)])]);
+  return { tap: new Uint8Array(tap), tzx: new Uint8Array(tzx) };
+}
+
+test('ZX Spectrum tapes: files, BASIC listing, screen, WAV and TZX to TAP', async () => {
+  const { readTape, basicListing, screenPixels, renderWav, canTap, toTap, fileLabel } = await import('../src/client/engines/tape.js');
+  const { tap, tzx } = makeTape();
+  assert.equal((await sniff(new File([tap], 'x.bin'))).slug, 'tzx');
+  assert.equal((await sniff(new File([tzx], 'x.bin'))).slug, 'tzx');
+  for (const raw of [tap, tzx]) {
+    const t = readTape(raw);
+    assert.deepEqual(t.files.map((f) => [f.name, fileLabel(f), f.ok]), [['loader', 'Program (runs from line 10)', true], ['screen', 'Screen', true]]);
+    assert.equal(basicListing(t.files[0].payload, t.files[0].param2), '  10 BORDER 0: LOAD ""SCREEN$');
+    const px = screenPixels(t.files[1].payload);
+    assert.deepEqual([...px.subarray(0, 4)], [215, 215, 215, 255], 'ink is white');
+    assert.deepEqual([...px.subarray(256 * 4, 256 * 4 + 4)], [0, 0, 215, 255], 'second row is blue paper');
+  }
+  const t = readTape(tzx);
+  assert.equal(t.kind, 'TZX 1.20');
+  assert.deepEqual(t.info, [['Title', 'Test Tape']]);
+  assert.ok(canTap(t));
+  assert.deepEqual(new Uint8Array(await toTap(t).arrayBuffer()), tap);
+  const wav = renderWav(t);
+  // Pilots 2 x 5 s + 2 x 2 s, 4 x 1 s pauses, and the mostly-zero screen at
+  // ROM speed (a 0 bit is 1710 T-states): about 27 s.
+  assert.ok(wav.seconds > 40 && wav.seconds < 52, `${wav.seconds} s`);
+  const head = new Uint8Array(await wav.blob.slice(0, 12).arrayBuffer());
+  assert.equal(String.fromCharCode(...head.subarray(8, 12)), 'WAVE');
+});

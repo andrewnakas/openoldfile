@@ -2,7 +2,7 @@
 // /js/app.js. Text comes from src/formats.mjs.
 
 import { SITE } from './site.mjs';
-import { FORMATS, CATEGORIES, PLANNED, ELSEWHERE } from './formats.mjs';
+import { FORMATS, CATEGORIES, PLANNED, ELSEWHERE, UPDATED } from './formats.mjs';
 
 export const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const dotList = (exts) => exts.map((e) => '.' + e).join(', ');
@@ -60,6 +60,7 @@ function header() {
     <a class="logo" href="/"><span class="logo-mark" aria-hidden="true">▤</span> ${SITE.name}</a>
     <nav aria-label="Main">
       <a href="/#formats">All formats</a>
+      <a href="/extensions/">Extensions A–Z</a>
       <a href="/about/">About</a>
     </nav>
   </div>
@@ -70,14 +71,14 @@ function footer() {
   const cols = CATEGORIES.map((c) => {
     const items = FORMATS.filter((f) => f.category === c.id)
       .map((f) => `<li><a href="/open/${f.slug}/">${esc(f.program)} (${esc(extLabel(f))})</a></li>`).join('');
-    return `<div><h3>${esc(c.name)}</h3><ul>${items}</ul></div>`;
+    return `<div><h3><a href="/formats/${c.id}/">${esc(c.name)}</a></h3><ul>${items}</ul></div>`;
   }).join('');
   const sisters = SITE.sisters.map((s) => `<li><a href="${s.url}">${esc(s.name)}</a>: ${esc(s.blurb)}</li>`).join('');
   return `<footer class="site-footer">
   <div class="wrap">
     <div class="footer-cols">${cols}</div>
     <div class="footer-sisters"><h3>Sister sites</h3><ul>${sisters}</ul></div>
-    <p class="footer-legal">Files are opened in your browser and never uploaded. <a href="/about/">About</a> · <a href="/privacy/">Privacy</a> · <a href="/contact/">Contact</a> · <a href="${SITE.source}">Source code</a></p>
+    <p class="footer-legal">Files are opened in your browser and never uploaded. <a href="/extensions/">File extensions A–Z</a> · <a href="/about/">About</a> · <a href="/privacy/">Privacy</a> · <a href="/contact/">Contact</a> · <a href="${SITE.source}">Source code</a></p>
   </div>
 </footer>`;
 }
@@ -97,6 +98,7 @@ function tool({ accept, prompt, sub }) {
   <div id="status" class="status" role="status" aria-live="polite" hidden></div>
   <div id="actions" class="actions"></div>
   <div id="result" class="result" hidden></div>
+  <p id="after" class="after" hidden></p>
 </section>`;
 }
 
@@ -109,6 +111,21 @@ const faqLd = (faq) => ({
   '@type': 'FAQPage',
   mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } }))
 });
+
+// Home › [category] › [this page], as links and as BreadcrumbList JSON-LD.
+function crumbs(trail) {
+  const all = [{ name: SITE.name, path: '/' }, ...trail];
+  const html = `<nav class="crumbs" aria-label="Breadcrumb">${all.map((c, i) =>
+    i === all.length - 1 ? esc(c.name) : `<a href="${c.path}">${esc(c.name)}</a>`).join(' › ')}</nav>`;
+  const ld = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: all.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: SITE.origin + c.path }))
+  };
+  return { html, ld };
+}
+
+const categoryOf = (f) => CATEGORIES.find((c) => c.id === f.category);
 
 function page({ title, desc, path, jsonld, slug = '', body, preload = [], og = '' }) {
   return `${head({ title, desc, path, jsonld, preload, og })}
@@ -126,8 +143,17 @@ ${footer()}
 
 // ---------- format page ------------------------------------------------------
 
-const VERB = { sheet: 'read it', wri: 'read it', xps: 'read it', chm: 'read it', archive: 'see what is inside', metafile: 'see the picture', swf: 'play it', midi: 'play it', tracker: 'play it', realmedia: 'play it', hlp: 'read it', doc: 'read it', wordstar: 'read it', disk: 'see what is on it', pict: 'see the picture', amipro: 'read it' };
+const VERB = { sheet: 'read it', wri: 'read it', xps: 'read it', chm: 'read it', archive: 'see what is inside', metafile: 'see the picture', swf: 'play it', midi: 'play it', tracker: 'play it', realmedia: 'play it', hlp: 'read it', doc: 'read it', wordstar: 'read it', disk: 'see what is on it', pict: 'see the picture', amipro: 'read it', tape: 'see what is on it' };
 const SAVES = (o) => !/^(Play|Full screen|Browse)/.test(o);
+
+const orList = (xs) => xs.length > 1 ? xs.slice(0, -1).join(', ') + ' or ' + xs[xs.length - 1] : xs[0];
+// The "Convert .X to ..." heading: the spec's convertTo, else ZIP for
+// archives, else the outputs without their notes ("Excel (.xlsx)" -> "Excel").
+function convertTo(f, saves) {
+  if (f.convertTo) return f.convertTo;
+  if (f.engine === 'archive' || f.engine === 'disk') return 'ZIP';
+  return orList(saves.map((o) => o.replace(/\s*\(.*\)$/, '')));
+}
 
 // "your .cwk or .cws file": the first two or three extensions read well;
 // the full list is shown under the drop zone.
@@ -151,6 +177,9 @@ export function formatPage(f) {
   const path = `/open/${f.slug}/`;
   const main = extLabel(f);
   const related = f.related.map((s) => FORMATS.find((x) => x.slug === s)).filter(Boolean);
+  const cat = categoryOf(f);
+  const trail = crumbs([{ name: cat.name, path: `/formats/${cat.id}/` }, { name: f.program, path }]);
+  const saves = f.outputs.filter(SAVES);
   const jsonld = [
     {
       '@context': 'https://schema.org',
@@ -162,19 +191,13 @@ export function formatPage(f) {
       operatingSystem: 'Any (runs in a web browser)',
       browserRequirements: 'Requires JavaScript and WebAssembly',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      featureList: [`Open ${dotList(f.exts)} files`, ...f.outputs.filter(SAVES).map((o) => 'Save as ' + o), 'No upload: runs entirely in the browser']
+      featureList: [`Open ${dotList(f.exts)} files`, ...saves.map((o) => 'Save as ' + o), 'No upload: runs entirely in the browser'],
+      dateModified: f.updated || UPDATED
     },
     faqLd(f.faq),
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: SITE.name, item: SITE.origin + '/' },
-        { '@type': 'ListItem', position: 2, name: f.h1, item: SITE.origin + path }
-      ]
-    }
+    trail.ld
   ];
-  const body = `<nav class="crumbs" aria-label="Breadcrumb"><a href="/">${SITE.name}</a> › ${esc(f.program)}</nav>
+  const body = `${trail.html}
 <h1>${esc(f.h1)}</h1>
 <p class="lede">${esc(ledeFor(f))}</p>
 ${tool({ accept: '', prompt: `Drop your ${esc(main)} file here`, sub: esc(dotList(f.exts)) })}
@@ -193,7 +216,11 @@ ${tool({ accept: '', prompt: `Drop your ${esc(main)} file here`, sub: esc(dotLis
 <p class="era">${esc(f.era)}</p>
 ${f.about.map((p) => `<p>${esc(p)}</p>`).join('\n')}
 </section>
-
+${saves.length ? `
+<section>
+<h2>Convert ${esc(main)} to ${esc(convertTo(f, saves))}</h2>
+<p>Open the file above, then press the download button for the format you want. The conversion runs in your browser, so it is as fast as your device and works the same on Windows, macOS, ChromeOS, Linux, iPhone and Android. The copy you save opens in today's software.</p>
+</section>` : ''}
 <section class="faq">
 <h2>Questions</h2>
 ${faqHtml(f.faq)}
@@ -203,6 +230,7 @@ ${faqHtml(f.faq)}
 <h2>Other old formats</h2>
 <ul class="related">
 ${related.map((r) => `<li><a href="/open/${r.slug}/">${esc(r.h1)}</a></li>`).join('\n')}
+<li><a href="/formats/${cat.id}/">All ${esc(cat.name.toLowerCase())}</a></li>
 <li><a href="/">Open any old file</a></li>
 </ul>
 </section>`;
@@ -227,7 +255,7 @@ export function homePage() {
   const grid = CATEGORIES.map((c) => {
     const cards = FORMATS.filter((f) => f.category === c.id).map((f) =>
       `<li><a class="card" href="/open/${f.slug}/"><span class="card-ext">${esc(f.exts.slice(0, 3).map((e) => '.' + e).join(' '))}</span><span class="card-name">${esc(f.program)}</span></a></li>`).join('\n');
-    return `<h3>${esc(c.name)}</h3><ul class="cards">${cards}</ul>`;
+    return `<h3><a href="/formats/${c.id}/">${esc(c.name)}</a></h3><ul class="cards">${cards}</ul>`;
   }).join('\n');
   const planned = PLANNED.map((p) => `<li>${esc(p.name)} <span class="muted">(${esc(dotList(p.exts))})</span></li>`).join('');
   const elsewhere = ELSEWHERE.map((e) => `<li><a href="${e.url}">${esc(e.name)}</a> <span class="muted">(${esc(dotList(e.exts))})</span></li>`).join('');
@@ -243,6 +271,8 @@ ${tool({ accept: '', prompt: 'Drop any old file here', sub: 'We work out the for
 <h2>Formats you can open</h2>
 ${grid}
 </section>
+
+<p>Not sure what a file is? See the <a href="/extensions/">A–Z list of old file extensions</a>.</p>
 
 <section class="two-col">
 <div>
@@ -261,6 +291,90 @@ ${grid}
 ${faqHtml(HOME_FAQ)}
 </section>`;
   return page({ title, desc, path: '/', jsonld, body, og: 'home' });
+}
+
+// ---------- category hubs ------------------------------------------------------
+
+export function categoryPage(c) {
+  const path = `/formats/${c.id}/`;
+  const list = FORMATS.filter((f) => f.category === c.id);
+  const trail = crumbs([{ name: c.name, path }]);
+  const jsonld = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: c.h1,
+      url: SITE.origin + path,
+      description: c.desc,
+      mainEntity: { '@type': 'ItemList', itemListElement: list.map((f, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE.origin}/open/${f.slug}/`, name: f.h1 })) }
+    },
+    trail.ld
+  ];
+  const items = list.map((f) => `<li><a class="card" href="/open/${f.slug}/"><span class="card-ext">${esc(dotList(f.exts.slice(0, 4)))}</span><span class="card-name">${esc(f.h1)}</span><span class="card-desc">${esc(f.desc)}</span></a></li>`).join('\n');
+  const body = `${trail.html}
+<h1>${esc(c.h1)}</h1>
+<p class="lede">${esc(c.intro)}</p>
+${tool({ accept: '', prompt: 'Drop any old file here', sub: 'We work out the format from its contents' })}
+<section>
+<h2>${esc(c.name)}</h2>
+<ul class="cards cards-wide">
+${items}
+</ul>
+</section>
+<section>
+<h2>Other kinds of old files</h2>
+<ul class="related">
+${CATEGORIES.filter((x) => x.id !== c.id).map((x) => `<li><a href="/formats/${x.id}/">${esc(x.h1)}</a></li>`).join('\n')}
+<li><a href="/extensions/">Old file extensions A–Z</a></li>
+</ul>
+</section>`;
+  return page({ title: c.title, desc: c.desc, path, jsonld, body, og: 'home' });
+}
+
+// ---------- extension index ----------------------------------------------------
+
+export function extensionsPage() {
+  const path = '/extensions/';
+  const rows = [];
+  for (const f of FORMATS) for (const e of f.exts) rows.push({ e, what: f.program, href: `/open/${f.slug}/`, label: f.h1 });
+  for (const x of ELSEWHERE) for (const e of x.exts) rows.push({ e, what: x.name, href: x.url, label: 'Open on ' + new URL(x.url).hostname });
+  for (const x of PLANNED) for (const e of x.exts) rows.push({ e, what: x.name, href: '', label: 'Viewer coming soon' });
+  // An extension used by two formats (.wks, .pic...) gets one row per meaning.
+  rows.sort((a, b) => a.e.localeCompare(b.e, 'en', { numeric: true }) || a.what.localeCompare(b.what));
+  const letterOf = (e) => /[a-z]/.test(e[0]) ? e[0].toUpperCase() : '#';
+  const letters = [...new Set(rows.map((r) => letterOf(r.e)))];
+  const seen = new Set();
+  const table = rows.map((r) => {
+    const letter = letterOf(r.e);
+    const anchor = seen.has(letter) ? '' : ` id="ext-${letter === '#' ? '0' : letter}"`;
+    seen.add(letter);
+    return `<tr${anchor}><th scope="row" class="path">.${esc(r.e)}</th><td>${esc(r.what)}</td><td>${r.href ? `<a href="${r.href}">${esc(r.label)}</a>` : `<span class="muted">${esc(r.label)}</span>`}</td></tr>`;
+  }).join('\n');
+  const title = 'Old File Extensions A–Z: What They Are, How to Open Them';
+  const desc = `What made a .${FORMATS[0].exts[0]}, .wpd, .hlp or .lzh file, and how to open it today. ${rows.length} old and obsolete file extensions, each with a free viewer.`;
+  const trail = crumbs([{ name: 'File extensions A–Z', path }]);
+  const jsonld = [
+    { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Old file extensions A–Z', url: SITE.origin + path, description: desc, dateModified: UPDATED },
+    trail.ld
+  ];
+  const body = `${trail.html}
+<h1>Old file extensions A–Z</h1>
+<p class="lede">Every extension below comes from a program of the 1980s, 1990s or early 2000s. Find yours to see what made it and where to open it, or drop the file in the box and the site works it out from the contents.</p>
+${tool({ accept: '', prompt: 'Drop any old file here', sub: 'We work out the format from its contents' })}
+<section>
+<h2>Extensions</h2>
+<p class="letters">${letters.map((l) => `<a href="#ext-${l === '#' ? '0' : l}">${l}</a>`).join(' ')}</p>
+<div class="table-wrap table-tall"><table class="files ext-table">
+<thead><tr><th scope="col">Extension</th><th scope="col">What made it</th><th scope="col">Open it</th></tr></thead>
+<tbody>
+${table}
+</tbody></table></div>
+</section>
+<section>
+<h2>Not on the list?</h2>
+<p>Drop the file above anyway: the site reads its first bytes, and the document reader knows about 150 formats, many of them from classic Mac programs that saved files with no extension at all. If it still isn't recognised, <a href="/contact/">tell us</a> what program made it and it goes on the list.</p>
+</section>`;
+  return page({ title, desc, path, jsonld, body, og: 'home' });
 }
 
 // ---------- plain pages -----------------------------------------------------------
