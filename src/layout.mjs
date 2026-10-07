@@ -234,9 +234,9 @@ ${related.map((r) => `<li><a href="/open/${r.slug}/">${esc(r.h1)}</a></li>`).joi
 <li><a href="/">Open any old file</a></li>
 </ul>
 </section>`;
-  // The page's own viewer loads with the page, so it works offline once the
-  // page has loaded (the service worker keeps it for later visits).
-  return page({ title: f.title, desc: f.desc, path, jsonld, slug: f.slug, body, preload: [`/js/engines/${f.engine}.js`], og: f.slug });
+  // The viewer is fetched once the page is idle (app.js), not preloaded:
+  // some are over 1 MB and would compete with the page on a phone.
+  return page({ title: f.title, desc: f.desc, path, jsonld, slug: f.slug, body, og: f.slug });
 }
 
 // ---------- home -------------------------------------------------------------

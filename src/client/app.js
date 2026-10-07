@@ -272,6 +272,13 @@ if ('launchQueue' in window) {
   });
 }
 
+// Warm this page's viewer once the page is idle, so a dropped file opens
+// fast and the page keeps working offline (the service worker caches it).
+if (spec) {
+  const warm = () => import(`/js/engines/${spec.engine}.js`).catch(() => {});
+  window.addEventListener('load', () => ('requestIdleCallback' in window ? requestIdleCallback(warm, { timeout: 4000 }) : setTimeout(warm, 1500)), { once: true });
+}
+
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   navigator.serviceWorker.register('/sw.js').catch(() => {});
 }
