@@ -17,6 +17,7 @@ test('sniffer routes each fixture by its bytes, whatever its name', async () => 
     'Write_3.1.wri': 'wri', 'example.chm': 'chm', 'test_read_format_lha_lh7.lzh': 'lzh',
     'test_read_format_cab_2.cab': 'cab', 'method1.arj': 'arj', 'stored.arj': 'arj', 'hello.txt.Z': 'z', 'ruffle_test.swf': 'swf',
     'scale.mid': 'mid', 'putty.hlp': 'hlp', 'amipro-synthetic.sam': 'sam', 'WPG1.wpg': 'wpg', 'tdf92789.pct': 'pict', 'ooo25876-2.pct': 'pict', 'OCAPTAIN.WS': 'wordstar', 'TWAINLET.WS': 'wordstar', 'EXAMPLE_WS4.DOC': 'wordstar', 'MacWrite_4.5': 'macwrite', 'WriteNow_4.0': 'macwrite', 'MicrosoftWord_5.0': 'macwrite', 'WP6.wpd': 'wpd', 'ClarisWorks_6.0.cwk': 'cwk', 'test.mod': 'mod', 'visio_import_source.wmf': 'wmf',
+    'PocketWord.psw': 'psw',
     'tdf88163-non-placeable.wmf': 'wmf', 'sine_wave.emf': 'emf', 'sample.xps': 'xps'
   };
   for (const [name, slug] of Object.entries(cases)) {
@@ -31,6 +32,8 @@ test('sniffer recognises formats owned by sister sites and planned formats', asy
   assert.equal((await sniff(file('WP5.wp', 'x.bin'))).slug, 'wpd');
   assert.equal((await sniff(file('ClarisWorks_6.0.cwk', 'x.bin'))).slug, 'cwk');
   assert.equal((await sniff(file('fdo59355-1.pub'))).slug, 'pub');
+  assert.equal((await sniff(file('Word_5.0_DOS.doc'))).slug, 'worddos', 'Word for DOS by its .doc name');
+  assert.equal((await sniff(file('Word_5.0_DOS.doc', 'x.bin'))).slug, 'wri', 'same bytes as Write without the name');
   assert.ok((await sniff(new File(['MZ\x90\x00'], 'setup.exe'))).elsewhere, '.exe goes to exebrowser');
   assert.equal(await sniff(new File(['hello'], 'notes.xyz')), null);
 });
@@ -81,6 +84,8 @@ test('document reader converts WordPerfect, ClarisWorks and Works files', async 
   assert.match(conv('fdo59355-1.pub'), /^svg libmspub[\s\S]*<svg:svg/);
   assert.match(conv('WPG1.wpg'), /^svg libwpg[\s\S]*<svg:polygon/);
   assert.match(conv('MacWrite_Pro1.0'), /^html libmwaw/);
+  assert.match(conv('Word_5.0_DOS.doc').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '), /^html libwps.*first autonumbered footnote/);
+  assert.match(conv('PocketWord.psw').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '), /^html libwps.*Pocket Word/);
   // Damaged input fails cleanly rather than aborting the module.
   m.FS.writeFile('/in', readFileSync(fx('Write_3.1.wri')).subarray(0, 5000));
   const p = m.ccall('oof_convert', 'number', ['string', 'string'], ['/in', '']);

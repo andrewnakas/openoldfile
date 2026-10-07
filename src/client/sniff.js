@@ -43,6 +43,7 @@ const TESTS = [
   (b) => (isAmiPro(b) ? 'sam' : null),
   (b) => (b[0] === 0xff && ascii(b, 1, 3) === 'WPC' ? (b[9] === 0x16 ? 'wpg' : 'wpd') : null), // WordPerfect 5+: document or graphic (file type at 9)
   (b) => (ascii(b, 4, 4) === 'BOBO' ? 'cwk' : null), // ClarisWorks / AppleWorks
+  (b) => (ascii(b, 0, 5) === '{\\pwi' ? 'psw' : null), // Pocket Word
   (b) => (b[0] === 0xfe && b[1] === 0x37 && b[2] === 0 && b[3] === 0x23 ? 'macwrite' : null), // Word for Mac 4/5
   (b) => (b[0] === 0 && b[1] === 0x06 && b[2] === 0 ? 'macwrite' : null), // MacWrite 4.5/5
   (b) => (ascii(b, 0, 8) === 'WriteNow' ? 'macwrite' : null),
@@ -109,6 +110,8 @@ export async function sniff(file) {
     const hit = test(head);
     if (!hit) continue;
     if (hit.startsWith('ext:')) return byExt(hit.slice(4));
+    // Word for DOS and Write 3.0 share their first bytes: the name decides.
+    if (hit === 'wri' && ext === 'doc') return { slug: 'worddos' };
     // A gzip-wrapped metafile or an OLE/zip container has no magic of its own
     // above; those fall through to the extension below.
     return { slug: hit };

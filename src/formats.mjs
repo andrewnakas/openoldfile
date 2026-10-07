@@ -411,6 +411,56 @@ export const FORMATS = [
     related: ['chm', 'xps', 'wk1']
   },
   {
+    slug: 'worddos',
+    category: 'documents',
+    needs: 'Word for DOS',
+    exts: ['doc'],
+    program: 'Word for DOS',
+    title: 'Open Word for DOS Files (.doc) Online, Free | No Upload',
+    h1: 'Open Microsoft Word for DOS files online',
+    desc: 'Read .doc files from Microsoft Word for DOS (versions 3 to 6) in your browser and save them as HTML, text or PDF. Free, nothing uploaded.',
+    engine: 'doc',
+    fallback: 'wri',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'Word for DOS shipped from 1983 to 1993; its .doc files predate the Word 97 format that modern Word expects.',
+    about: [
+      'Microsoft Word ran on DOS for a decade before Windows took over, and saved its documents as .doc, the same extension later Word versions used for a completely different format. Current Word either refuses these early files or opens them as garbled text, and LibreOffice is the only common program that still reads them.',
+      'This page reads Word for DOS documents in your browser, keeping paragraphs, bold and italic text, footnotes and annotations, then lets you save a copy as HTML (which Word and Google Docs open), as plain text, or as a PDF. A .doc from Word 97 or later is a different format and is not handled here.'
+    ],
+    faq: [
+      ['How do I open a Word for DOS file?', 'Drop the .doc on this page. It is read in your browser and you can save it as HTML, text or PDF.'],
+      ['Why does modern Word show my old .doc as gibberish?', 'Word for DOS used its own file format under the same .doc extension. Word 97 and later only read the newer format, so the old file looks like random characters.'],
+      ['How do I convert a Word for DOS file to DOCX?', 'Open it here and download the HTML copy, then open that in Word and save it as .docx. The text and basic formatting come through.'],
+      ['How can I tell if my .doc is from Word for DOS?', 'Drop it here anyway. If it is a modern Word file, the page says so; files from the 1980s and early 1990s, often with short DOS-style names, are usually Word for DOS.'],
+      ['Is my document uploaded?', 'No. It is read by code running in this tab.']
+    ],
+    related: ['wri', 'wordstar', 'wpd']
+  },
+  {
+    slug: 'psw',
+    category: 'documents',
+    needs: 'Windows CE or Pocket PC',
+    exts: ['psw'],
+    program: 'Pocket Word',
+    title: 'Open Pocket Word Files (.psw) Online, Free | No Upload',
+    h1: 'Open Pocket Word (.psw) files online',
+    desc: 'Read Pocket Word .psw documents from Windows CE and Pocket PC handhelds in your browser and save them as HTML, text or PDF. Free, no upload.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'Pocket Word came with Windows CE handhelds and Pocket PCs from 1996 until Windows Mobile 5 replaced it with Word Mobile in 2005.',
+    about: [
+      'Pocket Word saved notes and documents on Windows CE and Pocket PC devices as .psw files. ActiveSync converted them to .doc when it synced, but files copied off a memory card or an old backup stayed in the handheld format, and nothing on a modern computer opens them.',
+      'This page reads .psw files in your browser and lets you save the text as HTML (which Word and Google Docs open), as plain text, or as a PDF.'
+    ],
+    faq: [
+      ['How do I open a .psw file?', 'Drop it on this page. The document is read in your browser and you can save it as HTML, text or PDF.'],
+      ['How do I convert PSW to DOC or DOCX?', 'Open it here, download the HTML copy, then open that in Word and save it as .doc or .docx.'],
+      ['Can Word open Pocket Word files?', 'No. Desktop Word never read .psw; ActiveSync converted them while syncing, which is no longer possible.'],
+      ['Is my file uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['wps', 'worddos', 'wri']
+  },
+  {
     slug: 'chm',
     convertTo: 'HTML or PDF',
     needs: 'Windows help viewer',
