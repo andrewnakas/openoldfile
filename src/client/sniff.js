@@ -59,9 +59,26 @@ const TESTS = [
   // optional 512-byte header and the picture size and frame.
   (b) => (((b[522] === 0x00 && b[523] === 0x11 && b[524] === 0x02 && b[525] === 0xff) || (b[522] === 0x11 && b[523] === 0x01)) ? 'pict' : null),
   (b) => (((b[10] === 0x00 && b[11] === 0x11 && b[12] === 0x02 && b[13] === 0xff) || (b[10] === 0x11 && b[11] === 0x01)) ? 'pict' : null),
+  (b) => (isXyWrite(b) ? 'xywrite' : null),
   // Last: WordStar has no signature, only a statistical shape.
   (b) => (looksLikeWordStar(b) ? 'wordstar' : null)
 ];
+
+// XyWrite is DOS text with commands in guillemets (CP437 0xAE/0xAF): look
+// for a few «XX...» commands of capital letters and no binary bytes.
+function isXyWrite(b) {
+  const n = Math.min(b.length, 4096);
+  let cmds = 0;
+  for (let i = 0; i < n; i++) {
+    const c = b[i];
+    if (c < 0x20 && c !== 9 && c !== 10 && c !== 13 && c !== 0x1a) return false;
+    if (c === 0xae && b[i + 1] >= 0x41 && b[i + 1] <= 0x5a && b[i + 2] >= 0x41 && b[i + 2] <= 0x5a) {
+      const end = b.indexOf(0xaf, i);
+      if (end > i && end - i < 40) cmds++;
+    }
+  }
+  return cmds >= 2;
+}
 
 // dBASE has no signature, so check that the header is self-consistent:
 // a known version byte, a plausible last-update date, and a header length

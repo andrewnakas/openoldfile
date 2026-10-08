@@ -133,7 +133,10 @@ static const char *tryMwaw(const char *path, const char *password) {
   }
   if (r == MWAWDocument::MWAW_R_PASSWORD_MISSMATCH_ERROR) return finish("error password\n");
   if (r != MWAWDocument::MWAW_R_OK) return finish("error parse\n");
-  return finish(head + " libmwaw " + std::to_string(int(type)) + "\n" + body);
+  // Slides come from librevenge's presentation generator, which writes font
+  // sizes in points already; the drawing one needs the client's fix-up.
+  const char *lib = kind == MWAWDocument::MWAW_K_PRESENTATION ? " libmwaw-slides " : " libmwaw ";
+  return finish(head + lib + std::to_string(int(type)) + "\n" + body);
 }
 
 // Publisher pages come out as SVG, one per page.
@@ -158,9 +161,21 @@ static const char *tryWpg(const char *path) {
   return finish(std::string("svg libwpg wpg\n") + joinSvg(pages));
 }
 
+// XyWrite files are mostly plain text, which libwpd also accepts (and then
+// prints the «MDBO» commands verbatim), so let libwps claim them first.
+static bool isXyWrite(const char *path) {
+  RVNGFileStream input(path);
+  libwps::WPSKind kind;
+  libwps::WPSCreator creator;
+  bool needEncoding = false;
+  return libwps::WPSDocument::isFileFormatSupported(&input, kind, creator, needEncoding) != libwps::WPS_CONFIDENCE_NONE &&
+         creator == libwps::WPS_XYWRITE;
+}
+
 extern "C" const char *oof_convert(const char *path, const char *password) {
   if (const char *r = tryWpg(path)) return r;
   if (const char *r = tryMspub(path)) return r;
+  if (isXyWrite(path)) if (const char *r = tryWps(path, password)) return r;
   if (const char *r = tryWpd(path, password)) return r;
   if (const char *r = tryWps(path, password)) return r;
   if (const char *r = tryMwaw(path, password)) return r;

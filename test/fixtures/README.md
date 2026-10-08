@@ -23,5 +23,10 @@ Real-world sample files used by `test/formats.test.mjs` and for manual browser c
 | Works_*.wps, Works_*.wdb, Word_5.0_DOS.doc, PocketWord.psw | LibreOffice `writerperfect/qa/unit/data/*/libwps` | MPL-2.0 |
 | method1.arj, method4.arj, stored.arj, wrongcrc32.arj | mkrueger/unarj-rs `tests/data` | Apache-2.0 |
 | scale.mid, test.mod, hello.txt.Z | generated for this repo | — |
+| PowerPoint_4.ppt, PowerPoint_7.ppt, PowerPoint_Mac_4.ppt | LibreOffice `writerperfect/qa/unit/data/impress/libmwaw/pass` | MPL-2.0 |
+| ClarisDraw.hqx, CricketDraw_1.1.hqx, WordPerfectWorks_1.0.hqx | LibreOffice `writerperfect/qa/unit/data/draw/libmwaw/pass` | MPL-2.0 |
+| StudentWritingCenter, Acta_1.0.hqx, JazzLotus.hqx, HanMac_2.0.6K.hqx, HanMac_2.0.4J.hqx | LibreOffice `writerperfect/qa/unit/data/writer/libmwaw/pass` | MPL-2.0 |
+| JazzLotus_calc.hqx, WPWorks_calc.hqx (JazzLotus.hqx and WordPerfectWorks_1.0.hqx renamed) | LibreOffice `writerperfect/qa/unit/data/calc/libmwaw/pass` | MPL-2.0 |
+| RIVERPLN.XY | written for this repo (synthetic XyWrite III Plus article) | — |
 
 Only the files named in `SAMPLES` (src/formats.mjs) are deployed, as `/samples/sample-<slug>` for the "Try a sample file" buttons, with this file copied beside them as `SOURCES.md`. Use only freely redistributable files there: not example.chm or EXAMPLE_WS4.DOC.

@@ -39,7 +39,8 @@ patches() {
       # them like every other length the generator writes.
       sed -i '' 's|doubleToString(pList\["fo:font-size"\]->getDouble())|doubleToString(72*pList["fo:font-size"]->getDouble())|' \
         src/lib/RVNGSVGDrawingGenerator.cpp
-      python3 "$HERE/patches/librevenge-html-images.py" ;;
+      python3 "$HERE/patches/librevenge-html-images.py"
+      python3 "$HERE/patches/librevenge-svg-lines.py" ;;
   esac
 }
 

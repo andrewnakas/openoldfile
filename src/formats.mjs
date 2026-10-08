@@ -51,6 +51,14 @@ export const CATEGORIES = [
     intro: 'Bulletin boards, shareware CDs and early Unix systems packed files with compressors that modern systems no longer recognise, and home computers stored software on floppy disks that survive today as image files. These pages list what is inside and let you save the files one by one or all together as a .zip.'
   },
   {
+    id: 'graphics',
+    name: 'Drawings, slides and page layout',
+    title: 'Open Old Drawing and Slide Files Online: PowerPoint 4, Corel',
+    h1: 'Open old drawings, slide shows and page layouts',
+    desc: 'View old PowerPoint slides, Cricket Draw and other drawing and page layout files in your browser and save them as PNG, SVG or PDF. Free, no upload.',
+    intro: 'Drawing programs, presentation software and desktop publishing tools each kept their work in a format of their own, and most of those programs no longer run. Current versions of PowerPoint, Illustrator and InDesign turn many of these files away. Each page below draws one family of files in your browser and saves a copy you can use today: PNG for any image viewer, SVG for Inkscape or Illustrator, or PDF.'
+  },
+  {
     id: 'media',
     name: 'Flash, music and graphics',
     title: 'Play Old Media Files Online: SWF, MIDI, MOD, RealMedia',
@@ -1334,6 +1342,209 @@ export const FORMATS = [
       ['Can I convert EMF to SVG?', 'Yes. Open it here and press "Download SVG" for a vector copy you can edit in Inkscape or Illustrator.']
     ],
     related: ['wmf', 'xps', 'chm']
+  },
+
+  // ---------------------------------------------------------------- round 5
+  {
+    slug: 'ppt-old',
+    updated: '2026-10-08',
+    category: 'graphics',
+    exts: ['ppt', 'pps', 'pot'],
+    program: 'PowerPoint 4.0 and earlier',
+    needs: 'old PowerPoint',
+    title: 'Open Old PowerPoint Files (PowerPoint 4, 95) Online, Free',
+    h1: 'Open old PowerPoint files online',
+    desc: 'View slides from PowerPoint 2, 3, 4 and 95 for Windows and PowerPoint 1 to 4 for Mac in your browser. Save as PNG, SVG or PDF. Free, nothing uploaded.',
+    engine: 'doc',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'PowerPoint began on the Mac in 1987; versions 2, 3 and 4 (1988 to 1994) and PowerPoint 95 each saved .ppt files that current PowerPoint no longer opens.',
+    about: [
+      'To open an old PowerPoint file, drop it on this page: every slide is drawn in your browser, with its titles, bullet text, shapes and colours, and you can save the slides as PNG, SVG or PDF. It reads the .ppt files saved by PowerPoint 2.0, 3.0 and 4.0 for Windows, PowerPoint 95 (version 7), and PowerPoint 1 to 4 on the classic Mac.',
+      'Microsoft dropped these formats from Office 2010 onwards, so PowerPoint 2010, 2013, 2016, 2019, 2021 and Microsoft 365 show an error, or say the file was created in an earlier version and cannot be opened. Google Slides and Keynote do not read them either. Presentations from the early 1990s survive on floppy disks, CD-ROMs and backups of school and office servers, and this page is a quick way to see what is in them without installing an old copy of Office.',
+      'The .ppt files written by PowerPoint 97 and every later version use a different format that current PowerPoint, Google Slides, Keynote and LibreOffice all open directly. If your file is one of those, this page tells you so instead of failing quietly.'
+    ],
+    faq: [
+      ['How do I open a PowerPoint 4.0 file?', 'Drop it on this page. The slides are drawn in your browser and can be saved as PNG or SVG images, or printed to PDF. Nothing is uploaded and you need no old version of Office.'],
+      ['Why does PowerPoint say my old presentation cannot be opened?', 'PowerPoint 2010 and later removed support for presentations saved by PowerPoint 95 and earlier. The file is not damaged; current PowerPoint simply no longer reads that format.'],
+      ['How do I convert an old .ppt to PDF?', 'Open it here and use the print button, then choose "Save as PDF". Every slide becomes one PDF page.'],
+      ['How do I get an old presentation into current PowerPoint or Google Slides?', 'Save each slide here as PNG or SVG and insert the images into a new presentation. To edit the text as well, LibreOffice Impress imports these files with the same open-source library (libmwaw) and can save them as .pptx.'],
+      ['Which PowerPoint versions does this page read?', 'PowerPoint 2.0, 3.0, 4.0 and 95 for Windows and PowerPoint 1 to 4 for the Mac. PowerPoint 97 and later files open in any current presentation program.'],
+      ['Can I open old Mac PowerPoint files that have no .ppt extension?', 'Yes. Classic Mac files often have no extension at all; the page reads the file contents, not the name.'],
+      ['Are speaker notes and animations kept?', 'The slides themselves are shown: text, shapes, colours and pictures. Transitions, builds and speaker notes are not shown.'],
+      ['Is my presentation uploaded anywhere?', 'No. The file is read by code running in this browser tab and never leaves your computer.']
+    ],
+    related: ['pub', 'wpd', 'macdraw', 'cwk']
+  },
+  {
+    slug: 'xywrite',
+    updated: '2026-10-08',
+    category: 'documents',
+    exts: ['xy', 'xyw', 'xy3', 'xy4'],
+    program: 'XyWrite',
+    title: 'Open XyWrite Files Online, Free | Convert XyWrite to Word',
+    h1: 'Open XyWrite files online',
+    desc: 'Read XyWrite III Plus, XyWrite 4 and XyWrite for Windows documents in your browser and save them as Word-compatible HTML, text or PDF. Free, no upload.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'XyWrite, from XyQuest, ran newsrooms, magazines and publishing houses on DOS from 1982 into the late 1990s, prized for its speed and its command line.',
+    about: [
+      'To open a XyWrite file, drop it on this page. The text is shown as a formatted document, with the bold, underline and other mode changes that XyWrite stored as «MDBO» and «MDNM» commands turned into real formatting, and you can save it as HTML that Word and Google Docs import, as plain text, or as a PDF.',
+      'XyWrite saved documents as plain DOS text with formatting commands wrapped in guillemets (the « and » characters), so a XyWrite file opened in Notepad or Word is readable but littered with codes. Writers, editors and journalists who used XyWrite III Plus, XyWrite 4 or XyWrite for Windows often kept years of articles and manuscripts in it, and many of those files had no fixed extension: the name was whatever the writer chose. This page decides from the contents, so the name does not matter.',
+      'Nota Bene, the academic word processor, grew out of XyWrite and uses a similar format; many of its files open here too.'
+    ],
+    faq: [
+      ['How do I open a XyWrite file?', 'Drop it on this page. It is read in your browser and shown with its formatting; save it as Word-compatible HTML, plain text or PDF. Nothing is uploaded.'],
+      ['How do I convert XyWrite to Word?', 'Open the file here and press "Download as Word-compatible HTML". Word opens that file with bold and underline intact, and you can then save it as .docx.'],
+      ['What are the «MDBO» and «MDNM» codes in my file?', 'They are XyWrite formatting commands: MDBO turns bold on, MDUL underline, MDNM returns to normal text. This page applies them instead of showing them.'],
+      ['My XyWrite files have no .xy extension. Will they open?', 'Yes. XyWrite users named files freely (CHAPTER1, LETTER.JAN and so on). The page recognises a XyWrite document by its contents.'],
+      ['Can Word or LibreOffice open XyWrite files?', 'Word shows the raw text with the codes. LibreOffice Writer imports XyWrite with libwps, the same open-source library this page uses; this page needs no install.'],
+      ['Does it read Nota Bene files?', 'Often, yes, because Nota Bene is built on XyWrite. Try the file; if a variant is not recognised the page says so.'],
+      ['Is my document uploaded?', 'No. The conversion happens in this browser tab and the file never leaves your computer.']
+    ],
+    related: ['wordstar', 'worddos', 'wpd', 'sam']
+  },
+  {
+    slug: 'cricketdraw',
+    updated: '2026-10-08',
+    category: 'graphics',
+    label: 'Cricket Draw',
+    exts: [],
+    program: 'Cricket Draw',
+    title: 'Open Cricket Draw Files Online, Free | Convert to PNG, SVG',
+    h1: 'Open Cricket Draw files online',
+    desc: 'View Cricket Draw drawings from the classic Mac in your browser and save them as PNG, SVG or PDF. Free, nothing uploaded, no emulator needed.',
+    engine: 'doc',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'Cricket Software released Cricket Draw in 1986, one of the first Mac drawing programs built around PostScript, with gradients and text on curves.',
+    about: [
+      'To open a Cricket Draw file, drop it on this page. The drawing is shown in your browser with its shapes, lines, fills and text, and you can save it as PNG, as an editable SVG, or as a PDF.',
+      'Cricket Draw arrived alongside the LaserWriter and was one of the first Mac programs to draw directly in PostScript, which let it offer graduated fills, rotated text and text set along a path when MacDraw could not. It was popular for logos, flyers and technical illustration in early desktop publishing before Illustrator and FreeHand took over. Cricket Draw files have no extension and no program has opened them for decades; this page reads versions 1.0 and 1.1.',
+      'The SVG saved here keeps the shapes as vectors, so a drawing can be reworked in Inkscape, Illustrator or Affinity Designer rather than redrawn.'
+    ],
+    faq: [
+      ['How do I open a Cricket Draw file?', 'Drop it on this page. The drawing is rendered in your browser and can be saved as PNG, SVG or PDF. Nothing is uploaded.'],
+      ['How do I convert Cricket Draw to SVG or Illustrator?', 'Open it here and press "Download SVG". Illustrator, Inkscape and Affinity Designer all open the SVG with shapes and text still editable.'],
+      ['Which versions are supported?', 'Cricket Draw 1.0 and 1.1 files, from the classic Mac.'],
+      ['Can LibreOffice open Cricket Draw files?', 'Yes, LibreOffice Draw imports them with libmwaw, the open-source library this page uses. This page needs no install.'],
+      ['Is Cricket Draw the same as Cricket Graph?', 'No. Cricket Graph was the same company\'s charting program. This page reads Cricket Draw drawings.'],
+      ['Is my file private?', 'Yes. It is processed in your browser and never sent anywhere.']
+    ],
+    related: ['macdraw', 'superpaint', 'canvas', 'macpaint']
+  },
+  {
+    slug: 'studentwriting',
+    updated: '2026-10-08',
+    category: 'documents',
+    label: 'Student Writing Center',
+    exts: [],
+    program: 'The Student Writing Center',
+    title: 'Open Student Writing Center Files Online, Free',
+    h1: 'Open Student Writing Center files online',
+    desc: 'Read documents from The Learning Company\'s Student Writing Center on the Mac in your browser and save them as Word-compatible HTML, text or PDF.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'The Learning Company published The Student Writing Center in 1993, a word processor for school children with report, journal, letter, newsletter and sign templates.',
+    about: [
+      'To open a Student Writing Center document, drop it on this page. The text is shown in your browser with its paragraphs and formatting, and you can save it as HTML that Word and Google Docs open, as plain text, or as a PDF.',
+      'The Student Writing Center was on the computers of countless schools in the 1990s and was often bundled with family Macs and PCs. Children wrote reports, journal entries, letters, newsletters and signs in it, and those files now turn up in family backups and on old school disks. Nothing current reads them, and Word shows only scrambled characters. This page reads the Mac version\'s documents, including journal entries with their dates.',
+      'Files from the Windows version use a different layout and may not open yet. If yours does not, the page says so rather than showing garbage.'
+    ],
+    faq: [
+      ['How do I open a Student Writing Center file?', 'Drop it on this page. The writing is shown in your browser and can be saved as Word-compatible HTML, text or PDF. Nothing is uploaded.'],
+      ['How do I convert Student Writing Center to Word?', 'Open the file here and press "Download as Word-compatible HTML", then open that file in Word and save it as .docx.'],
+      ['Are journal entries and their dates kept?', 'Yes. Each journal entry comes through with its date as part of the text.'],
+      ['Does it read the Windows version?', 'This page reads the Mac version\'s files. Windows files may not be recognised yet.'],
+      ['Can LibreOffice open these files?', 'LibreOffice Writer imports the Mac files with libmwaw, the open-source library this page uses. This page needs no install.'],
+      ['Is my child\'s writing uploaded anywhere?', 'No. The file is read in your browser and never leaves your computer.']
+    ],
+    related: ['cwk', 'worksmac', 'macwrite', 'acta']
+  },
+  {
+    slug: 'acta',
+    updated: '2026-10-08',
+    category: 'documents',
+    label: 'Acta',
+    exts: [],
+    program: 'Acta',
+    title: 'Open Acta Outliner Files Online, Free | Mac Outlines',
+    h1: 'Open Acta outliner files online',
+    desc: 'Read Acta outlines from the classic Mac in your browser and save them as Word-compatible HTML, plain text or PDF. Free, nothing uploaded.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'Acta, written by David Dunham and first sold by Symmetry in 1986, was one of the earliest Mac outliners, available as a desk accessory and later as Acta Advantage.',
+    about: [
+      'To open an Acta file, drop it on this page. The outline is shown as an indented document with its headings, sub-items and text styles, and you can save it as HTML that Word and Google Docs import, as plain text, or as a PDF.',
+      'Acta ran as a desk accessory, so it could be opened on top of any program on an early Mac, and writers, students and programmers used it to plan papers, keep notes and draft structured lists. Later versions, including Acta Advantage, kept the same idea. The program does not run on any current Mac, and outliners such as OmniOutliner cannot read its files. Acta documents usually have no extension.',
+      'The outline levels come through as indentation, so the structure of your notes is easy to follow and to paste into a modern outliner.'
+    ],
+    faq: [
+      ['How do I open an Acta outline?', 'Drop it on this page. The outline is shown in your browser and can be saved as HTML, plain text or PDF. Nothing is uploaded.'],
+      ['Is the outline structure kept?', 'Yes, as indented levels. Collapsing and expanding is not available in the saved copy.'],
+      ['How do I move an Acta outline into OmniOutliner or Word?', 'Save it here as plain text or Word-compatible HTML. Both keep the indentation, and Word turns the HTML into a document you can save as .docx.'],
+      ['Can LibreOffice open Acta files?', 'Yes. LibreOffice Writer imports Acta with libmwaw, the same open-source library this page uses.'],
+      ['Is my file uploaded?', 'No. It is read in your browser.'],
+      ['What about MORE outlines?', 'Symantec MORE files have their own page on this site.']
+    ],
+    related: ['more', 'macwrite', 'nisus', 'studentwriting']
+  },
+  {
+    slug: 'jazz',
+    updated: '2026-10-08',
+    category: 'spreadsheets',
+    label: 'Lotus Jazz',
+    exts: [],
+    program: 'Lotus Jazz',
+    title: 'Open Lotus Jazz Files Online, Free | Mac Spreadsheet, Text',
+    h1: 'Open Lotus Jazz files online',
+    desc: 'Read Lotus Jazz worksheets and documents from the 1985 Macintosh in your browser and save them as Excel, CSV, HTML or text. Free, no upload.',
+    engine: 'doc',
+    outputs: ['Excel (.xlsx)', 'CSV', 'Word-compatible HTML'],
+    convertTo: 'Excel, CSV or Word-compatible HTML',
+    era: 'Lotus released Jazz in 1985 for the Macintosh 512K: a spreadsheet, word processor, database, charting and communications package in one program.',
+    about: [
+      'To open a Lotus Jazz file, drop it on this page. A worksheet is shown as a table you can save as an Excel .xlsx file or a .csv; a word processing document is shown as formatted text you can save as HTML for Word, as plain text, or as a PDF.',
+      'Jazz was Lotus\'s attempt to repeat the success of 1-2-3 on the Mac. It combined five programs in one and was heavily promoted, but it was slow and lost out to Microsoft\'s Excel, which appeared the same year. Few copies were sold and the program was dropped within two years, which makes Jazz files rare today and almost impossible to open: no current program reads them, and Lotus 1-2-3 for DOS and Windows never could.',
+      'This page reads both Jazz worksheets and Jazz word processing documents and works out which one it has from the file itself.'
+    ],
+    faq: [
+      ['How do I open a Lotus Jazz file?', 'Drop it on this page. Worksheets are shown as tables and documents as text, both ready to download. Nothing is uploaded.'],
+      ['How do I convert a Jazz worksheet to Excel?', 'Open it here and press "Download .xlsx". The cell values and text come through; Jazz formulas are not converted, only their results.'],
+      ['Can Lotus 1-2-3 open Jazz files?', 'No. Jazz used its own Mac format, unrelated to the .wks and .wk1 files of 1-2-3. Those have their own page here.'],
+      ['Can LibreOffice open Lotus Jazz files?', 'Yes, LibreOffice imports them with libmwaw, the same open-source library this page uses. This page needs no install.'],
+      ['Are charts and database forms kept?', 'No. The worksheet values and document text are read; charts, forms and communications settings are not.'],
+      ['Is my file uploaded?', 'No. It is read in your browser and never leaves your computer.']
+    ],
+    related: ['wk1', 'wingz', 'worksmac', 'beagleworks']
+  },
+  {
+    slug: 'hanmac',
+    updated: '2026-10-08',
+    category: 'documents',
+    label: 'HanMac Word',
+    exts: [],
+    program: 'HanMac Word',
+    title: 'Open HanMac Word Files Online, Free | Korean Mac Documents',
+    h1: 'Open HanMac Word files online',
+    desc: 'Read HanMac Word documents (Korean HanMac Word-K and Japanese HanMac Word-J for classic Mac) in your browser and save them as HTML, text or PDF.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'HanMac Word was the leading Korean word processor for the classic Mac in the early 1990s, with a Japanese edition, HanMac Word-J.',
+    about: [
+      'To open a HanMac Word file, drop it on this page. The document is shown in your browser with its Korean (Hangul and Hanja) or Japanese text, paragraph alignment, line spacing, tabs and styles, and you can save it as HTML that Word, Google Docs and Hancom Office open, as plain text, or as a PDF.',
+      'Korean Mac users in the 1990s wrote theses, reports, letters and church bulletins in HanMac Word, and those documents now sit on old Mac disks and in archive folders where neither Word nor Hangul (HWP) can read them. The text is stored in an old Korean or Japanese Mac encoding, which this page converts to Unicode so it displays and copies correctly today.',
+      'Both editions are read: HanMac Word-K for Korean and HanMac Word-J for Japanese, version 2 and earlier.'
+    ],
+    faq: [
+      ['How do I open a HanMac Word file?', 'Drop it on this page. The document is shown in your browser and can be saved as HTML, plain text or PDF. Nothing is uploaded.'],
+      ['Will the Korean text display correctly?', 'Yes. The old Mac Korean encoding is converted to Unicode, so Hangul and Hanja show and copy correctly in any current program.'],
+      ['How do I convert HanMac Word to Word or HWP?', 'Save it here as Word-compatible HTML, open that in Word or Hancom Office, and save it as .docx or .hwp.'],
+      ['Does it read Japanese HanMac Word-J files?', 'Yes, Japanese documents from HanMac Word-J are read too.'],
+      ['Can LibreOffice open HanMac Word files?', 'Yes, LibreOffice Writer imports them with libmwaw, the same open-source library this page uses.'],
+      ['Is my document uploaded?', 'No. It is read in your browser and stays on your computer.']
+    ],
+    related: ['macwrite', 'nisus', 'wordmac', 'writenow']
   }
 ];
 
@@ -1367,7 +1578,9 @@ export const SAMPLES = {
   chm: 'putty.chm', xps: 'sample.xps', lzh: 'test_read_format_lha_lh7.lzh', arj: 'method4.arj', cab: 'test_read_format_cab_2.cab',
   z: 'hello.txt.Z', adf: 'aros-boot.adf', wpg: 'WPG1.wpg', pict: 'tdf92789.pct', macpaint: 'MacPaint_2.0.hqx',
   macdraw: 'MacDraw_Pro_1.0.hqx', macdraft: 'MacDraft_5.5.drw', canvas: 'Canvas_2.hqx', superpaint: 'SuperPaint_1.0.hqx',
-  mid: 'scale.mid', mod: 'test.mod', wmf: 'visio_import_source.wmf', emf: 'computer_mail.emf'
+  mid: 'scale.mid', mod: 'test.mod', wmf: 'visio_import_source.wmf', emf: 'computer_mail.emf',
+  'ppt-old': 'PowerPoint_4.ppt', xywrite: 'RIVERPLN.XY', cricketdraw: 'CricketDraw_1.1.hqx',
+  studentwriting: 'StudentWritingCenter', acta: 'Acta_1.0.hqx', jazz: 'JazzLotus_calc.hqx', hanmac: 'HanMac_2.0.6K.hqx'
 };
 
 // sample-wk1.wk1, sample-fullwrite (no extension, like the Mac original).

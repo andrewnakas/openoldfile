@@ -123,6 +123,7 @@ export async function open(file, ui) {
       ui.progress('Opening with password…');
       try { r = await convert(file, pw); } catch (e2) { throw toError(e2); }
     } else {
+      if (e.error === 'unsupported' && await isModernOffice(file)) throw new OpenError('wrong_type', MODERN_OFFICE);
       throw toError(e);
     }
   }
@@ -130,6 +131,14 @@ export async function open(file, ui) {
   if (r.kind === 'svg') r.body = fixSvgImages(r.lib === 'libmwaw' ? fixMwawFontSizes(r.body) : r.body);
   if (r.kind === 'csv') return showSheets(r.body.split('\f'), ui);
   return showSvg(r.body.split('\f'), ui);
+}
+
+// PowerPoint 97 and later write OLE files that the old PowerPoint page
+// cannot read, but that every current presentation program opens.
+const MODERN_OFFICE = 'This is a PowerPoint 97 or later presentation, not an old one. Current PowerPoint, Google Slides, Keynote and LibreOffice Impress all open it directly.';
+async function isModernOffice(file) {
+  const b = new Uint8Array(await file.slice(0, 8).arrayBuffer());
+  return b[0] === 0xd0 && b[1] === 0xcf && b[2] === 0x11 && b[3] === 0xe0 && /\.(ppt|pps|pot)$/i.test(file.name);
 }
 
 function toError(e) {

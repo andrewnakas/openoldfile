@@ -19,7 +19,7 @@ test('sniffer routes each fixture by its bytes, whatever its name', async () => 
     'Write_3.1.wri': 'wri', 'example.chm': 'chm', 'test_read_format_lha_lh7.lzh': 'lzh',
     'test_read_format_cab_2.cab': 'cab', 'method1.arj': 'arj', 'stored.arj': 'arj', 'hello.txt.Z': 'z', 'ruffle_test.swf': 'swf',
     'scale.mid': 'mid', 'putty.hlp': 'hlp', 'amipro-synthetic.sam': 'sam', 'WPG1.wpg': 'wpg', 'tdf92789.pct': 'pict', 'ooo25876-2.pct': 'pict', 'OCAPTAIN.WS': 'wordstar', 'TWAINLET.WS': 'wordstar', 'EXAMPLE_WS4.DOC': 'wordstar', 'MacWrite_4.5': 'macwrite', 'WriteNow_4.0': 'writenow', 'MicrosoftWord_5.0': 'wordmac', 'WP6.wpd': 'wpd', 'ClarisWorks_6.0.cwk': 'cwk', 'test.mod': 'mod', 'visio_import_source.wmf': 'wmf',
-    'PocketWord.psw': 'psw',
+    'PocketWord.psw': 'psw', 'RIVERPLN.XY': 'xywrite',
     'tdf88163-non-placeable.wmf': 'wmf', 'sine_wave.emf': 'emf', 'sample.xps': 'xps'
   };
   for (const [name, slug] of Object.entries(cases)) {
@@ -324,7 +324,21 @@ test('classic Mac formats with their own pages convert (BinHex copies included)'
     'Canvas_2.hqx': /^svg libmwaw .*Un pe tit texte/,
     'SuperPaint_1.0.hqx': /^svg libmwaw .*A SuperPaint Vector Document/,
     'Wingz_1.0.hqx': /^csv libmwaw .*"text\(normal\)","bold"/,
-    'ClarisResolve_1.0.hqx': /^csv libmwaw .*"normal","bold"/
+    'ClarisResolve_1.0.hqx': /^csv libmwaw .*"normal","bold"/,
+    'PowerPoint_4.ppt': /^svg libmwaw-slides .*sous titre/,
+    'PowerPoint_7.ppt': /^svg libmwaw-slides .*normal bold italic/,
+    'PowerPoint_Mac_4.ppt': /^svg libmwaw-slides /,
+    'ClarisDraw.hqx': /^svg libmwaw 53 /,
+    'CricketDraw_1.1.hqx': /^svg libmwaw .*Le texte est ici/,
+    'StudentWritingCenter': /^html libmwaw .*journal/,
+    'Acta_1.0.hqx': /^html libmwaw .*a small Acta file/,
+    'JazzLotus.hqx': /^html libmwaw /,
+    'JazzLotus_calc.hqx': /^csv libmwaw .*"abcde"/,
+    'HanMac_2.0.6K.hqx': /^html libmwaw .*interline double/,
+    'WPWorks_calc.hqx': /^csv libmwaw .*"normal","bold"/,
+    'WordPerfectWorks_1.0.hqx': /^svg libmwaw .*draw file/,
+    // XyWrite is claimed by libwps ahead of libwpd, so the «MD..» codes become formatting.
+    'RIVERPLN.XY': /^html libwps 7 (?!.*MD[A-Z]{2}[a-z]).*CITY COUNCIL APPROVES/
   };
   for (const [name, re] of Object.entries(cases)) assert.match(conv(name), re, name);
   // librevenge writes libmwaw's 12 pt text as font-size="864"; the doc
