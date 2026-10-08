@@ -9,17 +9,21 @@ import { renderPict } from './lib/pict.js';
 import { emfToSvg, isEmf } from './lib/emf.js';
 import { Renderer as WmfRenderer } from 'rtf.js/dist/WMFJS.bundle.js';
 
-let worker = null;
+// docconv (libwpd, libwps, libmwaw...) by default; the dlp2 engine passes
+// the worker for the drawing, StarOffice and e-book libraries instead.
+const DOCCONV = '/js/workers/docconv-worker.js';
+const workers = new Map();
 
-function ask(msg) {
-  worker ??= new Worker('/js/workers/docconv-worker.js', { type: 'module' });
+function ask(msg, url = DOCCONV) {
+  let worker = workers.get(url);
+  if (!worker) workers.set(url, (worker = new Worker(url, { type: 'module' })));
   return new Promise((resolve, reject) => {
     worker.onmessage = ({ data }) => (data.ok ? resolve(data) : reject(data));
-    worker.onerror = () => { worker = null; reject({ error: 'codec_load' }); };
+    worker.onerror = () => { workers.delete(url); reject({ error: 'codec_load' }); };
     worker.postMessage(msg);
   });
 }
-export const convert = (file, password) => ask({ file, password });
+export const convert = (file, password, url) => ask({ file, password }, url);
 
 // ---------- embedded pictures --------------------------------------------------
 // librevenge (patched, see native/patches) writes browser-native images as
@@ -112,23 +116,23 @@ const MESSAGES = {
   codec_load: null
 };
 
-export async function open(file, ui) {
+export async function open(file, ui, url = DOCCONV) {
   ui.progress('Loading the document reader (one-time download)…');
   let r;
   try {
-    r = await convert(file);
+    r = await convert(file, undefined, url);
   } catch (e) {
     if (e.error === 'password') {
       const pw = await askPassword(ui.output);
       ui.progress('Opening with password…');
-      try { r = await convert(file, pw); } catch (e2) { throw toError(e2); }
+      try { r = await convert(file, pw, url); } catch (e2) { throw toError(e2); }
     } else {
       if (e.error === 'unsupported' && await isModernOffice(file)) throw new OpenError('wrong_type', MODERN_OFFICE);
       throw toError(e);
     }
   }
   if (r.kind === 'html') return showHtml(r.body, ui);
-  if (r.kind === 'svg') r.body = fixSvgImages(r.lib === 'libmwaw' ? fixMwawFontSizes(r.body) : r.body);
+  if (r.kind === 'svg') r.body = fixSvgImages(r.lib === 'libmspub' ? r.body : fixMwawFontSizes(r.body));
   if (r.kind === 'csv') return showSheets(r.body.split('\f'), ui);
   return showSvg(r.body.split('\f'), ui);
 }

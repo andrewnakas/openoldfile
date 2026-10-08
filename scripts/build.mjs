@@ -91,6 +91,8 @@ for (const f of ['worker.js', 'const.js', 'errors.js']) vendor('@ffmpeg/ffmpeg/d
 // Built by native/build.sh (emscripten) and committed, so deploys need no toolchain.
 mkdirSync(join(OUT, 'vendor/docconv'), { recursive: true });
 copyFileSync(join(ROOT, 'src/client/vendor/docconv.wasm'), join(OUT, 'vendor/docconv/docconv.wasm'));
+mkdirSync(join(OUT, 'vendor/dlp2'), { recursive: true });
+copyFileSync(join(ROOT, 'src/client/vendor/dlp2.wasm'), join(OUT, 'vendor/dlp2/dlp2.wasm'));
 mkdirSync(join(OUT, 'vendor/helpdeco'), { recursive: true });
 copyFileSync(join(ROOT, 'src/client/vendor/helpdeco.wasm'), join(OUT, 'vendor/helpdeco/helpdeco.wasm'));
 copyFileSync(join(ROOT, 'src/client/vendor/splitmrb.wasm'), join(OUT, 'vendor/helpdeco/splitmrb.wasm'));

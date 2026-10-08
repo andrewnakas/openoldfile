@@ -20,6 +20,9 @@ test('sniffer routes each fixture by its bytes, whatever its name', async () => 
     'test_read_format_cab_2.cab': 'cab', 'method1.arj': 'arj', 'stored.arj': 'arj', 'hello.txt.Z': 'z', 'ruffle_test.swf': 'swf',
     'scale.mid': 'mid', 'putty.hlp': 'hlp', 'amipro-synthetic.sam': 'sam', 'WPG1.wpg': 'wpg', 'tdf92789.pct': 'pict', 'ooo25876-2.pct': 'pict', 'OCAPTAIN.WS': 'wordstar', 'TWAINLET.WS': 'wordstar', 'EXAMPLE_WS4.DOC': 'wordstar', 'MacWrite_4.5': 'macwrite', 'WriteNow_4.0': 'writenow', 'MicrosoftWord_5.0': 'wordmac', 'WP6.wpd': 'wpd', 'ClarisWorks_6.0.cwk': 'cwk', 'test.mod': 'mod', 'visio_import_source.wmf': 'wmf',
     'PocketWord.psw': 'psw', 'RIVERPLN.XY': 'xywrite',
+    'fdo65220-2.cdr': 'cdr', 'fdo63782-1.cmx': 'cmx', 'fdo57117-1.vsd': 'vsd', 'dwg.vsd': 'vsd', 'shapes.pmd': 'pmd', 'ZonerDraw_5.zmf': 'zmf',
+    'Writer_3.1.sdw': 'sdw', 'Calc_3.1.sdc': 'sdc', 'hello.abw': 'abw', 'TealDoc.pdb': 'palm-pdb', 'PalmDOC.pdb': 'palm-pdb', 'Plucker.pdb': 'palm-pdb',
+    'zTXT.pdb': 'palm-pdb', 'Broad_Band_eBook.lrf': 'lrf', 'ALICE.TCR': 'tcr',
     'tdf88163-non-placeable.wmf': 'wmf', 'sine_wave.emf': 'emf', 'sample.xps': 'xps'
   };
   for (const [name, slug] of Object.entries(cases)) {
@@ -336,6 +339,7 @@ test('classic Mac formats with their own pages convert (BinHex copies included)'
     'JazzLotus_calc.hqx': /^csv libmwaw .*"abcde"/,
     'HanMac_2.0.6K.hqx': /^html libmwaw .*interline double/,
     'WPWorks_calc.hqx': /^csv libmwaw .*"normal","bold"/,
+    'FreeHand_2.0.hqx': /^svg libmwaw .*il était une fois/,
     'WordPerfectWorks_1.0.hqx': /^svg libmwaw .*draw file/,
     // XyWrite is claimed by libwps ahead of libwpd, so the «MD..» codes become formatting.
     'RIVERPLN.XY': /^html libwps 7 (?!.*MD[A-Z]{2}[a-z]).*CITY COUNCIL APPROVES/
@@ -353,4 +357,47 @@ test('classic Mac formats with their own pages convert (BinHex copies included)'
   const ptr = m.ccall('oof_convert', 'number', ['string', 'string'], ['/in', '']);
   assert.match(m.UTF8ToString(ptr), /<svg:image[^>]+xlink:href="data:/);
   m._free(ptr);
+});
+
+test('drawing, StarOffice and e-book formats convert with dlp2', async () => {
+  const { default: Module } = await import('../src/client/vendor/dlp2.mjs');
+  const m = await Module({ print: () => {}, printErr: () => {} });
+  const conv = (name) => {
+    m.FS.writeFile('/in', readFileSync(fx(name)));
+    const ptr = m.ccall('oof_convert', 'number', ['string', 'string'], ['/in', '']);
+    const s = m.UTF8ToString(ptr);
+    m._free(ptr);
+    return s.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+  };
+  const raw = (name) => {
+    m.FS.writeFile('/in', readFileSync(fx(name)));
+    const ptr = m.ccall('oof_convert', 'number', ['string', 'string'], ['/in', '']);
+    const s = m.UTF8ToString(ptr);
+    m._free(ptr);
+    return s;
+  };
+  const cases = {
+    'fdo65220-2.cdr': /^svg libcdr cdr /,
+    'fdo63782-1.cmx': /^svg libcdr cmx /,
+    'fdo57117-1.vsd': /^svg libvisio visio .*test/,
+    'dwg.vsd': /^svg libvisio visio /,
+    'shapes.pmd': /^svg libpagemaker pagemaker .*Hello/,
+    'ZonerDraw_5.zmf': /^svg libzmf zoner /,
+    'Writer_3.1.sdw': /^html libstaroffice 8 /,
+    'Calc_3.1.sdc': /^csv libstaroffice 7 .*"A1","B1"/,
+    'hello.abw': /^html libabw abiword .*Hello/i,
+    'TealDoc.pdb': /^html libe-book \d+ .*Universal Declaration of Human Rights/,
+    'PalmDOC.pdb': /^html libe-book \d+ .*Hello world/,
+    'Plucker.pdb': /^html libe-book \d+ .*Universal Declaration/,
+    'zTXT.pdb': /^html libe-book \d+ .*Universal Declaration/,
+    'Broad_Band_eBook.lrf': /^html libe-book 1 /,
+    'ALICE.TCR': /^html libe-book \d+ .*Down the Rabbit-Hole.*White Rabbit with pink eyes/
+  };
+  for (const [name, re] of Object.entries(cases)) assert.match(conv(name), re, name);
+  // Drawings carry real shapes, not just an empty page.
+  for (const name of ['fdo65220-2.cdr', 'fdo63782-1.cmx', 'dwg.vsd', 'ZonerDraw_5.zmf']) {
+    assert.ok((raw(name).match(/<svg:(path|rect|ellipse|polygon|polyline|image)/g) || []).length >= 1, name);
+  }
+  // FreeHand 1 and 2 are classic Mac files: not dlp2's, the page falls back to docconv.
+  assert.match(conv('FreeHand_2.0.hqx'), /^error unsupported/);
 });

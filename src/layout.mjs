@@ -147,7 +147,7 @@ ${footer()}
 
 // ---------- format page ------------------------------------------------------
 
-const VERB = { sheet: 'read it', wri: 'read it', xps: 'read it', chm: 'read it', archive: 'see what is inside', metafile: 'see the picture', swf: 'play it', midi: 'play it', tracker: 'play it', realmedia: 'play it', hlp: 'read it', doc: 'read it', wordstar: 'read it', disk: 'see what is on it', pict: 'see the picture', amipro: 'read it', tape: 'see what is on it' };
+const VERB = { sheet: 'read it', wri: 'read it', xps: 'read it', chm: 'read it', archive: 'see what is inside', metafile: 'see the picture', swf: 'play it', midi: 'play it', tracker: 'play it', realmedia: 'play it', hlp: 'read it', doc: 'read it', dlp2: 'open it', wordstar: 'read it', disk: 'see what is on it', pict: 'see the picture', amipro: 'read it', tape: 'see what is on it' };
 const SAVES = (o) => !/^(Play|Full screen|Browse)/.test(o);
 
 const orList = (xs) => xs.length > 1 ? xs.slice(0, -1).join(', ') + ' or ' + xs[xs.length - 1] : xs[0];

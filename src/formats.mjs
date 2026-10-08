@@ -53,10 +53,18 @@ export const CATEGORIES = [
   {
     id: 'graphics',
     name: 'Drawings, slides and page layout',
-    title: 'Open Old Drawing and Slide Files Online: PowerPoint 4, Corel',
+    title: 'Open CorelDRAW, Visio, PageMaker and FreeHand Files Online',
     h1: 'Open old drawings, slide shows and page layouts',
-    desc: 'View old PowerPoint slides, Cricket Draw and other drawing and page layout files in your browser and save them as PNG, SVG or PDF. Free, no upload.',
+    desc: 'View CorelDRAW, Visio, PageMaker, FreeHand and old PowerPoint files in your browser and save them as PNG, SVG or PDF. Free, nothing uploaded.',
     intro: 'Drawing programs, presentation software and desktop publishing tools each kept their work in a format of their own, and most of those programs no longer run. Current versions of PowerPoint, Illustrator and InDesign turn many of these files away. Each page below draws one family of files in your browser and saves a copy you can use today: PNG for any image viewer, SVG for Inkscape or Illustrator, or PDF.'
+  },
+  {
+    id: 'ebooks',
+    name: 'Old e-books',
+    title: 'Open Old E-Book Files Online: Palm PDB, Sony LRF, Psion TCR',
+    h1: 'Open old e-book files',
+    desc: 'Read e-books from Palm handhelds, the Sony Reader and Psion organisers in your browser and save them as HTML or text. Free, nothing uploaded.',
+    intro: 'Before the Kindle, people read books on Palm Pilots, Psion organisers and the first Sony Reader, and each device had its own file format. Calibre can still convert most of them, but it is a large program to install for one book. These pages open the files in your browser, show the text, and save it as HTML or plain text that any e-reader app, Word or Google Docs can use.'
   },
   {
     id: 'media',
@@ -1545,6 +1553,346 @@ export const FORMATS = [
       ['Is my document uploaded?', 'No. It is read in your browser and stays on your computer.']
     ],
     related: ['macwrite', 'nisus', 'wordmac', 'writenow']
+  },
+  {
+    slug: 'cdr',
+    updated: '2026-10-08',
+    category: 'graphics',
+    exts: ['cdr', 'cdt', 'cdx', 'ccx'],
+    program: 'CorelDRAW',
+    title: 'Open CDR Files Online, Free (CorelDRAW) | No Upload',
+    h1: 'Open CDR files online',
+    desc: 'View CorelDRAW .cdr drawings in your browser without CorelDRAW and save them as PNG, SVG or PDF. Free, private: the file is never uploaded.',
+    engine: 'dlp2',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'Corel released CorelDRAW in 1989; its .cdr format has changed with nearly every version since, and only CorelDRAW itself opens all of them.',
+    about: [
+      'To open a CDR file without CorelDRAW, drop it on this page. Every page of the drawing is rendered in your browser, with its shapes, curves, fills, outlines and text, and you can save it as a PNG image, as an SVG that Inkscape, Illustrator and Affinity Designer can edit, or as a PDF. Unlike the converter sites, nothing is uploaded: the drawing is read by code running in this tab, which matters for logos and artwork under NDA.',
+      'CorelDRAW has been the vector program of choice for sign makers, print shops, embroidery and engraving businesses for decades, so .cdr files turn up constantly: a logo from a designer, a sign layout from a supplier, artwork in an old project folder. Adobe Illustrator imports only old CorelDRAW versions, and Inkscape and Affinity Designer read some files but not others.',
+      'This page reads files from CorelDRAW versions from the early 1990s through the X series, including .cdt templates and the .ccx clip-art files from Corel\'s CDs. Files saved by the newest CorelDRAW releases sometimes use features that are not drawn yet; if your file does not open fully, the page tells you.'
+    ],
+    faq: [
+      ['How do I open a CDR file without CorelDRAW?', 'Drop it on this page. The drawing is shown in your browser and can be saved as PNG, SVG or PDF. You need no CorelDRAW, no account and nothing is uploaded.'],
+      ['How do I convert CDR to PDF?', 'Open the file here, press the print button and choose "Save as PDF". Shapes and text stay sharp because they are printed as vectors.'],
+      ['How do I convert CDR to SVG or open it in Illustrator?', 'Open it here and press "Download SVG". Illustrator, Inkscape, Affinity Designer and Figma all open the SVG with shapes still editable.'],
+      ['How do I convert CDR to PNG or JPG?', 'Press "Download PNG" after the drawing opens. Any image editor, including Paint and Preview, can then save the PNG as a JPG.'],
+      ['Can I open a CDR file on a Mac?', 'Yes. This page works in Safari, Chrome and Firefox on a Mac, with no CorelDRAW for Mac needed.'],
+      ['Which CorelDRAW versions are supported?', 'Files from early CorelDRAW versions through the X series (including X3 to X7), plus .cdt templates and .ccx clip art. Some files from the latest versions may open only partly.'],
+      ['Is my artwork uploaded?', 'No. The file is read in your browser and never leaves your computer. The converter sites that rank for this search upload your file to their servers.'],
+      ['What is a CMX file?', 'Corel Presentation Exchange, Corel\'s exchange and clip-art format. It has its own page on this site.']
+    ],
+    related: ['cmx', 'wpg', 'freehand', 'vsd']
+  },
+  {
+    slug: 'cmx',
+    updated: '2026-10-08',
+    category: 'graphics',
+    exts: ['cmx'],
+    program: 'Corel Presentation Exchange',
+    needs: 'CorelDRAW',
+    title: 'Open CMX Files Online, Free (Corel) | Convert CMX to SVG',
+    h1: 'Open CMX files online',
+    desc: 'View Corel Presentation Exchange .cmx files, including Corel clip art, in your browser and save them as PNG, SVG or PDF. Free, nothing uploaded.',
+    engine: 'dlp2',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'Corel introduced the CMX format in the mid-1990s to move drawings between its programs; the huge Corel clip-art collections on CD were shipped as .cmx files.',
+    about: [
+      'To open a CMX file, drop it on this page. The drawing is rendered in your browser and you can save it as a PNG image, as an SVG ready for Inkscape, Illustrator or Affinity Designer, or as a PDF. Nothing is uploaded.',
+      'CMX (Corel Presentation Exchange) was Corel\'s exchange format between CorelDRAW, Corel Presentations and other applications, and it is how the tens of thousands of drawings on the CorelDRAW clip-art CDs were stored. Those CDs still circulate, and the artwork on them is still useful, but almost nothing outside CorelDRAW reads the files.',
+      'Saving as SVG keeps every shape as an editable vector, so a piece of clip art can be recoloured or reused in any current design program instead of being redrawn.'
+    ],
+    faq: [
+      ['How do I open a CMX file?', 'Drop it on this page. The drawing is shown in your browser and can be saved as PNG, SVG or PDF. Nothing is uploaded.'],
+      ['How do I convert CMX to SVG?', 'Open it here and press "Download SVG". The shapes stay as editable vectors in Inkscape, Illustrator and Affinity Designer.'],
+      ['Can I use the clip art from old Corel CDs?', 'Yes, technically: open the .cmx files here and save them as SVG or PNG. Check the licence that came with the CD before using the art commercially.'],
+      ['Is CMX the same as CDR?', 'No. CDR is CorelDRAW\'s working format; CMX is the exchange format. CDR files have their own page on this site.'],
+      ['Can Inkscape open CMX files?', 'Older Inkscape versions could import some CMX files. Converting to SVG here gives a file every current version opens.'],
+      ['Is my file private?', 'Yes. It is processed in your browser and never sent anywhere.']
+    ],
+    related: ['cdr', 'wpg', 'wmf', 'freehand']
+  },
+  {
+    slug: 'vsd',
+    updated: '2026-10-08',
+    category: 'graphics',
+    exts: ['vsd', 'vss', 'vst', 'vdx', 'vsdx'],
+    program: 'Microsoft Visio',
+    title: 'Open VSD Files Online, Free (Visio) | No Upload',
+    h1: 'Open VSD files online',
+    desc: 'View Visio .vsd and .vdx diagrams in your browser without Visio and save them as PNG, SVG or PDF. Free, private: nothing is uploaded.',
+    engine: 'dlp2',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'Visio was launched in 1992 and bought by Microsoft in 2000; until Visio 2013 introduced .vsdx, diagrams were saved as binary .vsd files.',
+    about: [
+      'To open a VSD file without Visio, drop it on this page. Each page of the diagram is drawn in your browser, with its shapes, connectors, text and colours, and you can save it as PNG, as an editable SVG or as a PDF. The file is read in this tab and never uploaded, so network diagrams, floor plans and org charts with internal details stay private.',
+      'Visio is sold separately from Microsoft Office, so most people who receive a .vsd file have no program that opens it: Word, PowerPoint, Google Drive and the Mac cannot. Older .vsd files from Visio 5, 2000, 2002, 2003, 2007 and 2010 are the hardest, because most online tools only handle the newer .vsdx format.',
+      'This page reads binary .vsd drawings, .vss stencils and .vst templates, the .vdx XML format of Visio 2003 to 2010, and .vsdx files from Visio 2013 and later.'
+    ],
+    faq: [
+      ['How do I open a VSD file without Visio?', 'Drop it on this page. The diagram is drawn in your browser and can be saved as PNG, SVG or PDF. No Visio, no Microsoft account and no upload.'],
+      ['How do I convert VSD to PDF?', 'Open the file here, press the print button and choose "Save as PDF". Each Visio page becomes one PDF page.'],
+      ['How do I convert VSD to PNG or JPG?', 'Press "Download PNG" once the diagram is shown. Any image program can save that PNG as a JPG.'],
+      ['Can I open a Visio file on a Mac?', 'Yes. There is no Visio for Mac, but this page works in Safari, Chrome and Firefox and shows the diagram directly.'],
+      ['Can I edit the diagram after converting it?', 'Save it here as SVG and open that in Inkscape, Illustrator, Affinity Designer or draw.io (diagrams.net). Shapes and text stay editable.'],
+      ['Which Visio versions are supported?', 'Binary .vsd files from Visio 5 (1997) through Visio 2010, .vdx XML drawings, and .vsdx from Visio 2013 and later. Stencils (.vss) and templates (.vst) open too.'],
+      ['What is the difference between VSD and VSDX?', 'VSD is the older binary format used up to Visio 2010; VSDX is the zipped XML format Visio 2013 introduced. This page reads both.'],
+      ['Is my diagram uploaded?', 'No. It is read in your browser and never leaves your computer.']
+    ],
+    related: ['emf', 'wmf', 'cdr', 'pmd']
+  },
+  {
+    slug: 'pmd',
+    updated: '2026-10-08',
+    category: 'graphics',
+    exts: ['pmd', 'pm6', 'pm5', 'pm4', 'p65', 'pmt', 't65'],
+    program: 'Adobe PageMaker',
+    title: 'Open PageMaker Files (.pmd, .p65) Online, Free',
+    h1: 'Open PageMaker files online',
+    desc: 'View Adobe PageMaker .pmd, .pm6 and .p65 layouts in your browser without PageMaker or InDesign and save the pages as PNG, SVG or PDF. Free, no upload.',
+    engine: 'dlp2',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'Aldus PageMaker (1985) started desktop publishing on the Mac; Adobe bought it in 1994, released version 7.0 in 2001 and discontinued it in favour of InDesign.',
+    about: [
+      'To open a PageMaker file, drop it on this page. The pages of the publication are drawn in your browser with their text frames, lines, boxes and shapes, and you can save them as PNG, as SVG or as PDF. Nothing is uploaded.',
+      'Newsletters, church bulletins, brochures, school yearbooks and company manuals were laid out in PageMaker through the 1990s and early 2000s. Adobe stopped selling it in 2004, it does not run on current Mac or Windows systems, and only older InDesign versions could convert PageMaker 6.0 to 7.0 files. For most people with an old .pmd file there is no longer any program that opens it.',
+      'This page reads PageMaker 6.0, 6.5 and 7.0 publications from Windows and Mac (.pmd, .pm6 and .p65) and templates (.pmt, .t65). Files from earlier versions may open but are less tested. Placed images are not shown yet; text and shapes are.'
+    ],
+    faq: [
+      ['How do I open a PMD file without PageMaker?', 'Drop it on this page. The pages are drawn in your browser and can be saved as PNG, SVG or PDF. Nothing is uploaded.'],
+      ['Can InDesign open PageMaker files?', 'Older InDesign versions could convert PageMaker 6.0 to 7.0 files. Current InDesign no longer opens them.'],
+      ['How do I convert a PageMaker file to PDF?', 'Open it here, press the print button and choose "Save as PDF". Each PageMaker page becomes one PDF page.'],
+      ['How do I get the text out of an old PageMaker document?', 'Open it here and save as SVG, then copy the text from the SVG in a browser or a design program, or print to PDF and copy from the PDF.'],
+      ['Which PageMaker versions are supported?', 'PageMaker 6.0, 6.5 and 7.0 for Windows and Mac. Older versions (4 and 5) may work but are less tested.'],
+      ['Are pictures in the layout shown?', 'Not yet. Text, lines, boxes and shapes are drawn; placed photos and graphics are left out.'],
+      ['Is my file uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['pub', 'cdr', 'freehand', 'vsd']
+  },
+  {
+    slug: 'freehand',
+    updated: '2026-10-08',
+    category: 'graphics',
+    exts: ['fh', 'fh3', 'fh4', 'fh5', 'fh7', 'fh8', 'fh9', 'fh10', 'fh11', 'ft11'],
+    program: 'Macromedia FreeHand',
+    needs: 'FreeHand',
+    title: 'Open FreeHand Files (.fh, .fh11) Online, Free | No Upload',
+    h1: 'Open FreeHand files online',
+    desc: 'View Aldus and Macromedia FreeHand drawings (.fh3 to .fh11 and Mac FreeHand 1 and 2) in your browser and save them as PNG, SVG or PDF. Free, no upload.',
+    engine: 'dlp2',
+    fallback: 'doc',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'Altsys created FreeHand in 1988 for Aldus; Macromedia sold it until Adobe bought Macromedia in 2005 and ended FreeHand with version 11 (FreeHand MX).',
+    about: [
+      'To open a FreeHand file, drop it on this page. The drawing is rendered in your browser with its paths, fills, gradients and text, and you can save it as PNG, as an SVG that Illustrator, Inkscape and Affinity Designer can edit, or as a PDF. Nothing is uploaded.',
+      'FreeHand was Illustrator\'s great rival, and many designers, illustrators and agencies kept their logos, maps, packaging and posters in it for twenty years. Adobe discontinued it in 2007 and it does not run on current macOS or Windows, and current Illustrator no longer imports FreeHand files, so archived .fh files have become hard to open.',
+      'This page reads FreeHand 3 to 11 (FreeHand MX) files, .fh3 to .fh11, and the Mac-only FreeHand 1 and 2 files that have no extension.'
+    ],
+    faq: [
+      ['How do I open a FreeHand file without FreeHand?', 'Drop it on this page. The drawing is shown in your browser and can be saved as PNG, SVG or PDF. Nothing is uploaded.'],
+      ['Can Illustrator open FreeHand files?', 'Older Illustrator versions could import FreeHand files; current Illustrator cannot. Converting to SVG here gives a file current Illustrator opens.'],
+      ['How do I convert FreeHand to SVG or PDF?', 'Open the file here and press "Download SVG", or use the print button and choose "Save as PDF".'],
+      ['Which FreeHand versions are supported?', 'FreeHand 3 to 11 (MX), and FreeHand 1 and 2 files from the classic Mac.'],
+      ['Can Affinity Designer or Inkscape open FreeHand files?', 'Not reliably. Both open the SVG this page saves, with shapes and text still editable.'],
+      ['Is my artwork uploaded?', 'No. It is read in your browser and stays on your computer.']
+    ],
+    related: ['cdr', 'macdraw', 'pmd', 'cricketdraw']
+  },
+  {
+    slug: 'zmf',
+    updated: '2026-10-08',
+    category: 'graphics',
+    exts: ['zmf'],
+    program: 'Zoner Callisto and Zoner Draw',
+    needs: 'Zoner software',
+    title: 'Open ZMF Files Online, Free (Zoner Callisto, Zoner Draw)',
+    h1: 'Open Zoner Callisto and Zoner Draw files online',
+    desc: 'View Zoner Callisto and Zoner Draw .zmf drawings in your browser and save them as PNG, SVG or PDF. Free, nothing uploaded, no Zoner software needed.',
+    engine: 'dlp2',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'Zoner Software of Brno sold Zoner Callisto, later Zoner Draw, as an affordable vector drawing program in the 1990s and 2000s, popular in the Czech Republic and Slovakia.',
+    about: [
+      'To open a ZMF file, drop it on this page. The drawing is rendered in your browser with its shapes, text, tables and pictures, and you can save it as PNG, as an editable SVG or as a PDF. Nothing is uploaded.',
+      'Zoner Callisto and Zoner Draw were sold cheaply and bundled with computer magazines across Central Europe, and many logos, posters, school projects and technical drawings were made with them. Zoner stopped developing the program, and no other application reads its files except LibreOffice. This page reads .zmf drawings from Zoner Draw 4 and 5 (Callisto); files from earlier versions are not supported yet.',
+      'Saving as SVG keeps shapes and text editable in Inkscape, Illustrator or Affinity Designer.'
+    ],
+    faq: [
+      ['How do I open a ZMF file?', 'Drop it on this page. The drawing is shown in your browser and can be saved as PNG, SVG or PDF.'],
+      ['How do I convert ZMF to SVG or PDF?', 'Open it here and press "Download SVG", or print and choose "Save as PDF".'],
+      ['Which Zoner versions are supported?', 'Zoner Draw (Callisto) 4 and 5 .zmf files. Earlier versions are not supported yet, and the page says so if it cannot read a file.'],
+      ['Can LibreOffice open ZMF files?', 'Yes, LibreOffice Draw imports them with libzmf, the same open-source library this page uses. This page needs no install.'],
+      ['Is my file uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['cdr', 'cmx', 'wpg', 'freehand']
+  },
+  {
+    slug: 'sdw',
+    updated: '2026-10-08',
+    category: 'documents',
+    exts: ['sdw', 'sgl', 'vor'],
+    program: 'StarOffice Writer',
+    needs: 'StarOffice',
+    title: 'Open SDW Files Online, Free (StarOffice Writer) | No Upload',
+    h1: 'Open StarOffice Writer (.sdw) files online',
+    desc: 'Read StarWriter and StarOffice Writer .sdw documents in your browser and save them as Word-compatible HTML, text or PDF. Free, nothing uploaded.',
+    engine: 'dlp2',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'StarDivision\'s StarWriter dates from the 1980s; Sun bought StarOffice in 1999 and turned it into OpenOffice, which saved in the new .sxw format from 2002.',
+    about: [
+      'To open an SDW file, drop it on this page. The document is shown in your browser with its paragraphs, fonts, lists and tables, and you can save it as HTML that Word and Google Docs open, as plain text, or as a PDF. Nothing is uploaded.',
+      'StarOffice 3, 4 and 5 were common in Germany, in schools and on Linux in the late 1990s, and Sun gave StarOffice away as a free download from 1999, so .sdw documents turn up in many old archives. Microsoft Word has never read them, and for years LibreOffice did not either, until it gained an importer based on libstaroffice. This page reads StarWriter documents from StarOffice 3.0 to 5.2, plus .sgl master documents.',
+      'Spreadsheets from the same suite (.sdc) have their own page.'
+    ],
+    faq: [
+      ['How do I open an SDW file?', 'Drop it on this page. The document is shown in your browser and can be saved as Word-compatible HTML, text or PDF. Nothing is uploaded.'],
+      ['How do I convert SDW to Word or DOCX?', 'Open it here and press "Download as Word-compatible HTML", then open that file in Word and save it as .docx.'],
+      ['Can Word open SDW files?', 'No version of Microsoft Word reads StarOffice files. Convert here first.'],
+      ['Can LibreOffice open SDW files?', 'Current LibreOffice imports them with libstaroffice, the same open-source library this page uses. This page needs no install.'],
+      ['Which StarOffice versions are supported?', 'StarWriter documents from StarOffice 3.0 to 5.2. Later OpenOffice .sxw and .odt files open in any current office suite.'],
+      ['Is my document uploaded?', 'No. It is read in your browser and stays on your computer.']
+    ],
+    related: ['sdc', 'wpd', 'abw', 'sam']
+  },
+  {
+    slug: 'sdc',
+    updated: '2026-10-08',
+    category: 'spreadsheets',
+    exts: ['sdc'],
+    program: 'StarOffice Calc',
+    needs: 'StarOffice',
+    title: 'Open SDC Files Online, Free (StarOffice Calc) | To Excel',
+    h1: 'Open StarOffice Calc (.sdc) files online',
+    desc: 'View StarCalc and StarOffice Calc .sdc spreadsheets in your browser and save them as Excel .xlsx or CSV. Free, no upload, no StarOffice needed.',
+    engine: 'dlp2',
+    outputs: ['Excel (.xlsx)', 'CSV'],
+    era: 'StarCalc was the spreadsheet of StarDivision\'s StarOffice suite; its .sdc format was used until OpenOffice moved to .sxc in 2002.',
+    about: [
+      'To open an SDC file, drop it on this page. The sheets are shown as tables in your browser, and you can save them as an Excel .xlsx workbook or as a .csv file. Nothing is uploaded.',
+      'StarOffice Calc spreadsheets from versions 3.0 to 5.2 hold budgets, grade books, club accounts and research data from the late 1990s. Excel, Numbers and Google Sheets have never read the format, so the numbers are locked in unless you have an old copy of StarOffice or the right version of LibreOffice.',
+      'This page keeps cell values, text and the last calculated result of every formula, so the Excel copy shows the same numbers the spreadsheet did.'
+    ],
+    faq: [
+      ['How do I open an SDC file?', 'Drop it on this page. The sheets are shown as tables and can be saved as Excel or CSV. Nothing is uploaded.'],
+      ['How do I convert SDC to Excel?', 'Open it here and press "Download .xlsx". The workbook opens in Excel, Numbers, Google Sheets and LibreOffice.'],
+      ['Are formulas kept?', 'The values the formulas last calculated are kept; the formulas themselves are not carried over.'],
+      ['Can Excel open SDC files?', 'No. Convert here first.'],
+      ['Can LibreOffice open SDC files?', 'Yes, with libstaroffice, the open-source library this page also uses.'],
+      ['Is my spreadsheet uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['sdw', 'wk1', 'wq1', 'cwk']
+  },
+  {
+    slug: 'abw',
+    updated: '2026-10-08',
+    category: 'documents',
+    exts: ['abw', 'zabw', 'awt'],
+    program: 'AbiWord',
+    title: 'Open ABW Files Online, Free (AbiWord) | Convert ABW to Word',
+    h1: 'Open AbiWord (.abw) files online',
+    desc: 'Read AbiWord .abw and .zabw documents in your browser and save them as Word-compatible HTML, text or PDF. Free, no upload, no AbiWord needed.',
+    engine: 'dlp2',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'AbiWord, a free word processor first released in 1998, was the default word processor on many Linux desktops and on the One Laptop per Child XO.',
+    about: [
+      'To open an ABW file, drop it on this page. The document is shown in your browser with its formatting, lists and tables, and you can save it as HTML that Word and Google Docs open, as plain text, or as a PDF. Nothing is uploaded.',
+      'AbiWord was the lightweight word processor of Linux distributions such as Xubuntu and Lubuntu, and of the OLPC XO laptops given to schoolchildren around the world, so its .abw files are common in school and family archives. Microsoft Word and Google Docs do not open them, and AbiWord itself is no longer maintained for Windows or Mac.',
+      'This page reads .abw documents, compressed .zabw documents and .awt templates.'
+    ],
+    faq: [
+      ['How do I open an ABW file?', 'Drop it on this page. It is shown in your browser and can be saved as Word-compatible HTML, plain text or PDF. Nothing is uploaded.'],
+      ['How do I convert ABW to Word or DOCX?', 'Open it here and press "Download as Word-compatible HTML", then open the HTML in Word and save as .docx.'],
+      ['Can Word or Google Docs open ABW files?', 'No. Convert here first, or use LibreOffice, which imports AbiWord with libabw, the same library this page uses.'],
+      ['What is a .zabw file?', 'A gzip-compressed AbiWord document. It opens here the same way.'],
+      ['Is my document uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['sdw', 'wpd', 'wri', 'wps']
+  },
+  {
+    slug: 'palm-pdb',
+    updated: '2026-10-08',
+    category: 'ebooks',
+    exts: ['pdb', 'prc'],
+    program: 'Palm e-books (PalmDoc, eReader, Plucker)',
+    needs: 'a Palm or Calibre',
+    title: 'Open Palm PDB E-Books Online, Free | PalmDoc, Plucker',
+    h1: 'Open Palm .pdb e-books online',
+    desc: 'Read Palm .pdb e-books (PalmDoc, AportisDoc, TealDoc, Plucker, zTXT, eReader) in your browser and save them as HTML or text. Free, nothing uploaded.',
+    engine: 'dlp2',
+    outputs: ['HTML', 'plain text', 'PDF (via print)'],
+    era: 'Palm Pilots and Handspring Visors were the first mass-market e-book readers, from the late 1990s until smartphones took over around 2007.',
+    about: [
+      'To open a Palm e-book, drop the .pdb file on this page. The book is shown in your browser as readable text with its headings and paragraphs, and you can save it as HTML, which every e-reader app, Word and Google Docs open, as plain text, or as a PDF. Nothing is uploaded.',
+      'Palm handhelds stored everything in .pdb "Palm database" files, and e-books came in several flavours: PalmDoc (also called AportisDoc), TealDoc, Plucker for saved web pages, zTXT for Weasel Reader, and eReader books from Peanut Press. Sites such as Memoware once offered thousands of titles in these formats, and many collections still sit on old hard drives. Current e-readers do not read them.',
+      'This page reads PalmDoc, AportisDoc, TealDoc, Plucker, zTXT and unprotected eReader books. Books with DRM from the eReader store cannot be opened.'
+    ],
+    faq: [
+      ['How do I open a PDB e-book?', 'Drop it on this page. The book is shown in your browser and can be saved as HTML, plain text or PDF. Nothing is uploaded.'],
+      ['How do I convert a Palm PDB file to EPUB or for Kindle?', 'Save it here as HTML. Calibre or the Send to Kindle service turns that HTML into EPUB or a Kindle book.'],
+      ['Which Palm e-book formats are supported?', 'PalmDoc (AportisDoc), TealDoc, Plucker, zTXT (Weasel Reader) and unprotected eReader / Peanut Press books.'],
+      ['My .pdb file is not an e-book. What is it?', 'Palm used .pdb for every kind of data (address books, memos, databases), and .pdb is also used for protein structures and debugging symbols. This page reads Palm e-books only.'],
+      ['Can I open eReader books with DRM?', 'No. Books locked to an eReader account cannot be opened here.'],
+      ['Is my book uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['lrf', 'tcr', 'chm', 'psw']
+  },
+  {
+    slug: 'lrf',
+    updated: '2026-10-08',
+    category: 'ebooks',
+    exts: ['lrf', 'lrx'],
+    program: 'Sony Reader (BBeB)',
+    needs: 'a Sony Reader or Calibre',
+    title: 'Open LRF Files Online, Free (Sony Reader) | No Upload',
+    h1: 'Open LRF files online',
+    desc: 'Read Sony Reader .lrf (BroadBand eBook) files in your browser and save them as HTML, plain text or PDF. Free, private: nothing is uploaded.',
+    engine: 'dlp2',
+    outputs: ['HTML', 'plain text', 'PDF (via print)'],
+    era: 'Sony\'s LIBRIé and the Sony Reader PRS-500 (2006) used the BroadBand eBook format, .lrf, before Sony switched its store to EPUB in 2008.',
+    about: [
+      'To open an LRF file, drop it on this page. The book is shown in your browser with its text and paragraph formatting, and you can save it as HTML, as plain text or as a PDF. Nothing is uploaded.',
+      'LRF, BroadBand eBook (BBeB), was the format of the first Sony Readers and of the Sony Connect eBook store. Calibre began life as a tool to make LRF books, so many people converted their libraries into it for their PRS-500 or PRS-505. Today Kindle, Kobo, Apple Books and Google Play Books do not read LRF at all.',
+      'This page reads unprotected .lrf books. .lrx files bought from Sony\'s store are locked with DRM and cannot be opened by anything but an authorised Sony Reader.'
+    ],
+    faq: [
+      ['How do I open an LRF file?', 'Drop it on this page. The book is shown in your browser and can be saved as HTML, text or PDF. Nothing is uploaded.'],
+      ['How do I convert LRF to EPUB or PDF?', 'Print it here and choose "Save as PDF", or save it as HTML and let Calibre turn that into EPUB.'],
+      ['What is the difference between LRF and LRX?', 'LRX is the DRM-protected version sold by Sony\'s eBook store. Only LRF (unprotected) books can be opened here.'],
+      ['Can a Kindle or Kobo read LRF?', 'No. Convert the book first; HTML from this page works with Send to Kindle and Calibre.'],
+      ['Is my book uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['palm-pdb', 'tcr', 'chm']
+  },
+  {
+    slug: 'tcr',
+    updated: '2026-10-08',
+    category: 'ebooks',
+    exts: ['tcr'],
+    program: 'Psion TCR e-books',
+    needs: 'a Psion',
+    title: 'Open TCR Files Online, Free (Psion E-Book) | No Upload',
+    h1: 'Open TCR e-books online',
+    desc: 'Read Psion .tcr e-books in your browser and save them as HTML or plain text. Free, private: the file is never uploaded.',
+    engine: 'dlp2',
+    outputs: ['HTML', 'plain text', 'PDF (via print)'],
+    era: 'TCR was the compressed text format of e-books for the Psion Series 3 and Series 5 organisers in the 1990s, and other e-book readers of the time could read it too.',
+    about: [
+      'To open a TCR file, drop it on this page. The book is decompressed and shown in your browser as readable text, and you can save it as HTML, as plain text, or as a PDF. Nothing is uploaded.',
+      'Psion organisers had little memory, so books were squeezed into TCR files, which store the text against a dictionary of common words and letter pairs. Thousands of public-domain classics were distributed this way on Psion and early mobile e-book sites. The files cannot be read in a text editor, and no current e-reader supports them.',
+      'Saving as plain text or HTML gives a copy you can read anywhere or convert to EPUB with Calibre.'
+    ],
+    faq: [
+      ['How do I open a TCR file?', 'Drop it on this page. The book is decompressed in your browser and shown as text you can save. Nothing is uploaded.'],
+      ['How do I convert TCR to TXT or EPUB?', 'Open it here and save it as plain text or HTML. Calibre turns the HTML into EPUB.'],
+      ['Why does a TCR file look like gibberish in Notepad?', 'TCR is compressed: each byte stands for a word or group of letters from a dictionary stored at the start of the file. This page expands it.'],
+      ['What devices used TCR?', 'Mainly Psion Series 3 and Series 5 organisers; some other e-book readers of the time read it too.'],
+      ['Is my file uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['palm-pdb', 'lrf', 'wordstar']
   }
 ];
 
@@ -1580,7 +1928,9 @@ export const SAMPLES = {
   macdraw: 'MacDraw_Pro_1.0.hqx', macdraft: 'MacDraft_5.5.drw', canvas: 'Canvas_2.hqx', superpaint: 'SuperPaint_1.0.hqx',
   mid: 'scale.mid', mod: 'test.mod', wmf: 'visio_import_source.wmf', emf: 'computer_mail.emf',
   'ppt-old': 'PowerPoint_4.ppt', xywrite: 'RIVERPLN.XY', cricketdraw: 'CricketDraw_1.1.hqx',
-  studentwriting: 'StudentWritingCenter', acta: 'Acta_1.0.hqx', jazz: 'JazzLotus_calc.hqx', hanmac: 'HanMac_2.0.6K.hqx'
+  studentwriting: 'StudentWritingCenter', acta: 'Acta_1.0.hqx', jazz: 'JazzLotus_calc.hqx', hanmac: 'HanMac_2.0.6K.hqx',
+  cdr: 'fdo65220-2.cdr', cmx: 'fdo63782-1.cmx', vsd: 'dwg.vsd', freehand: 'FreeHand_2.0.hqx', zmf: 'ZonerDraw_5.zmf',
+  sdw: 'Writer_3.1.sdw', sdc: 'Calc_3.1.sdc', abw: 'hello.abw', 'palm-pdb': 'TealDoc.pdb', lrf: 'Broad_Band_eBook.lrf', tcr: 'ALICE.TCR'
 };
 
 // sample-wk1.wk1, sample-fullwrite (no extension, like the Mac original).

@@ -60,9 +60,42 @@ const TESTS = [
   (b) => (((b[522] === 0x00 && b[523] === 0x11 && b[524] === 0x02 && b[525] === 0xff) || (b[522] === 0x11 && b[523] === 0x01)) ? 'pict' : null),
   (b) => (((b[10] === 0x00 && b[11] === 0x11 && b[12] === 0x02 && b[13] === 0xff) || (b[10] === 0x11 && b[11] === 0x01)) ? 'pict' : null),
   (b) => (isXyWrite(b) ? 'xywrite' : null),
+  // CorelDRAW: RIFF CDRx (up to X3) or, from X4, a zip whose first member
+  // is content/riffData.cdr or content/root.dat; Corel exchange: RIFF CMX1.
+  (b) => (ascii(b, 0, 4) === 'RIFF' && /^CDR[0-9A-Za-z ]$/.test(ascii(b, 8, 4)) ? 'cdr' : null),
+  (b) => (ascii(b, 0, 4) === 'RIFF' && ascii(b, 8, 4) === 'CMX1' ? 'cmx' : null),
+  (b) => (zipFirstName(b).startsWith('content/riffData.cdr') || zipFirstName(b) === 'content/root.dat' ? 'cdr' : null),
+  (b) => (zipFirstName(b) === 'content.zmf' ? 'zmf' : null),
+  // OLE2 files: the stream names in the directory say which program made it
+  // (sniff() reads the first 256 KB of these; past that the name decides).
+  (b) => (oleHas(b, 'VisioDocument') ? 'vsd' : null),
+  (b) => (oleHas(b, 'PageMaker') ? 'pmd' : null),
+  (b) => (oleHas(b, 'StarWriterDocument') ? 'sdw' : null),
+  (b) => (oleHas(b, 'StarCalcDocument') ? 'sdc' : null),
+  (b) => (ascii(b, 0, 6) === 'L\0R\0F\0' ? 'lrf' : null),
+  (b) => (/^(TEXtREAd|TEXtTlDc|DataPlkr|zTXTGPlm|PNRdPPrs|DataPPrs)$/.test(ascii(b, 60, 8)) ? 'palm-pdb' : null),
+  (b) => (ascii(b, 0, 9) === '!!8-Bit!!' ? 'tcr' : null),
+  (b) => (/<abiword[\s>]/.test(ascii(b, 0, Math.min(b.length, 512))) ? 'abw' : null),
   // Last: WordStar has no signature, only a statistical shape.
   (b) => (looksLikeWordStar(b) ? 'wordstar' : null)
 ];
+
+// Name of the first member of a zip, or ''.
+function zipFirstName(b) {
+  if (!(b[0] === 0x50 && b[1] === 0x4b && b[2] === 3 && b[3] === 4)) return '';
+  return ascii(b, 30, Math.min(b[26] | (b[27] << 8), 64));
+}
+
+// Does this OLE2 compound file have a stream with this name in the bytes we read?
+function oleHas(b, name) {
+  if (!(b[0] === 0xd0 && b[1] === 0xcf && b[2] === 0x11 && b[3] === 0xe0)) return false;
+  const want = Array.from(name, (c) => c.charCodeAt(0));
+  outer: for (let i = 512; i + want.length * 2 <= b.length; i += 128) {
+    for (let j = 0; j < want.length; j++) if (b[i + j * 2] !== want[j] || b[i + j * 2 + 1] !== 0) continue outer;
+    return b[i + want.length * 2] === 0 && b[i + want.length * 2 + 1] === 0;
+  }
+  return false;
+}
 
 // XyWrite is DOS text with commands in guillemets (CP437 0xAE/0xAF): look
 // for a few «XX...» commands of capital letters and no binary bytes.
@@ -120,7 +153,9 @@ const D64_SIZES = [174848, 175531, 196608, 197376, 349696, 351062, 819200, 82240
 
 export async function sniff(file) {
   if (D64_SIZES.includes(file.size) && /^(d64|d71|d81|bin|img|)$/.test(extOf(file.name))) return { slug: 'd64' };
-  const head = new Uint8Array(await file.slice(0, 4096).arrayBuffer());
+  let head = new Uint8Array(await file.slice(0, 4096).arrayBuffer());
+  // OLE2 directories can sit anywhere; read more so oleHas() can find them.
+  if (head[0] === 0xd0 && head[1] === 0xcf && file.size > 4096) head = new Uint8Array(await file.slice(0, 262144).arrayBuffer());
   const ext = extOf(file.name);
   if ((file.size === 901120 || file.size === 1802240) && ascii(head, 0, 3) === 'DOS') return { slug: 'adf' };
   for (const test of TESTS) {

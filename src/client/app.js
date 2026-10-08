@@ -179,11 +179,11 @@ async function handle(file) {
   // application, goes to macemu.
   const binhex = found && found.elsewhere && found.elsewhere.exts.includes('hqx');
   if (binhex && !spec) return run(file, 'doc', null, () => explain(file, found));
-  if (found && found.elsewhere && !(binhex && spec.engine === 'doc')) return explain(file, found);
+  if (found && found.elsewhere && !(binhex && /^(doc|dlp2)$/.test(spec.engine))) return explain(file, found);
   if (found && found.planned && !spec) return explain(file, found);
-  // Nothing recognised the bytes: the document reader knows ~150 more
-  // formats (most classic Mac files have no extension), so let it try.
-  if (!spec) return run(file, 'doc', null, () => explain(file, null));
+  // Nothing recognised the bytes: the document readers know ~170 more
+  // formats (most classic Mac files have no extension), so let them try.
+  if (!spec) return run(file, 'doc', 'dlp2', () => explain(file, null));
   return run(file, spec.engine, spec.fallback);
 }
 
@@ -201,7 +201,7 @@ async function run(file, engineName, fallback, onUnsupported) {
     const unreadable = isOpenError(err) && (err.type === 'wrong_type' || err.type === 'decode');
     if (fallback && unreadable) {
       track('engine_fallback', { source_ext: extOf(file.name), engine: engineName, fallback });
-      return run(file, fallback, null, null).catch(() => fail(err));
+      return run(file, fallback, null, onUnsupported).catch(() => fail(err));
     }
     if (onUnsupported && isOpenError(err) && err.type === 'wrong_type') {
       ui.progress('');

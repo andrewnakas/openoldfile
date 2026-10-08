@@ -27,6 +27,10 @@ Real-world sample files used by `test/formats.test.mjs` and for manual browser c
 | ClarisDraw.hqx, CricketDraw_1.1.hqx, WordPerfectWorks_1.0.hqx | LibreOffice `writerperfect/qa/unit/data/draw/libmwaw/pass` | MPL-2.0 |
 | StudentWritingCenter, Acta_1.0.hqx, JazzLotus.hqx, HanMac_2.0.6K.hqx, HanMac_2.0.4J.hqx | LibreOffice `writerperfect/qa/unit/data/writer/libmwaw/pass` | MPL-2.0 |
 | JazzLotus_calc.hqx, WPWorks_calc.hqx (JazzLotus.hqx and WordPerfectWorks_1.0.hqx renamed) | LibreOffice `writerperfect/qa/unit/data/calc/libmwaw/pass` | MPL-2.0 |
+| fdo65220-2.cdr, fdo63782-1.cmx, fdo57117-1.vsd, shapes.pmd, FreeHand_2.0.hqx, ZonerDraw_5.zmf | LibreOffice `writerperfect/qa/unit/data/draw/{libcdr,libcdr-cmx,libvisio,libpagemaker,libmwaw,libzmf}/pass` | MPL-2.0 |
+| Writer_3.1.sdw, Calc_3.1.sdc, hello.abw, TealDoc.pdb, PalmDOC.pdb, Plucker.pdb, zTXT.pdb, Broad_Band_eBook.lrf | LibreOffice `writerperfect/qa/unit/data/{writer,calc}/{libstaroffice,libabw,libe-book}/pass` | MPL-2.0 |
+| dwg.vsd | libvisio 0.1.8 `src/test/data` | MPL-2.0 |
+| ALICE.TCR | written for this repo (opening of Alice's Adventures in Wonderland, public domain, packed as Psion TCR) | — |
 | RIVERPLN.XY | written for this repo (synthetic XyWrite III Plus article) | — |
 
 Only the files named in `SAMPLES` (src/formats.mjs) are deployed, as `/samples/sample-<slug>` for the "Try a sample file" buttons, with this file copied beside them as `SOURCES.md`. Use only freely redistributable files there: not example.chm or EXAMPLE_WS4.DOC.

@@ -41,6 +41,16 @@ patches() {
         src/lib/RVNGSVGDrawingGenerator.cpp
       python3 "$HERE/patches/librevenge-html-images.py"
       python3 "$HERE/patches/librevenge-svg-lines.py" ;;
+    libfreehand-*)
+      # Current ICU's U16_NEXT is a statement that needs its own semicolon.
+      sed -i '' 's/U16_NEXT(s, j, length, c)$/U16_NEXT(s, j, length, c);/' src/lib/libfreehand_utils.cpp ;;
+    libe-book-*)
+      # macOS's gperf 3.0 writes "register", which C++17 rejects; fix the
+      # generated tables and keep them newer than their .gperf sources.
+      sed -i '' 's/register //g' src/lib/*.inc
+      touch src/lib/*.inc
+      # Current ICU no longer defines TRUE.
+      sed -i '' 's/TRUE, TRUE, &status/true, true, \&status/' src/lib/EBOOKCharsetConverter.cpp ;;
   esac
 }
 
@@ -89,3 +99,39 @@ ls -la "$OUT"/helpdeco.*
 emcc -O2 -Wno-everything "$SRC"/helpdeco-master/src/splitmrb.c "$SRC"/helpdeco-master/src/compat.c \
   -o "$OUT/splitmrb.mjs" -sMODULARIZE=1 -sEXPORT_ES6=1 -sENVIRONMENT=web,worker,node -sINVOKE_RUN=0 -sEXIT_RUNTIME=0 \
   -sALLOW_MEMORY_GROWTH=1 -sFORCE_FILESYSTEM=1 -sEXPORTED_RUNTIME_METHODS=FS,callMain
+
+# ---------------------------------------------------------------------------
+# dlp2: the drawing, layout, StarOffice and e-book libraries, in a second
+# module so pages that only need docconv don't download them.
+#   CorelDRAW/CMX (libcdr), Visio (libvisio), PageMaker (libpagemaker),
+#   FreeHand (libfreehand), QuarkXPress (libqxp), Zoner (libzmf),
+#   StarOffice (libstaroffice), Palm/Sony e-books (libe-book), AbiWord (libabw)
+export PKG_CONFIG_PATH="$P/lib/pkgconfig"
+export ICU_CFLAGS="-sUSE_ICU=1" ICU_LIBS="-sUSE_ICU=1"
+export LCMS2_CFLAGS="-I$P/include" LCMS2_LIBS="-L$P/lib -llcms2"
+export LIBXML_CFLAGS="-I$P/include/libxml2" LIBXML_LIBS="-L$P/lib -lxml2"
+export XML_CFLAGS="$LIBXML_CFLAGS" XML_LIBS="$LIBXML_LIBS"
+export LIBPNG_CFLAGS="-sUSE_LIBPNG=1" LIBPNG_LIBS="-sUSE_LIBPNG=1"
+
+lib lcms2-2.16.tar.gz lcms2-2.16 liblcms2.a "--without-jpeg --without-tiff --without-threads"
+lib libxml2-2.12.9.tar.xz libxml2-2.12.9 libxml2.a "--without-python --without-http --without-ftp --without-threads --without-lzma --without-modules --without-debug --without-zlib"
+lib libcdr-0.1.8.tar.xz libcdr-0.1.8 libcdr-0.1.a "--disable-tools --disable-debug --disable-tests"
+lib libvisio-0.1.8.tar.xz libvisio-0.1.8 libvisio-0.1.a "--disable-tools --disable-debug --disable-tests"
+lib libpagemaker-0.0.4.tar.xz libpagemaker-0.0.4 libpagemaker-0.0.a "--disable-tools --disable-debug"
+lib libfreehand-0.1.2.tar.xz libfreehand-0.1.2 libfreehand-0.1.a "--disable-tools --disable-debug --disable-tests"
+lib libqxp-0.0.2.tar.xz libqxp-0.0.2 libqxp-0.0.a "--disable-tools --disable-debug --disable-tests"
+lib libzmf-0.0.2.tar.xz libzmf-0.0.2 libzmf-0.0.a "--disable-tools --disable-debug --disable-tests"
+lib libstaroffice-0.0.7.tar.xz libstaroffice-0.0.7 libstaroffice-0.0.a "--disable-tools --disable-debug --disable-zip"
+lib libe-book-0.1.3.tar.xz libe-book-0.1.3 libe-book-0.1.a "--without-tools --disable-debug --disable-tests --without-liblangtag"
+lib libabw-0.1.3.tar.xz libabw-0.1.3 libabw-0.1.a "--disable-tools --disable-debug"
+
+DLP2_INC=""
+for d in libcdr-0.1 libvisio-0.1 libpagemaker-0.0 libfreehand-0.1 libqxp-0.0 libzmf-0.0 libstaroffice-0.0 libe-book-0.1 libabw-0.1; do DLP2_INC="$DLP2_INC -I$P/include/$d"; done
+em++ -O2 -fexceptions -std=c++17 "$HERE/dlp2.cpp" -o "$OUT/dlp2.mjs" \
+  -I"$INC" -I"$P/include/librevenge-0.0" $DLP2_INC \
+  -L"$P/lib" -lcdr-0.1 -lvisio-0.1 -lpagemaker-0.0 -lfreehand-0.1 -lqxp-0.0 -lzmf-0.0 -lstaroffice-0.0 -le-book-0.1 -labw-0.1 \
+  -llcms2 -lxml2 -lrevenge-generators-0.0 -lrevenge-stream-0.0 -lrevenge-0.0 \
+  -sUSE_ZLIB=1 -sUSE_ICU=1 -sUSE_LIBPNG=1 -sMODULARIZE=1 -sEXPORT_ES6=1 -sENVIRONMENT=web,worker,node \
+  -sALLOW_MEMORY_GROWTH=1 -sFORCE_FILESYSTEM=1 -fexceptions \
+  -sEXPORTED_FUNCTIONS=_oof_convert,_free -sEXPORTED_RUNTIME_METHODS=FS,ccall,UTF8ToString
+ls -la "$OUT"/dlp2.*
