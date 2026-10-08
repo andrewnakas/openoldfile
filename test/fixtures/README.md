@@ -13,6 +13,9 @@ Real-world sample files used by `test/formats.test.mjs` and for manual browser c
 | OCAPTAIN.WS, TWAINLET.WS | jonmichaels/ctrl-kd `samples/` | MIT |
 | EXAMPLE_WS4.DOC | kevinselwyn/ws2txt | GPL-3.0 (test data only) |
 | MacWrite_4.5, MacWrite_Pro1.0, WriteNow_4.0, MicrosoftWord_5.0 | LibreOffice `writerperfect/qa/unit/data/writer/libmwaw` | MPL-2.0 |
+| NisusWriter_4.0.hqx, FullWrite_2.0, RagTime_5.5.rag, MicrosoftWord_1.0, MicrosoftWorks_2.0, More.hqx, DOCMaker_4.hqx, MarinerWrite_3.5.hqx, BeagleWorks_v1.hqx, WriteNow_2.0 | LibreOffice `writerperfect/qa/unit/data/writer/libmwaw/pass` | MPL-2.0 |
+| MacPaint_2.0.hqx, MacDraw_Pro_1.0.hqx, MacDraft_5.5.drw, Canvas_2.hqx, SuperPaint_1.0.hqx | LibreOffice `writerperfect/qa/unit/data/draw/libmwaw/pass` | MPL-2.0 |
+| Wingz_1.0.hqx, ClarisResolve_1.0.hqx | LibreOffice `writerperfect/qa/unit/data/calc/libmwaw/pass` | MPL-2.0 |
 | aros-boot.adf | cnvogelg/amitools `test/disks` (AROS) | AROS Public License |
 | WPG1.wpg | LibreOffice `writerperfect/qa/unit/data/draw/libwpg` | MPL-2.0 |
 | amipro-synthetic.sam | gadicc/amipro-sam `tests/fixtures` | MIT |

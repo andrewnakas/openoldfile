@@ -192,7 +192,25 @@ function showSvg(pages, ui) {
   });
   ui.output.append(el('div', { class: 'xps-pages' }, urls.map((src, i) => el('div', { class: 'xps-page' }, el('img', { src, alt: `Page ${i + 1}` })))));
   ui.done();
+  ui.action('Download PNG' + (pages.length > 1 ? ' (page 1)' : ''), () => svgToPng(urls[0]), ui.baseName + '.png', 'png');
   ui.action('Download SVG' + (pages.length > 1 ? ' (page 1)' : ''), () => new Blob([pages[0]], { type: 'image/svg+xml' }), ui.baseName + '.svg', 'svg');
+}
+
+// Rasterise a page at twice its size (MacPaint art and drawings people want
+// as an ordinary picture), on white like the paper it was drawn for.
+async function svgToPng(url) {
+  const img = new Image();
+  img.src = url;
+  await img.decode();
+  const scale = Math.min(2, 8000 / Math.max(img.naturalWidth, img.naturalHeight, 1));
+  const c = document.createElement('canvas');
+  c.width = Math.round(img.naturalWidth * scale) || 1;
+  c.height = Math.round(img.naturalHeight * scale) || 1;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.drawImage(img, 0, 0, c.width, c.height);
+  return new Promise((resolve) => c.toBlob(resolve, 'image/png'));
 }
 
 function askPassword(container) {

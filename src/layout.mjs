@@ -6,7 +6,11 @@ import { FORMATS, CATEGORIES, PLANNED, ELSEWHERE, UPDATED } from './formats.mjs'
 
 export const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const dotList = (exts) => exts.map((e) => '.' + e).join(', ');
-const extLabel = (f) => '.' + f.exts[0].toUpperCase();
+// Classic Mac formats usually have no extension: their spec gives a label
+// ("Nisus Writer") that stands in for ".EXT" in the page text.
+const extLabel = (f) => f.label || '.' + f.exts[0].toUpperCase();
+const extTag = (f, n = 3) => (f.exts.length ? dotList(f.exts.slice(0, n)) : 'classic Mac');
+const MAC_SUB = 'Any name, with or without an extension. BinHex (.hqx) and MacBinary copies work too.';
 
 function analytics() {
   if (!SITE.gaId) return '';
@@ -70,7 +74,7 @@ function header() {
 function footer() {
   const cols = CATEGORIES.map((c) => {
     const items = FORMATS.filter((f) => f.category === c.id)
-      .map((f) => `<li><a href="/open/${f.slug}/">${esc(f.program)} (${esc(extLabel(f))})</a></li>`).join('');
+      .map((f) => `<li><a href="/open/${f.slug}/">${esc(f.program)}${f.label ? '' : ` (${esc(extLabel(f))})`}</a></li>`).join('');
     return `<div><h3><a href="/formats/${c.id}/">${esc(c.name)}</a></h3><ul>${items}</ul></div>`;
   }).join('');
   const sisters = SITE.sisters.map((s) => `<li><a href="${s.url}">${esc(s.name)}</a>: ${esc(s.blurb)}</li>`).join('');
@@ -170,7 +174,7 @@ function ledeFor(f) {
   }
   const saves = f.outputs.filter(SAVES);
   const list = saves.join(', ').replace(/, ([^,]*)$/, ' or $1');
-  return `Drop your ${extPhrase(f.exts)} file to ${VERB[f.engine]}${saves.length ? ` and save it as ${list}` : ' right here'}.` + tail;
+  return `Drop your ${f.label || extPhrase(f.exts)} file to ${VERB[f.engine]}${saves.length ? ` and save it as ${list}` : ' right here'}.` + tail;
 }
 
 export function formatPage(f) {
@@ -191,7 +195,7 @@ export function formatPage(f) {
       operatingSystem: 'Any (runs in a web browser)',
       browserRequirements: 'Requires JavaScript and WebAssembly',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      featureList: [`Open ${dotList(f.exts)} files`, ...saves.map((o) => 'Save as ' + o), 'No upload: runs entirely in the browser'],
+      featureList: [`Open ${f.label || dotList(f.exts)} files`, ...saves.map((o) => 'Save as ' + o), 'No upload: runs entirely in the browser'],
       dateModified: f.updated || UPDATED
     },
     faqLd(f.faq),
@@ -200,7 +204,7 @@ export function formatPage(f) {
   const body = `${trail.html}
 <h1>${esc(f.h1)}</h1>
 <p class="lede">${esc(ledeFor(f))}</p>
-${tool({ accept: '', prompt: `Drop your ${esc(main)} file here`, sub: esc(dotList(f.exts)) })}
+${tool({ accept: '', prompt: `Drop your ${esc(main)} file here`, sub: esc(f.label ? MAC_SUB : dotList(f.exts)) })}
 
 <section>
 <h2>How to open a ${esc(main)} file</h2>
@@ -218,7 +222,7 @@ ${f.about.map((p) => `<p>${esc(p)}</p>`).join('\n')}
 </section>
 ${saves.length ? `
 <section>
-<h2>Convert ${esc(main)} to ${esc(convertTo(f, saves))}</h2>
+<h2>Convert ${esc(f.label ? main + ' files' : main)} to ${esc(convertTo(f, saves))}</h2>
 <p>Open the file above, then press the download button for the format you want. The conversion runs in your browser, so it is as fast as your device and works the same on Windows, macOS, ChromeOS, Linux, iPhone and Android. The copy you save opens in today's software.</p>
 </section>` : ''}
 <section class="faq">
@@ -254,7 +258,7 @@ export function homePage() {
   const desc = 'Open old and obsolete file formats in your browser: Lotus 1-2-3, dBASE, Windows Write, CHM, XPS, LZH, ARJ, Flash, MIDI and more. Free, nothing uploaded.';
   const grid = CATEGORIES.map((c) => {
     const cards = FORMATS.filter((f) => f.category === c.id).map((f) =>
-      `<li><a class="card" href="/open/${f.slug}/"><span class="card-ext">${esc(f.exts.slice(0, 3).map((e) => '.' + e).join(' '))}</span><span class="card-name">${esc(f.program)}</span></a></li>`).join('\n');
+      `<li><a class="card" href="/open/${f.slug}/"><span class="card-ext">${esc(extTag(f).replace(/,/g, ''))}</span><span class="card-name">${esc(f.program)}</span></a></li>`).join('\n');
     return `<h3><a href="/formats/${c.id}/">${esc(c.name)}</a></h3><ul class="cards">${cards}</ul>`;
   }).join('\n');
   const planned = PLANNED.map((p) => `<li>${esc(p.name)} <span class="muted">(${esc(dotList(p.exts))})</span></li>`).join('');
@@ -310,7 +314,7 @@ export function categoryPage(c) {
     },
     trail.ld
   ];
-  const items = list.map((f) => `<li><a class="card" href="/open/${f.slug}/"><span class="card-ext">${esc(dotList(f.exts.slice(0, 4)))}</span><span class="card-name">${esc(f.h1)}</span><span class="card-desc">${esc(f.desc)}</span></a></li>`).join('\n');
+  const items = list.map((f) => `<li><a class="card" href="/open/${f.slug}/"><span class="card-ext">${esc(extTag(f, 4))}</span><span class="card-name">${esc(f.h1)}</span><span class="card-desc">${esc(f.desc)}</span></a></li>`).join('\n');
   const body = `${trail.html}
 <h1>${esc(c.h1)}</h1>
 <p class="lede">${esc(c.intro)}</p>

@@ -16,7 +16,7 @@ test('sniffer routes each fixture by its bytes, whatever its name', async () => 
     'QuattroPro.wq1': 'wq1', 'QuattroPro.wb1': 'wq1', 'Works_Windows.wks': 'xlr', 'biblio.dbf': 'dbf',
     'Write_3.1.wri': 'wri', 'example.chm': 'chm', 'test_read_format_lha_lh7.lzh': 'lzh',
     'test_read_format_cab_2.cab': 'cab', 'method1.arj': 'arj', 'stored.arj': 'arj', 'hello.txt.Z': 'z', 'ruffle_test.swf': 'swf',
-    'scale.mid': 'mid', 'putty.hlp': 'hlp', 'amipro-synthetic.sam': 'sam', 'WPG1.wpg': 'wpg', 'tdf92789.pct': 'pict', 'ooo25876-2.pct': 'pict', 'OCAPTAIN.WS': 'wordstar', 'TWAINLET.WS': 'wordstar', 'EXAMPLE_WS4.DOC': 'wordstar', 'MacWrite_4.5': 'macwrite', 'WriteNow_4.0': 'macwrite', 'MicrosoftWord_5.0': 'macwrite', 'WP6.wpd': 'wpd', 'ClarisWorks_6.0.cwk': 'cwk', 'test.mod': 'mod', 'visio_import_source.wmf': 'wmf',
+    'scale.mid': 'mid', 'putty.hlp': 'hlp', 'amipro-synthetic.sam': 'sam', 'WPG1.wpg': 'wpg', 'tdf92789.pct': 'pict', 'ooo25876-2.pct': 'pict', 'OCAPTAIN.WS': 'wordstar', 'TWAINLET.WS': 'wordstar', 'EXAMPLE_WS4.DOC': 'wordstar', 'MacWrite_4.5': 'macwrite', 'WriteNow_4.0': 'writenow', 'MicrosoftWord_5.0': 'wordmac', 'WP6.wpd': 'wpd', 'ClarisWorks_6.0.cwk': 'cwk', 'test.mod': 'mod', 'visio_import_source.wmf': 'wmf',
     'PocketWord.psw': 'psw',
     'tdf88163-non-placeable.wmf': 'wmf', 'sine_wave.emf': 'emf', 'sample.xps': 'xps'
   };
@@ -287,4 +287,40 @@ test('ZX Spectrum tapes: files, BASIC listing, screen, WAV and TZX to TAP', asyn
   assert.ok(wav.seconds > 40 && wav.seconds < 52, `${wav.seconds} s`);
   const head = new Uint8Array(await wav.blob.slice(0, 12).arrayBuffer());
   assert.equal(String.fromCharCode(...head.subarray(8, 12)), 'WAVE');
+});
+
+test('classic Mac formats with their own pages convert (BinHex copies included)', async () => {
+  const { default: Module } = await import('../src/client/vendor/docconv.mjs');
+  const m = await Module({ print: () => {}, printErr: () => {} });
+  const conv = (name) => {
+    m.FS.writeFile('/in', readFileSync(fx(name)));
+    const ptr = m.ccall('oof_convert', 'number', ['string', 'string'], ['/in', '']);
+    const s = m.UTF8ToString(ptr);
+    m._free(ptr);
+    return s.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+  };
+  const cases = {
+    'NisusWriter_4.0.hqx': /^html libmwaw .*a small test normal bold/,
+    'FullWrite_2.0': /^html libmwaw .*du gras/,
+    'RagTime_5.5.rag': /^html libmwaw .*RagTime 5 document/,
+    'MicrosoftWord_1.0': /^html libmwaw .*a small word file/,
+    'MicrosoftWorks_2.0': /^html libmwaw .*Classe de terminale/,
+    'More.hqx': /^html libmwaw .*A simple more file/,
+    'DOCMaker_4.hqx': /^html libmwaw .*Un petit test/,
+    'MarinerWrite_3.5.hqx': /^html libmwaw .*a small test bold italic/,
+    'BeagleWorks_v1.hqx': /^html libmwaw .*A simple BeagleWorks file/,
+    'MacPaint_2.0.hqx': /^svg libmwaw .*<svg:image|^svg libmwaw/,
+    'MacDraw_Pro_1.0.hqx': /^svg libmwaw .*A small MacDraw Pro file/,
+    'MacDraft_5.5.drw': /^svg libmwaw .*A simple MacDraft 5.5 file/,
+    'Canvas_2.hqx': /^svg libmwaw .*Un pe tit texte/,
+    'SuperPaint_1.0.hqx': /^svg libmwaw .*A SuperPaint Vector Document/,
+    'Wingz_1.0.hqx': /^csv libmwaw .*"text\(normal\)","bold"/,
+    'ClarisResolve_1.0.hqx': /^csv libmwaw .*"normal","bold"/
+  };
+  for (const [name, re] of Object.entries(cases)) assert.match(conv(name), re, name);
+  // MacPaint has no text: check the picture came through as an embedded image.
+  m.FS.writeFile('/in', readFileSync(fx('MacPaint_2.0.hqx')));
+  const ptr = m.ccall('oof_convert', 'number', ['string', 'string'], ['/in', '']);
+  assert.match(m.UTF8ToString(ptr), /<svg:image[^>]+xlink:href="data:/);
+  m._free(ptr);
 });

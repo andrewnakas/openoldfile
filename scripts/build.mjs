@@ -107,7 +107,7 @@ copyFileSync(join(ROOT, 'src/style.css'), join(OUT, 'css/style.css'));
 
 const ogPages = [
   { slug: 'home', badge: '.wpd .wk1 .cwk .hlp .wri', headline: 'Open old files online: any format, nothing uploaded' },
-  ...FORMATS.map((f) => ({ slug: f.slug, badge: f.exts.slice(0, 3).map((e) => '.' + e).join(' '), headline: f.h1 }))
+  ...FORMATS.map((f) => ({ slug: f.slug, badge: f.exts.length ? f.exts.slice(0, 3).map((e) => '.' + e).join(' ') : f.label, headline: f.h1 }))
 ];
 const haveOg = await makeOgImages(ogPages, join(OUT, 'og'));
 const haveIcons = await makeIcons(join(ROOT, 'src/static/favicon.svg'), join(OUT, 'icons'));

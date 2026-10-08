@@ -160,6 +160,30 @@ export const FORMATS = [
     related: ['wk1', 'wq1', 'dbf']
   },
   {
+    slug: 'wingz',
+    category: 'spreadsheets',
+    exts: ['wkz'],
+    program: 'Wingz and Claris Resolve',
+    title: 'Open Wingz and Claris Resolve Files Online, Free',
+    h1: 'Open Wingz and Claris Resolve spreadsheets online',
+    desc: 'View Wingz and Claris Resolve spreadsheets in your browser and save them as Excel or CSV. Free, no old Mac needed, nothing uploaded.',
+    engine: 'doc',
+    convertTo: 'Excel or CSV',
+    outputs: ['Excel (.xlsx)', 'CSV'],
+    era: 'Informix released Wingz in 1988 as a graphical challenger to Excel; Claris licensed it as Claris Resolve in 1991.',
+    about: [
+      'Wingz ran on the Mac and later on Windows and Unix workstations, and Claris Resolve was the same program under the Claris name. Neither has been sold for decades, and Excel does not import their files.',
+      'This page reads Wingz and Claris Resolve spreadsheets in your browser, shows the values in a table, and saves them as an .xlsx or .csv file.'
+    ],
+    faq: [
+      ['How do I open a Wingz file?', 'Drop it on this page. The sheet is shown as a table and can be saved as Excel or CSV.'],
+      ['How do I open a Claris Resolve spreadsheet?', 'The same way: drop it here. Resolve files are Wingz files under another name.'],
+      ['Are formulas kept?', 'The calculated values are kept; the formulas are not converted to Excel syntax.'],
+      ['Is my spreadsheet uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['wk1', 'wq1', 'cwk']
+  },
+  {
     slug: 'wdb',
     needs: 'Microsoft Works',
     category: 'spreadsheets',
@@ -364,7 +388,8 @@ export const FORMATS = [
     slug: 'macwrite',
     needs: 'old Mac software',
     category: 'documents',
-    exts: ['mcw', 'mwii', 'mw', 'wn', 'mcw2'],
+    exts: ['mwii', 'mw', 'mcw2'],
+    label: 'MacWrite',
     program: 'MacWrite and classic Mac word processors',
     title: 'Open MacWrite and Old Mac Word Files Online, Free',
     h1: 'Open MacWrite and old Mac documents online',
@@ -380,10 +405,10 @@ export const FORMATS = [
       ['How do I open a MacWrite file?', 'Drop it on this page. It is read in your browser and you can save it as HTML, text or PDF.'],
       ['How do I open an old Word for Mac 5.1 document?', 'Drop it here. Word 1 to 5.1 for Mac files are read by libmwaw and shown with their formatting.'],
       ['My old Mac file has no extension and nothing opens it.', 'Drop it on the home page. The site reads the first bytes to work out the program that made it.'],
-      ['What if the file is inside a .sit or .hqx archive?', 'Unpack it first on our sister site macemu.com, which opens StuffIt and BinHex archives, then drop the document here.'],
+      ['What if the file is a .hqx or .sit download?', 'BinHex (.hqx) and MacBinary copies can be dropped here as they are. StuffIt (.sit) archives need unpacking first on our sister site macemu.com.'],
       ['Is my file uploaded?', 'No. It is read in your browser.']
     ],
-    related: ['cwk', 'wpd', 'wri']
+    related: ['wordmac', 'nisus', 'writenow', 'cwk']
   },
   {
     slug: 'wri',
@@ -459,6 +484,240 @@ export const FORMATS = [
       ['Is my file uploaded?', 'No. It is read in your browser.']
     ],
     related: ['wps', 'worddos', 'wri']
+  },
+  {
+    slug: 'nisus',
+    category: 'documents',
+    label: 'Nisus Writer',
+    exts: [],
+    program: 'Nisus Writer',
+    title: 'Open Old Nisus Writer Files Online, Free | No Upload',
+    h1: 'Open classic Nisus Writer files online',
+    desc: 'Read documents from classic Nisus Writer (Mac OS 7 to 9) in your browser and save them as HTML, text or PDF. Free, no Mac needed, nothing uploaded.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'Nisus Writer was a Mac word processor from 1989; its classic versions ran until Mac OS 9, and the OS X successors switched to RTF.',
+    about: [
+      'Classic Nisus Writer kept a document\'s text in the file\'s data fork and its fonts, styles and pictures in the resource fork. Copied to a PC or a modern Mac, the file shows no icon and Nisus Writer Pro will not open it, and opening it in a text editor shows the words without any formatting.',
+      'This page reads classic Nisus Writer documents in your browser, with styles, footnotes and headers, and saves them as HTML (which Word and Google Docs open), as plain text, or as a PDF. If the file came as a .hqx (BinHex) or MacBinary download, drop it as it is.'
+    ],
+    faq: [
+      ['How do I open an old Nisus Writer file?', 'Drop it on this page. It is read in your browser and you can save it as HTML, text or PDF. No Mac or emulator is needed.'],
+      ['Can Nisus Writer Pro open classic Nisus Writer files?', 'Not reliably. Nisus Writer Express and Pro use RTF; the classic format, with its formatting in the resource fork, is not supported.'],
+      ['My file has lost its formatting after copying it to a PC. Can it be recovered?', 'If only the data fork was copied, the styles are gone and the text is all that remains; it still opens here. Copies kept as .hqx, .bin (MacBinary) or ._ AppleDouble files still carry the formatting.'],
+      ['Is my document uploaded?', 'No. It is read by code running in this tab.']
+    ],
+    related: ['macwrite', 'wordmac', 'fullwrite']
+  },
+  {
+    slug: 'fullwrite',
+    category: 'documents',
+    label: 'FullWrite',
+    exts: [],
+    program: 'FullWrite Professional',
+    title: 'Open FullWrite Professional Files Online, Free',
+    h1: 'Open FullWrite Professional files online',
+    desc: 'Read FullWrite Professional documents from classic Macs in your browser and save them as HTML, text or PDF. Free, no Mac needed, nothing uploaded.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'Ashton-Tate launched FullWrite Professional for the Mac in 1988; Akimbo Systems kept it going into the mid-1990s.',
+    about: [
+      'FullWrite was one of the first Mac word processors with true page layout, footnotes, outlining and sidebars. Nothing made since reads its files, so documents written in it have been stuck on old Macs and backup disks.',
+      'This page reads FullWrite 1 and 2 documents in your browser, keeping the text, styles and footnotes, and saves them as HTML (which Word and Google Docs open), as plain text, or as a PDF.'
+    ],
+    faq: [
+      ['How do I open a FullWrite file?', 'Drop it on this page. It is read in your browser and you can save it as HTML, text or PDF.'],
+      ['How do I convert FullWrite to Word?', 'Open the file here and download the HTML copy, then open that in Word and save it as .docx.'],
+      ['Which FullWrite versions work?', 'FullWrite Professional 1.x and 2.x documents.'],
+      ['Is my document uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['nisus', 'macwrite', 'writenow']
+  },
+  {
+    slug: 'wordmac',
+    category: 'documents',
+    exts: ['mcw'],
+    program: 'Word for Mac 1 to 5.1',
+    title: 'Open Old Word for Mac Files (Word 1 to 5.1) Online',
+    h1: 'Open old Word for Mac (1 to 5.1) documents online',
+    desc: 'Read documents from Microsoft Word for Mac 1, 3, 4, 5 and 5.1 in your browser and save them as HTML, text or PDF. Free, nothing uploaded.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'Word for Mac 1.0 shipped in 1985; Word 5.1 (1992) is still remembered as the best Mac Word. Word 6 changed to the Windows file format.',
+    about: [
+      'Before Word 6 in 1994, Word for Mac saved in its own formats. Current Word for Mac and Word for Windows say the file is in an unsupported or blocked format, and Microsoft no longer ships the converters that read it.',
+      'This page reads Word for Mac 1 to 5.1 documents in your browser, keeping paragraphs, styles, footnotes and tables, and lets you save a copy as HTML (which today\'s Word opens), as plain text, or as a PDF.'
+    ],
+    faq: [
+      ['How do I open a Word 5.1 for Mac file?', 'Drop it on this page. It is read in your browser and you can save it as HTML, text or PDF, then open the HTML in current Word and save it as .docx.'],
+      ['Why does Word say my old Mac document is not supported?', 'Word dropped the converters for its pre-1994 Mac formats. The file is fine; current Word simply cannot read it.'],
+      ['What about Word 6 and later Mac files?', 'From Word 6 onwards the Mac and Windows versions share the .doc format that current Word still opens.'],
+      ['Is my document uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['macwrite', 'worddos', 'nisus']
+  },
+  {
+    slug: 'writenow',
+    category: 'documents',
+    exts: ['wn'],
+    program: 'WriteNow',
+    title: 'Open WriteNow Files (.wn) Online, Free | No Upload',
+    h1: 'Open WriteNow documents online',
+    desc: 'Read T/Maker WriteNow documents from classic Macs and NeXT in your browser and save them as HTML, text or PDF. Free, nothing uploaded.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'WriteNow came out in 1986, written for the Mac and bundled with the NeXT computer; T/Maker sold it until the mid-1990s.',
+    about: [
+      'WriteNow was fast, small and popular in schools and offices on the Mac. Its documents use a private format that no current word processor reads.',
+      'This page reads WriteNow 2 to 4 documents in your browser and saves them as HTML (which Word and Google Docs open), as plain text, or as a PDF.'
+    ],
+    faq: [
+      ['How do I open a WriteNow file?', 'Drop it on this page. It opens in your browser and you can save it as HTML, text or PDF.'],
+      ['How do I convert WriteNow to Word?', 'Open it here, download the HTML copy, and open that in Word to save as .docx.'],
+      ['Is my document uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['macwrite', 'fullwrite', 'wordmac']
+  },
+  {
+    slug: 'ragtime',
+    category: 'documents',
+    exts: ['rag'],
+    program: 'RagTime',
+    title: 'Open RagTime Files (.rag) Online, Free | No Upload',
+    h1: 'Open RagTime documents online',
+    desc: 'Read text from RagTime documents (versions 2 to 5) in your browser and save it as HTML, text or PDF. Free, no RagTime licence needed, nothing uploaded.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'RagTime, a frame-based layout and office program from Germany, first appeared on the Mac in 1985 and was widely used in European offices and schools.',
+    about: [
+      'RagTime documents combine text frames, tables and pictures on a page. Opening an old one normally needs a paid copy of the current RagTime, which may not read the oldest versions either.',
+      'This page reads RagTime 2, 3 and 5 documents in your browser and brings out their text frames, so you can save the content as HTML, plain text or a PDF.'
+    ],
+    faq: [
+      ['How do I open a .rag file without RagTime?', 'Drop it on this page. The text frames are read in your browser and can be saved as HTML, text or PDF.'],
+      ['Is the layout kept?', 'The text and its styles are kept; the page layout of frames is simplified into one flowing document.'],
+      ['Which RagTime versions work?', 'Files from RagTime 2, 3 and 5 on the Mac. Files from other versions may open too.'],
+      ['Is my document uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['pub', 'nisus', 'cwk']
+  },
+  {
+    slug: 'worksmac',
+    category: 'documents',
+    label: 'Works for Mac',
+    exts: [],
+    program: 'Microsoft Works for Mac',
+    title: 'Open Microsoft Works for Mac Files Online, Free',
+    h1: 'Open Microsoft Works for Mac files online',
+    desc: 'Open word processor, spreadsheet, database and drawing files from Microsoft Works for Mac 1 to 4. Save as HTML, Excel, CSV or PDF. Free, nothing uploaded.',
+    engine: 'doc',
+    convertTo: 'HTML, Excel, CSV or PDF',
+    outputs: ['Word-compatible HTML', 'Excel (.xlsx) for spreadsheets', 'PDF (via print)'],
+    era: 'Microsoft Works for Mac (1986 to 1994) put a word processor, spreadsheet, database and, from version 3, a drawing module in one cheap package.',
+    about: [
+      'Works for Mac came on many Macs sold to schools and families. Its files are not the same as Works for Windows files, and nothing current from Microsoft reads them.',
+      'This page reads all four kinds of Works for Mac file in your browser: documents are shown as pages you can save as HTML or PDF, spreadsheets and databases as tables you can save as Excel or CSV, and drawings as pictures.'
+    ],
+    faq: [
+      ['How do I open a Microsoft Works for Mac file?', 'Drop it on this page. Documents, spreadsheets, databases and drawings are all detected automatically.'],
+      ['How do I convert a Works for Mac spreadsheet to Excel?', 'Open it here and press "Download .xlsx".'],
+      ['Is this the same as Microsoft Works for Windows?', 'No, the formats differ. For Works for Windows files, see the .wps, .wks and .wdb pages.'],
+      ['Is my file uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['wps', 'xlr', 'cwk']
+  },
+  {
+    slug: 'beagleworks',
+    category: 'documents',
+    label: 'BeagleWorks',
+    exts: [],
+    program: 'BeagleWorks and WordPerfect Works',
+    title: 'Open BeagleWorks and WordPerfect Works Files Online',
+    h1: 'Open BeagleWorks and WordPerfect Works files online',
+    desc: 'Open BeagleWorks and WordPerfect Works documents, spreadsheets, databases and drawings from classic Macs in your browser. Free, nothing uploaded.',
+    engine: 'doc',
+    convertTo: 'HTML, Excel, CSV or PDF',
+    outputs: ['Word-compatible HTML', 'Excel (.xlsx) for spreadsheets', 'PDF (via print)'],
+    era: 'Beagle Bros released BeagleWorks for the Mac in 1992; WordPerfect bought it the next year and sold it as WordPerfect Works.',
+    about: [
+      'BeagleWorks was an integrated package in the style of ClarisWorks, with a word processor, spreadsheet, database, drawing and painting. Its files open in nothing made today.',
+      'This page reads BeagleWorks and WordPerfect Works files in your browser: documents become pages you can save as HTML or PDF, spreadsheets and databases become tables you can save as Excel or CSV, and drawings become pictures.'
+    ],
+    faq: [
+      ['How do I open a BeagleWorks file?', 'Drop it on this page. The kind of file (document, spreadsheet, database or drawing) is detected automatically.'],
+      ['Are WordPerfect Works files the same?', 'Yes. WordPerfect Works is BeagleWorks renamed, and its files open here too.'],
+      ['Is my file uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['cwk', 'worksmac', 'wpd']
+  },
+  {
+    slug: 'more',
+    category: 'documents',
+    label: 'MORE',
+    exts: [],
+    program: 'Symantec MORE',
+    title: 'Open MORE Outliner Files (Symantec MORE) Online, Free',
+    h1: 'Open MORE outliner files online',
+    desc: 'Read outlines from Living Videotext and Symantec MORE on classic Macs in your browser and save them as HTML, text or PDF. Free, nothing uploaded.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'MORE, by Living Videotext and later Symantec, was the classic Mac outliner from 1986 until the early 1990s, used for notes, plans and slide shows.',
+    about: [
+      'MORE kept outlines with headlines, collapsible levels, notes and bullet charts in a format that only MORE itself reads, and it has not run on a Mac since Mac OS 9.',
+      'This page reads MORE outlines in your browser and turns them into a document that keeps the levels and text, which you can save as HTML, plain text or PDF.'
+    ],
+    faq: [
+      ['How do I open a MORE file?', 'Drop it on this page. The outline is shown as a document you can save as HTML, text or PDF.'],
+      ['Is the outline structure kept?', 'Yes, as indented headings and paragraphs. Collapsing and expanding is not available in the saved copy.'],
+      ['Is my file uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['nisus', 'macwrite', 'docmaker']
+  },
+  {
+    slug: 'docmaker',
+    category: 'documents',
+    label: 'DOCMaker',
+    exts: [],
+    program: 'DOCMaker',
+    title: 'Open DOCMaker Documents Online, Free | No Mac Needed',
+    h1: 'Open DOCMaker documents online',
+    desc: 'Read DOCMaker self-reading documents, the classic Mac read-mes, manuals and e-zines, in your browser. Save them as HTML, text or PDF. Free, no upload.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'DOCMaker, a 1990s shareware tool, turned documents into small Mac applications that displayed themselves; shareware read-mes, manuals and e-zines used it.',
+    about: [
+      'A DOCMaker document is a classic Mac program with its text, styles and pictures stored inside it. Without a classic Mac or an emulator it cannot be launched, and the text is not readable in an ordinary editor.',
+      'This page reads the chapters stored in a DOCMaker document directly, in your browser, and lets you save them as HTML, plain text or PDF. Files downloaded as .hqx or MacBinary can be dropped as they are.'
+    ],
+    faq: [
+      ['How do I read a DOCMaker file on Windows or a modern Mac?', 'Drop it on this page. Its text is read straight out of the file, with no emulator needed.'],
+      ['The file is called "Read Me" and has no extension. Is it DOCMaker?', 'Possibly. Drop it here: if it is a DOCMaker document, or one of the many other classic Mac formats this site reads, it opens.'],
+      ['Is my file uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['more', 'macwrite', 'hlp']
+  },
+  {
+    slug: 'marinerwrite',
+    category: 'documents',
+    label: 'Mariner Write',
+    exts: [],
+    program: 'Mariner Write',
+    title: 'Open Mariner Write Files Online, Free | No Upload',
+    h1: 'Open Mariner Write documents online',
+    desc: 'Read documents from Mariner Write, the Mac word processor, in your browser and save them as HTML, text or PDF. Free, nothing uploaded.',
+    engine: 'doc',
+    outputs: ['Word-compatible HTML', 'plain text', 'PDF (via print)'],
+    era: 'Mariner Software sold Mariner Write as a light Mac word processor from the mid-1990s into the 2000s.',
+    about: [
+      'Mariner Write has been discontinued, and its documents use a private format that Pages and Word do not read.',
+      'This page reads Mariner Write documents in your browser, with their styles, and saves them as HTML (which Word and Google Docs open), as plain text, or as a PDF.'
+    ],
+    faq: [
+      ['How do I open a Mariner Write file?', 'Drop it on this page. It opens in your browser and you can save it as HTML, text or PDF.'],
+      ['How do I convert Mariner Write to Word?', 'Open it here, download the HTML copy, and open that in Word to save as .docx.'],
+      ['Is my document uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['nisus', 'writenow', 'macwrite']
   },
   {
     slug: 'chm',
@@ -731,6 +990,128 @@ export const FORMATS = [
       ['Is my image uploaded?', 'No. It is drawn in your browser.']
     ],
     related: ['macwrite', 'wmf', 'cwk']
+  },
+  {
+    slug: 'macpaint',
+    category: 'media',
+    needs: 'old Mac software',
+    exts: ['mac', 'pntg', 'pnt'],
+    program: 'MacPaint',
+    title: 'Open MacPaint Files Online, Free | Convert to PNG',
+    h1: 'Open MacPaint (.mac, .pntg) pictures online',
+    desc: 'View classic MacPaint pictures in your browser and save them as PNG. Works with .mac, .pntg and extensionless files from old Macs. Free, no upload.',
+    engine: 'doc',
+    convertTo: 'PNG',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'MacPaint shipped with the first Macintosh in 1984; its 576 by 720 black-and-white pictures were the first art most Mac owners made.',
+    about: [
+      'A MacPaint file is a single page of one-bit art, compressed with PackBits. Clip art collections, early Mac screenshots and children\'s drawings from the 1980s are often in this format, and current image editors do not read it.',
+      'This page draws MacPaint pictures in your browser and saves them as PNG at twice the original size, so the pixels stay sharp.'
+    ],
+    faq: [
+      ['How do I open a MacPaint file?', 'Drop it on this page. The picture appears straight away and can be saved as PNG.'],
+      ['How do I convert MacPaint to PNG or JPG?', 'Open it here and press "Download PNG". Any image editor converts the PNG to JPEG if needed.'],
+      ['My file has no extension. Will it work?', 'Yes. Classic Mac files rarely had extensions; the file is recognised from its contents.'],
+      ['Is my picture uploaded?', 'No. It is drawn in your browser.']
+    ],
+    related: ['pict', 'macdraw', 'superpaint']
+  },
+  {
+    slug: 'macdraw',
+    category: 'media',
+    label: 'MacDraw',
+    exts: [],
+    program: 'MacDraw and ClarisDraw',
+    title: 'Open MacDraw, MacDraw Pro and ClarisDraw Files Online',
+    h1: 'Open MacDraw and ClarisDraw files online',
+    desc: 'View MacDraw, MacDraw II, MacDraw Pro and ClarisDraw drawings in your browser and save them as PNG, SVG or PDF. Free, nothing uploaded.',
+    engine: 'doc',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'Apple released MacDraw in 1984; Claris followed with MacDraw II (1988), MacDraw Pro (1991) and ClarisDraw (1994), dropped in the late 1990s.',
+    about: [
+      'MacDraw was the object drawing program of the classic Mac, used for floor plans, diagrams, org charts and technical drawings. None of its versions run on a modern Mac, and no current program imports the files.',
+      'This page reads MacDraw, MacDraw II, MacDraw Pro and ClarisDraw files in your browser and draws them as vector pages, which you can save as PNG, as SVG for further editing in Illustrator or Inkscape, or as PDF.'
+    ],
+    faq: [
+      ['How do I open a MacDraw file?', 'Drop it on this page. The drawing is shown in your browser and can be saved as PNG, SVG or PDF.'],
+      ['How do I edit an old MacDraw drawing?', 'Save it here as SVG and open that in Inkscape (free), Illustrator or Affinity Designer, where the shapes and text stay editable.'],
+      ['Which versions work?', 'MacDraw, MacDraw II, MacDraw Pro and ClarisDraw.'],
+      ['Is my drawing uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['macdraft', 'canvas', 'pict']
+  },
+  {
+    slug: 'macdraft',
+    category: 'media',
+    exts: ['drw'],
+    program: 'MacDraft',
+    title: 'Open MacDraft Files (.drw) Online, Free | No Upload',
+    h1: 'Open MacDraft drawings online',
+    desc: 'View MacDraft drawings (versions 1 to 5.5) in your browser and save them as PNG, SVG or PDF. Free, no MacDraft licence, nothing uploaded.',
+    engine: 'doc',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'MacDraft has been a Mac 2D drafting program since 1985, used for floor plans, landscaping and technical drawings.',
+    about: [
+      'Plans drawn in older versions of MacDraft often need a current paid copy to open, and no other program reads them. Windows users have nothing at all.',
+      'This page reads MacDraft 1 to 5.5 drawings in your browser and draws them as vector pages you can save as PNG, as SVG for editing in Inkscape or Illustrator, or as PDF for printing.'
+    ],
+    faq: [
+      ['How do I open a .drw file from MacDraft?', 'Drop it on this page. The drawing is shown in your browser and can be saved as PNG, SVG or PDF.'],
+      ['Can I open MacDraft files on Windows?', 'Yes, here, in any browser. Nothing needs to be installed.'],
+      ['Are dimensions and scale kept?', 'The drawing is kept as it looks on the page. Measuring and editing need a CAD program; the SVG copy imports into most of them.'],
+      ['Is my drawing uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['macdraw', 'canvas', 'wmf']
+  },
+  {
+    slug: 'canvas',
+    category: 'media',
+    label: 'Canvas',
+    exts: [],
+    program: 'Deneba Canvas (classic Mac)',
+    title: 'Open Old Deneba Canvas Files Online, Free',
+    h1: 'Open old Deneba Canvas drawings online',
+    desc: 'View drawings from classic Mac versions of Deneba Canvas in your browser and save them as PNG, SVG or PDF. Free, nothing uploaded.',
+    engine: 'doc',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'Deneba Software released Canvas for the Mac in 1987; it became a standard for technical illustration and was later sold by ACD Systems.',
+    about: [
+      'Canvas mixed vector drawing, paint and text layout. Files from its classic Mac versions need an old copy of Canvas, and no other program reads them.',
+      'This page reads classic Mac Canvas drawings in your browser and draws them as vector pages, which you can save as PNG, as SVG for editing in Inkscape or Illustrator, or as PDF.'
+    ],
+    faq: [
+      ['How do I open an old Canvas file?', 'Drop it on this page. The drawing is shown in your browser and can be saved as PNG, SVG or PDF.'],
+      ['Which Canvas versions work?', 'Files from the classic Mac versions, such as Canvas 2 and 3. Files from later versions may not open.'],
+      ['Is my drawing uploaded?', 'No. It is read in your browser.']
+    ],
+    related: ['macdraw', 'superpaint', 'macdraft']
+  },
+  {
+    slug: 'superpaint',
+    category: 'media',
+    label: 'SuperPaint',
+    exts: [],
+    program: 'SuperPaint',
+    title: 'Open SuperPaint Files Online, Free | Convert to PNG',
+    h1: 'Open SuperPaint pictures online',
+    desc: 'View SuperPaint paint and draw files from classic Macs in your browser and save them as PNG, SVG or PDF. Free, nothing uploaded.',
+    engine: 'doc',
+    convertTo: 'PNG, SVG or PDF',
+    outputs: ['PNG', 'SVG', 'PDF (via print)'],
+    era: 'Silicon Beach Software released SuperPaint in 1986, combining a paint layer and a draw layer; Aldus and then Adobe sold it into the mid-1990s.',
+    about: [
+      'SuperPaint was the step up from MacPaint for a generation of Mac users, and its files hold both bitmap painting and editable shapes. Nothing current opens them.',
+      'This page draws SuperPaint files in your browser and saves them as PNG, as SVG or as PDF.'
+    ],
+    faq: [
+      ['How do I open a SuperPaint file?', 'Drop it on this page. The picture is shown in your browser and can be saved as PNG, SVG or PDF.'],
+      ['Are both the paint and draw layers shown?', 'Yes, both layers are combined into one picture.'],
+      ['Is my picture uploaded?', 'No. It is drawn in your browser.']
+    ],
+    related: ['macpaint', 'macdraw', 'pict']
   },
   {
     slug: 'rm',

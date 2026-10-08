@@ -44,9 +44,9 @@ const TESTS = [
   (b) => (b[0] === 0xff && ascii(b, 1, 3) === 'WPC' ? (b[9] === 0x16 ? 'wpg' : 'wpd') : null), // WordPerfect 5+: document or graphic (file type at 9)
   (b) => (ascii(b, 4, 4) === 'BOBO' ? 'cwk' : null), // ClarisWorks / AppleWorks
   (b) => (ascii(b, 0, 5) === '{\\pwi' ? 'psw' : null), // Pocket Word
-  (b) => (b[0] === 0xfe && b[1] === 0x37 && b[2] === 0 && b[3] === 0x23 ? 'macwrite' : null), // Word for Mac 4/5
+  (b) => (b[0] === 0xfe && b[1] === 0x37 && b[2] === 0 && b[3] === 0x23 ? 'wordmac' : null), // Word for Mac 4/5
   (b) => (b[0] === 0 && b[1] === 0x06 && b[2] === 0 ? 'macwrite' : null), // MacWrite 4.5/5
-  (b) => (ascii(b, 0, 8) === 'WriteNow' ? 'macwrite' : null),
+  (b) => (ascii(b, 0, 8) === 'WriteNow' ? 'writenow' : null),
   // Formats owned elsewhere or not built yet.
   
   (b) => (b[0] === 0x3f && b[1] === 0x5f && b[2] === 3 && b[3] === 0 ? 'hlp' : null),

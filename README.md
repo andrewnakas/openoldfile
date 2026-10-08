@@ -29,7 +29,7 @@ owning one search intent ("open wk1 file", "open chm file on mac"...).
 | Engine | Formats | Library |
 |---|---|---|
 | sheet | .wk1 .wk3 .wk4 .123 .wks .wq1 .wb1-3 .qpw .xlr .dbf | SheetJS (Apache-2.0) |
-| doc | .wpd .wp (WordPerfect), .wpg, .cwk (ClarisWorks), .wps (Works), .wdb, .pub (Publisher), MacWrite/Word for Mac/WriteNow and ~100 classic Mac formats | libwpd, libwps, libmwaw, libmspub (MPL/LGPL) via `native/docconv.cpp` |
+| doc | .wpd .wp (WordPerfect), .wpg, .cwk (ClarisWorks), .wps (Works), .wdb, .pub (Publisher), MacWrite, Word for Mac, WriteNow, Nisus, FullWrite, RagTime, Works for Mac, BeagleWorks, MORE, DOCMaker, Mariner Write, MacPaint, MacDraw, MacDraft, Canvas, SuperPaint, Wingz and ~80 more classic Mac formats (BinHex/MacBinary unwrapped by libmwaw) | libwpd, libwps, libmwaw, libmspub (MPL/LGPL) via `native/docconv.cpp` |
 | hlp | .hlp (WinHelp) | helpdeco (GPL-3.0) + own RTF topic parser |
 | wri | .wri (pictures via libwps) | written for this site |
 | amipro | .sam | written for this site from the gadicc/amipro-sam spec |
@@ -47,7 +47,10 @@ owning one search intent ("open wk1 file", "open chm file on mac"...).
 | realmedia | .rm .rmvb .ra | FFmpeg wasm; the 31 MB core loads from jsDelivr at run time |
 
 Files the sniffer can't place on the home page go to the `doc` engine as a
-last try, because classic Mac documents usually have no extension.
+last try, because classic Mac documents usually have no extension. BinHex
+(.hqx) files are tried there too before being sent to macemu. Pages for
+extensionless Mac formats set `label` in their spec ("Nisus Writer")
+instead of relying on `exts`.
 
 `native/build.sh` rebuilds `src/client/vendor/docconv.{mjs,wasm}` and
 `helpdeco.{mjs,wasm}` (needs emscripten and boost headers). Both outputs are

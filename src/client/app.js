@@ -174,7 +174,12 @@ async function handle(file) {
   if (!spec || (found && found.slug && found.slug !== spec.slug && !spec.exts.includes(extOf(file.name)))) {
     if (found && found.slug) return routeTo(found.slug, file);
   }
-  if (found && found.elsewhere) return explain(file, found);
+  // The document reader unwraps BinHex itself, so a .hqx (a Nisus or MacDraw
+  // file, say) is tried here first; what it can't read, such as a BinHexed
+  // application, goes to macemu.
+  const binhex = found && found.elsewhere && found.elsewhere.exts.includes('hqx');
+  if (binhex && !spec) return run(file, 'doc', null, () => explain(file, found));
+  if (found && found.elsewhere && !(binhex && spec.engine === 'doc')) return explain(file, found);
   if (found && found.planned && !spec) return explain(file, found);
   // Nothing recognised the bytes: the document reader knows ~150 more
   // formats (most classic Mac files have no extension), so let it try.
