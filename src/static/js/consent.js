@@ -6,6 +6,15 @@
   var stored = null;
   try { stored = localStorage.getItem(KEY); } catch (e) {}
   if (stored) return;
+  // Only visitors who need to be asked see the banner: the EEA, UK and
+  // Switzerland, where <head> starts analytics denied (the region list in
+  // layout.mjs). Elsewhere analytics is on by default, and a banner would
+  // only cover the drop zone on phones. The time zone stands in for the
+  // region; every country on that list uses a Europe/ or Atlantic/ zone (Cyprus also
+  // Asia/Nicosia, Svalbard Arctic/).
+  var tz = '';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+  if (tz && !/^(Europe|Atlantic)\/|^Asia\/(Nicosia|Famagusta)$|^Arctic\//.test(tz)) return;
 
   function choose(value) {
     try { localStorage.setItem(KEY, value); } catch (e) {}

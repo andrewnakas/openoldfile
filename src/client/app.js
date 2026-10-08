@@ -263,7 +263,28 @@ function wireDropZone() {
   });
 }
 
+// "Try a sample file": fetch the page's sample and open it like a dropped file.
+function wireSample() {
+  const btn = $('#sample');
+  if (!btn) return;
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    try {
+      const res = await fetch(btn.dataset.src);
+      if (!res.ok) throw new Error('sample ' + res.status);
+      const name = btn.dataset.src.split('/').pop();
+      track('sample_open', { source_ext: extOf(name) });
+      await handle(new File([await res.blob()], name));
+    } catch (err) {
+      fail(err);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+}
+
 wireDropZone();
+wireSample();
 takeHandoff(handle);
 
 // Installed as an app, the site is offered in the system's "Open with" menu

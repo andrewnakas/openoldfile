@@ -3,6 +3,7 @@
 // a sandboxed frame; spreadsheets and databases as CSV tables; drawings as SVG.
 
 import * as XLSX from 'xlsx';
+import { fixMwawFontSizes } from '../mwaw-svg.js';
 import { OpenError, el } from '../ui-kit.js';
 import { renderPict } from './lib/pict.js';
 import { emfToSvg, isEmf } from './lib/emf.js';
@@ -82,7 +83,7 @@ async function resolvePictures(doc) {
     try {
       if (mime === 'image/mwaw-odg') {
         const r = await ask({ graphic: b64bytes(src) });
-        if (r.svg) url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(fixSvgImages(r.svg));
+        if (r.svg) url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(fixSvgImages(fixMwawFontSizes(r.svg)));
       } else {
         url = pictureFor(mime, src);
       }
@@ -126,7 +127,7 @@ export async function open(file, ui) {
     }
   }
   if (r.kind === 'html') return showHtml(r.body, ui);
-  if (r.kind === 'svg') r.body = fixSvgImages(r.body);
+  if (r.kind === 'svg') r.body = fixSvgImages(r.lib === 'libmwaw' ? fixMwawFontSizes(r.body) : r.body);
   if (r.kind === 'csv') return showSheets(r.body.split('\f'), ui);
   return showSvg(r.body.split('\f'), ui);
 }

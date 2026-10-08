@@ -13,7 +13,7 @@ import { mkdirSync, rmSync, writeFileSync, copyFileSync, cpSync, readdirSync, ex
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SITE } from '../src/site.mjs';
-import { FORMATS, ELSEWHERE, PLANNED, CATEGORIES, UPDATED } from '../src/formats.mjs';
+import { FORMATS, ELSEWHERE, PLANNED, CATEGORIES, UPDATED, SAMPLES, sampleName } from '../src/formats.mjs';
 import { formatPage, homePage, textPage, notFoundPage, categoryPage, extensionsPage } from '../src/layout.mjs';
 import { makeOgImages, makeIcons } from './og.mjs';
 
@@ -35,6 +35,10 @@ for (const f of FORMATS) {
   for (const r of f.related) if (!FORMATS.some((x) => x.slug === r)) throw new Error(`${f.slug}: unknown related slug ${r}`);
   if (!existsSync(join(ROOT, 'src/client/engines', f.engine + '.js'))) throw new Error(`${f.slug}: no engine ${f.engine}`);
   if (!CATEGORIES.some((c) => c.id === f.category)) throw new Error(`${f.slug}: unknown category ${f.category}`);
+}
+for (const slug of Object.keys(SAMPLES)) {
+  if (!FORMATS.some((f) => f.slug === slug)) throw new Error(`SAMPLES: unknown slug ${slug}`);
+  if (!existsSync(join(ROOT, 'test/fixtures', SAMPLES[slug]))) throw new Error(`SAMPLES: missing fixture ${SAMPLES[slug]}`);
 }
 for (const c of CATEGORIES) {
   if (c.title.length > 60) console.warn(`! title over 60 chars (${c.title.length}): /formats/${c.id}/`);
@@ -100,6 +104,11 @@ cpSync(join(NM, '@ruffle-rs/ruffle'), join(OUT, 'vendor/ruffle'), {
 });
 cpSync(join(ROOT, 'assets/soundfont'), join(OUT, 'vendor/soundfont'), { recursive: true });
 cpSync(join(ROOT, 'src/static'), OUT, { recursive: true });
+// Sample files for the "Try a sample" buttons; their sources and licences
+// are listed in test/fixtures/README.md.
+mkdirSync(join(OUT, 'samples'), { recursive: true });
+for (const slug of Object.keys(SAMPLES)) copyFileSync(join(ROOT, 'test/fixtures', SAMPLES[slug]), join(OUT, 'samples', sampleName(slug)));
+copyFileSync(join(ROOT, 'test/fixtures/README.md'), join(OUT, 'samples/SOURCES.md'));
 mkdirSync(join(OUT, 'css'), { recursive: true });
 copyFileSync(join(ROOT, 'src/style.css'), join(OUT, 'css/style.css'));
 
@@ -246,6 +255,9 @@ https://:project.pages.dev/*
   Cache-Control: public, max-age=2592000
 /*.html
   Cache-Control: public, max-age=300, must-revalidate
+/samples/*
+  X-Robots-Tag: noindex
+  Cache-Control: public, max-age=86400
 /llms.txt
   Content-Type: text/plain; charset=utf-8
 /sw.js

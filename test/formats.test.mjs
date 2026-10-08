@@ -6,6 +6,8 @@ import * as XLSX from 'xlsx';
 import { sniff } from '../src/client/sniff.js';
 import { parseWri, toText } from '../src/client/engines/wri.js';
 import { FORMATS } from '../src/formats.mjs';
+import { fixBadDates } from '../src/client/engines/sheet.js';
+import { fixMwawFontSizes } from '../src/client/mwaw-svg.js';
 
 const fx = (name) => new URL('./fixtures/' + name, import.meta.url);
 const file = (name, as = name) => new File([readFileSync(fx(name))], as);
@@ -56,6 +58,13 @@ test('SheetJS reads every spreadsheet fixture', () => {
     const wb = XLSX.read(readFileSync(fx(name)), { type: 'buffer' });
     assert.ok(wb.SheetNames.length > 0 && wb.Sheets[wb.SheetNames[0]]['!ref'], name);
   }
+  // Works 2.0 stores a date of day 0, which SheetJS reads as Invalid Date.
+  const works = XLSX.read(readFileSync(fx('Works_2.0.wks')), { type: 'buffer', cellDates: true, cellNF: false });
+  fixBadDates(works);
+  const ws = works.Sheets[works.SheetNames[0]];
+  assert.equal(ws.B11.t, 's');
+  assert.ok(XLSX.utils.sheet_to_html(ws).includes('1989'));
+  assert.ok(XLSX.write(works, { type: 'buffer', bookType: 'xlsx' }).length > 0);
 });
 
 test('page specs stay within search-result limits', () => {
@@ -318,6 +327,13 @@ test('classic Mac formats with their own pages convert (BinHex copies included)'
     'ClarisResolve_1.0.hqx': /^csv libmwaw .*"normal","bold"/
   };
   for (const [name, re] of Object.entries(cases)) assert.match(conv(name), re, name);
+  // librevenge writes libmwaw's 12 pt text as font-size="864"; the doc
+  // engine scales it back so labels don't cover the drawing.
+  m.FS.writeFile('/in', readFileSync(fx('MacDraw_Pro_1.0.hqx')));
+  const svgPtr = m.ccall('oof_convert', 'number', ['string', 'string'], ['/in', '']);
+  const sizes = fixMwawFontSizes(m.UTF8ToString(svgPtr)).match(/font-size="[\d.]+"/g);
+  m._free(svgPtr);
+  assert.ok(sizes.length && sizes.every((x) => x === 'font-size="12"'), String(sizes));
   // MacPaint has no text: check the picture came through as an embedded image.
   m.FS.writeFile('/in', readFileSync(fx('MacPaint_2.0.hqx')));
   const ptr = m.ccall('oof_convert', 'number', ['string', 'string'], ['/in', '']);

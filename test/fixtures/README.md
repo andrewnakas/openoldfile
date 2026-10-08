@@ -24,4 +24,4 @@ Real-world sample files used by `test/formats.test.mjs` and for manual browser c
 | method1.arj, method4.arj, stored.arj, wrongcrc32.arj | mkrueger/unarj-rs `tests/data` | Apache-2.0 |
 | scale.mid, test.mod, hello.txt.Z | generated for this repo | — |
 
-None of these are deployed; `public/` is built from `src/` only.
+Only the files named in `SAMPLES` (src/formats.mjs) are deployed, as `/samples/sample-<slug>` for the "Try a sample file" buttons, with this file copied beside them as `SOURCES.md`. Use only freely redistributable files there: not example.chm or EXAMPLE_WS4.DOC.

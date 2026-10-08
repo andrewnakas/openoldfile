@@ -20,6 +20,7 @@ export async function open(file, ui) {
       'the program this viewer does not understand yet.');
   }
   if (ui.ext !== 'dbf') stripLabelPrefixes(wb);
+  fixBadDates(wb);
   const names = wb.SheetNames.filter((n) => wb.Sheets[n] && wb.Sheets[n]['!ref']);
   if (!names.length) throw new OpenError('decode', 'The file opened but contains no cells.');
 
@@ -52,6 +53,22 @@ export function stripLabelPrefixes(wb) {
         delete c.w;
         delete c.h;
       }
+    }
+  }
+}
+
+// A date serial SheetJS can't turn into a Date (Works writes some as day 0)
+// becomes an Invalid Date, which throws in sheet_to_html and in the .xlsx
+// writer. Keep the text the program displayed instead.
+export function fixBadDates(wb) {
+  for (const name of wb.SheetNames) {
+    const ws = wb.Sheets[name];
+    for (const key of Object.keys(ws)) {
+      const c = ws[key];
+      if (key[0] === '!' || !c || c.t !== 'd' || !isNaN(c.v)) continue;
+      c.t = 's';
+      c.v = c.w || '';
+      delete c.z;
     }
   }
 }

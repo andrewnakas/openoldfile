@@ -22,7 +22,7 @@
 //   updated   date the page text last changed (sitemap lastmod); default UPDATED
 
 // Bump when a template change alters every page.
-export const UPDATED = '2026-10-07';
+export const UPDATED = '2026-10-08';
 
 // Each category also gets a hub page at /formats/<id>/.
 export const CATEGORIES = [
@@ -114,6 +114,7 @@ export const FORMATS = [
   },
   {
     slug: 'wq1',
+    updated: '2026-10-08',
     fallback: 'doc',
     category: 'spreadsheets',
     exts: ['wq1', 'wq2', 'wb1', 'wb2', 'wb3', 'qpw'],
@@ -131,12 +132,15 @@ export const FORMATS = [
     faq: [
       ['How do I open a .qpw or .wb3 file without Quattro Pro?', 'Drop it here. The sheets are shown in your browser and can be downloaded as Excel or CSV. No upload and no install.'],
       ['Can Excel open Quattro Pro files?', 'Modern Excel cannot. Converting here gives you an .xlsx that Excel, Google Sheets, LibreOffice and Numbers all open.'],
-      ['Is my file private?', 'Yes. It is processed in your browser and never sent to a server.']
+      ['Is my file private?', 'Yes. It is processed in your browser and never sent to a server.'],
+      ['How do I convert a Quattro Pro file to Excel?', 'Open it on this page and press "Download .xlsx". Every sheet in the file goes into the Excel workbook; use "Download .csv" if you only need the first sheet as plain values.'],
+      ['Are formulas and formatting kept?', 'The values the formulas last calculated are kept, along with text and dates. Quattro Pro formula syntax and cell formatting such as fonts and borders are not carried over.']
     ],
     related: ['wk1', 'dbf', 'xlr']
   },
   {
     slug: 'xlr',
+    updated: '2026-10-08',
     fallback: 'doc',
     category: 'spreadsheets',
     exts: ['xlr', 'wks'],
@@ -155,12 +159,15 @@ export const FORMATS = [
       ['How do I open an .xlr file on Windows 10 or 11?', 'Drop it on this page and download it as .xlsx, which Excel opens normally. Nothing is installed or uploaded.'],
       ['How do I open an .xlr file on a Mac?', 'The same way: this page runs in Safari, Chrome or Firefox on a Mac and converts the file to .xlsx for Numbers or Excel.'],
       ['Can it open Works .wps documents?', 'Yes, on the Works documents page: .wps files are word-processor documents in a different format.'],
-      ['Is anything uploaded?', 'No. The spreadsheet is read in your browser.']
+      ['Is anything uploaded?', 'No. The spreadsheet is read in your browser.'],
+      ['How do I convert XLR to XLSX?', 'Drop the .xlr file on this page and press "Download .xlsx". The copy opens in Excel, Google Sheets, Numbers and LibreOffice.'],
+      ['Why won\'t Excel open my .xlr or .wks file?', 'Current versions of Excel do not include a converter for Works spreadsheets, so they either refuse the file or show unreadable characters. Converting it here to .xlsx gives Excel a file it understands.']
     ],
     related: ['wk1', 'wq1', 'dbf']
   },
   {
     slug: 'wingz',
+    updated: '2026-10-08',
     category: 'spreadsheets',
     exts: ['wkz'],
     program: 'Wingz and Claris Resolve',
@@ -179,12 +186,15 @@ export const FORMATS = [
       ['How do I open a Wingz file?', 'Drop it on this page. The sheet is shown as a table and can be saved as Excel or CSV.'],
       ['How do I open a Claris Resolve spreadsheet?', 'The same way: drop it here. Resolve files are Wingz files under another name.'],
       ['Are formulas kept?', 'The calculated values are kept; the formulas are not converted to Excel syntax.'],
-      ['Is my spreadsheet uploaded?', 'No. It is read in your browser.']
+      ['Is my spreadsheet uploaded?', 'No. It is read in your browser.'],
+      ['How do I convert a Wingz spreadsheet to Excel?', 'Open the file on this page and press "Download .xlsx". The cell values come through; Wingz scripts (HyperScript) and charts are not converted.'],
+      ['My Wingz file came off a Mac and has no extension. Will it work?', 'Yes. The page reads the file\'s contents rather than its name, so a file without .wkz, or one wrapped as BinHex (.hqx) or MacBinary, opens the same way.']
     ],
     related: ['wk1', 'wq1', 'cwk']
   },
   {
     slug: 'wdb',
+    updated: '2026-10-08',
     needs: 'Microsoft Works',
     category: 'spreadsheets',
     exts: ['wdb'],
@@ -202,7 +212,10 @@ export const FORMATS = [
     faq: [
       ['How do I open a .wdb file without Microsoft Works?', 'Drop it on this page. The records are shown as a table and can be downloaded as Excel or CSV.'],
       ['How do I convert WDB to Excel?', 'Open the file here and press "Download .xlsx".'],
-      ['Is the database uploaded?', 'No. It is read in your browser.']
+      ['Is the database uploaded?', 'No. It is read in your browser.'],
+      ['How do I get the addresses from a Works database into Outlook or Google Contacts?', 'Open the .wdb file here, press "Download .csv", then use the import-from-CSV option in Outlook, Google Contacts or Apple Contacts and match the columns to the contact fields.'],
+      ['Can Microsoft Access open .wdb files?', 'No. Access has never read Works databases. Convert the file here to .xlsx or .csv, and Access can import that.'],
+      ['Which Works versions are supported?', 'Databases from Works for DOS and Works for Windows have been tested. If yours does not open, use the link that appears and say which Works version made it.']
     ],
     related: ['xlr', 'dbf', 'wps']
   },
@@ -511,6 +524,7 @@ export const FORMATS = [
   },
   {
     slug: 'fullwrite',
+    updated: '2026-10-08',
     category: 'documents',
     label: 'FullWrite',
     exts: [],
@@ -529,7 +543,9 @@ export const FORMATS = [
       ['How do I open a FullWrite file?', 'Drop it on this page. It is read in your browser and you can save it as HTML, text or PDF.'],
       ['How do I convert FullWrite to Word?', 'Open the file here and download the HTML copy, then open that in Word and save it as .docx.'],
       ['Which FullWrite versions work?', 'FullWrite Professional 1.x and 2.x documents.'],
-      ['Is my document uploaded?', 'No. It is read in your browser.']
+      ['Is my document uploaded?', 'No. It is read in your browser.'],
+      ['Can LibreOffice open FullWrite files?', 'Yes. LibreOffice imports FullWrite with libmwaw, the same open-source library this page uses, so installing LibreOffice is the offline alternative. This page needs no install.'],
+      ['The file was copied off an old Mac and has no icon or extension. Will it open?', 'Yes. The page identifies FullWrite documents by their contents, so a file that lost its Mac type information, or one saved as BinHex (.hqx) or MacBinary, still opens.']
     ],
     related: ['nisus', 'macwrite', 'writenow']
   },
@@ -558,6 +574,7 @@ export const FORMATS = [
   },
   {
     slug: 'writenow',
+    updated: '2026-10-08',
     category: 'documents',
     exts: ['wn'],
     program: 'WriteNow',
@@ -574,12 +591,15 @@ export const FORMATS = [
     faq: [
       ['How do I open a WriteNow file?', 'Drop it on this page. It opens in your browser and you can save it as HTML, text or PDF.'],
       ['How do I convert WriteNow to Word?', 'Open it here, download the HTML copy, and open that in Word to save as .docx.'],
-      ['Is my document uploaded?', 'No. It is read in your browser.']
+      ['Is my document uploaded?', 'No. It is read in your browser.'],
+      ['Can LibreOffice open WriteNow files?', 'Yes. LibreOffice Writer imports WriteNow with libmwaw, the same open-source library this page uses. This page does the same in the browser, with nothing to install.'],
+      ['Does it open WriteNow files from a NeXT computer?', 'This page reads the Mac versions of WriteNow, 2 to 4. NeXTSTEP WriteNow documents use a different format and may not open.']
     ],
     related: ['macwrite', 'fullwrite', 'wordmac']
   },
   {
     slug: 'ragtime',
+    updated: '2026-10-08',
     category: 'documents',
     exts: ['rag'],
     program: 'RagTime',
@@ -597,12 +617,15 @@ export const FORMATS = [
       ['How do I open a .rag file without RagTime?', 'Drop it on this page. The text frames are read in your browser and can be saved as HTML, text or PDF.'],
       ['Is the layout kept?', 'The text and its styles are kept; the page layout of frames is simplified into one flowing document.'],
       ['Which RagTime versions work?', 'Files from RagTime 2, 3 and 5 on the Mac. Files from other versions may open too.'],
-      ['Is my document uploaded?', 'No. It is read in your browser.']
+      ['Is my document uploaded?', 'No. It is read in your browser.'],
+      ['Can LibreOffice open RagTime files?', 'LibreOffice imports some RagTime documents with libmwaw, the same open-source library this page uses. This page does that in the browser, with nothing to install.'],
+      ['How do I convert a RagTime document to PDF?', 'Open it here, press "Print or save as PDF" and choose "Save as PDF" as the printer.']
     ],
     related: ['pub', 'nisus', 'cwk']
   },
   {
     slug: 'worksmac',
+    updated: '2026-10-08',
     category: 'documents',
     label: 'Works for Mac',
     exts: [],
@@ -622,12 +645,15 @@ export const FORMATS = [
       ['How do I open a Microsoft Works for Mac file?', 'Drop it on this page. Documents, spreadsheets, databases and drawings are all detected automatically.'],
       ['How do I convert a Works for Mac spreadsheet to Excel?', 'Open it here and press "Download .xlsx".'],
       ['Is this the same as Microsoft Works for Windows?', 'No, the formats differ. For Works for Windows files, see the .wps, .wks and .wdb pages.'],
-      ['Is my file uploaded?', 'No. It is read in your browser.']
+      ['Is my file uploaded?', 'No. It is read in your browser.'],
+      ['Which versions of Works for Mac are supported?', 'Works for Mac 1 to 4. Files from ClarisWorks and AppleWorks 5 or 6, which many schools moved to after Works, have their own page.'],
+      ['Can LibreOffice open Works for Mac files?', 'Yes, using libmwaw, the same open-source library this page uses. This page does the same in the browser, with nothing to install.']
     ],
     related: ['wps', 'xlr', 'cwk']
   },
   {
     slug: 'beagleworks',
+    updated: '2026-10-08',
     category: 'documents',
     label: 'BeagleWorks',
     exts: [],
@@ -646,12 +672,15 @@ export const FORMATS = [
     faq: [
       ['How do I open a BeagleWorks file?', 'Drop it on this page. The kind of file (document, spreadsheet, database or drawing) is detected automatically.'],
       ['Are WordPerfect Works files the same?', 'Yes. WordPerfect Works is BeagleWorks renamed, and its files open here too.'],
-      ['Is my file uploaded?', 'No. It is read in your browser.']
+      ['Is my file uploaded?', 'No. It is read in your browser.'],
+      ['How do I convert a BeagleWorks document to Word?', 'Open it here and press "Download as Word-compatible HTML". Word, Pages and Google Docs open that file with its text and styles, and you can save it as .docx from there.'],
+      ['Can LibreOffice open BeagleWorks files?', 'Yes. LibreOffice reads BeagleWorks and WordPerfect Works files with libmwaw, the same open-source library this page uses.']
     ],
     related: ['cwk', 'worksmac', 'wpd']
   },
   {
     slug: 'more',
+    updated: '2026-10-08',
     category: 'documents',
     label: 'MORE',
     exts: [],
@@ -669,12 +698,15 @@ export const FORMATS = [
     faq: [
       ['How do I open a MORE file?', 'Drop it on this page. The outline is shown as a document you can save as HTML, text or PDF.'],
       ['Is the outline structure kept?', 'Yes, as indented headings and paragraphs. Collapsing and expanding is not available in the saved copy.'],
-      ['Is my file uploaded?', 'No. It is read in your browser.']
+      ['Is my file uploaded?', 'No. It is read in your browser.'],
+      ['How do I convert a MORE outline to Word?', 'Open it here and press "Download as Word-compatible HTML". Word opens the file with the outline levels as indented headings and text, and you can save it as .docx from there.'],
+      ['Can LibreOffice open MORE files?', 'Yes. LibreOffice imports MORE outlines with libmwaw, the same open-source library this page uses. This page needs no install.']
     ],
     related: ['nisus', 'macwrite', 'docmaker']
   },
   {
     slug: 'docmaker',
+    updated: '2026-10-08',
     category: 'documents',
     label: 'DOCMaker',
     exts: [],
@@ -692,12 +724,15 @@ export const FORMATS = [
     faq: [
       ['How do I read a DOCMaker file on Windows or a modern Mac?', 'Drop it on this page. Its text is read straight out of the file, with no emulator needed.'],
       ['The file is called "Read Me" and has no extension. Is it DOCMaker?', 'Possibly. Drop it here: if it is a DOCMaker document, or one of the many other classic Mac formats this site reads, it opens.'],
-      ['Is my file uploaded?', 'No. It is read in your browser.']
+      ['Is my file uploaded?', 'No. It is read in your browser.'],
+      ['Can LibreOffice open DOCMaker documents?', 'Yes. LibreOffice imports DOCMaker files with libmwaw, the same open-source library this page uses. This page does it in the browser with nothing to install.'],
+      ['Does it open eDOC or other self-displaying documents?', 'Not yet. This page reads DOCMaker documents. eDOC and similar formats from the same era are not supported.']
     ],
     related: ['more', 'macwrite', 'hlp']
   },
   {
     slug: 'marinerwrite',
+    updated: '2026-10-08',
     category: 'documents',
     label: 'Mariner Write',
     exts: [],
@@ -715,7 +750,9 @@ export const FORMATS = [
     faq: [
       ['How do I open a Mariner Write file?', 'Drop it on this page. It opens in your browser and you can save it as HTML, text or PDF.'],
       ['How do I convert Mariner Write to Word?', 'Open it here, download the HTML copy, and open that in Word to save as .docx.'],
-      ['Is my document uploaded?', 'No. It is read in your browser.']
+      ['Is my document uploaded?', 'No. It is read in your browser.'],
+      ['Can LibreOffice open Mariner Write files?', 'Yes. LibreOffice imports Mariner Write with libmwaw, the same open-source library this page uses. This page does the same in the browser.'],
+      ['How do I convert Mariner Write to PDF?', 'Open the document here, press "Print or save as PDF" and pick "Save as PDF" as the printer.']
     ],
     related: ['nisus', 'writenow', 'macwrite']
   },
@@ -774,6 +811,7 @@ export const FORMATS = [
   // ---------------------------------------------------------------- archives
   {
     slug: 'lzh',
+    updated: '2026-10-08',
     needs: 'LHA software',
     category: 'archives',
     exts: ['lzh', 'lha'],
@@ -792,12 +830,15 @@ export const FORMATS = [
       ['How do I open an LZH file on Windows 10 or 11?', 'Windows dropped LZH support in Windows 10. Drop the file on this page to extract it in your browser instead of installing an archiver.'],
       ['How do I open an LHA file on a Mac?', 'Drop it here in any browser and download the files or a .zip.'],
       ['Can I convert LZH to ZIP?', 'Yes. Open the archive and press "Download all as .zip".'],
-      ['Is the archive uploaded?', 'No. It is extracted in your browser.']
+      ['Is the archive uploaded?', 'No. It is extracted in your browser.'],
+      ['What is the difference between LZH and LHA?', 'They are the same format. DOS and Windows programs named the files .lzh; Amiga programs usually named them .lha. This page opens both.'],
+      ['Which compression methods work?', 'The common LHA methods, including -lh5-, -lh6- and -lh7-, and stored (-lh0-) files. If an archive fails, it may use a rare method or be damaged.']
     ],
     related: ['arj', 'cab', 'z']
   },
   {
     slug: 'arj',
+    updated: '2026-10-08',
     needs: 'ARJ software',
     category: 'archives',
     exts: ['arj'],
@@ -816,12 +857,15 @@ export const FORMATS = [
       ['How do I open an ARJ file on Windows 11?', 'Drop it here. The files are listed and can be saved one by one or as a .zip, without installing anything.'],
       ['How do I open an ARJ file on a Mac?', 'Use this page in any browser; macOS has no built-in ARJ support.'],
       ['What about .a01, .a02 files?', 'Those are later volumes of a multi-volume ARJ set. Only single-volume archives open here for now.'],
-      ['Is anything uploaded?', 'No. Extraction runs in your browser.']
+      ['Is anything uploaded?', 'No. Extraction runs in your browser.'],
+      ['How do I convert ARJ to ZIP?', 'Open the .arj file here and press "Download all as .zip". The .zip opens on any computer or phone without extra software.'],
+      ['Can it open password-protected ARJ archives?', 'No. Encrypted ARJ archives are not supported.']
     ],
     related: ['lzh', 'cab', 'z']
   },
   {
     slug: 'cab',
+    updated: '2026-10-08',
     needs: 'extraction software',
     category: 'archives',
     exts: ['cab'],
@@ -839,12 +883,15 @@ export const FORMATS = [
     faq: [
       ['How do I open a CAB file on a Mac?', 'Drop it on this page. The files are listed and you can save them individually or as a .zip.'],
       ['How do I extract a driver from a CAB file?', 'Open the .cab here and download the .inf, .sys and .dll files, or the whole set as a .zip, then point Device Manager at the folder.'],
-      ['Is the file uploaded?', 'No. It is extracted in your browser.']
+      ['Is the file uploaded?', 'No. It is extracted in your browser.'],
+      ['Why won\'t my data1.cab file open?', 'Installers made with InstallShield use files named data1.cab, data2.cab and so on that are not Microsoft Cabinet files, only the same extension. They need an InstallShield extractor and will not open here.'],
+      ['How do I install a driver after extracting it?', 'Save the files from the .cab into one folder. In Windows Device Manager, right-click the device, choose Update driver, then "Browse my computer for drivers" and point it at that folder. The .inf file in it tells Windows what to install.']
     ],
     related: ['lzh', 'arj', 'z']
   },
   {
     slug: 'z',
+    updated: '2026-10-08',
     needs: 'Unix tools',
     category: 'archives',
     exts: ['z', 'taz', 'tz'],
@@ -862,7 +909,9 @@ export const FORMATS = [
     faq: [
       ['How do I open a .Z file on Windows?', 'Drop it on this page to decompress it in your browser, with no tools to install.'],
       ['How do I open a .tar.Z file?', 'Drop it here. It is decompressed and the tar contents are listed so you can save the files or a .zip.'],
-      ['Is the file uploaded?', 'No. It is decompressed locally.']
+      ['Is the file uploaded?', 'No. It is decompressed locally.'],
+      ['What is the difference between .Z and .gz?', '.Z files come from the old Unix compress command, which uses LZW compression; .gz files come from gzip, which replaced it. Many tools that open .gz do not open .Z.'],
+      ['Is there a command-line way to open .Z files?', 'Yes. On macOS and Linux, gunzip file.Z decompresses it, because gzip still reads the old compress format. This page does the same without a terminal.']
     ],
     related: ['lzh', 'arj', 'cab']
   },
@@ -945,6 +994,7 @@ export const FORMATS = [
   // ---------------------------------------------------------------- media
   {
     slug: 'wpg',
+    updated: '2026-10-08',
     category: 'media',
     exts: ['wpg'],
     program: 'WordPerfect Graphics',
@@ -962,7 +1012,9 @@ export const FORMATS = [
     faq: [
       ['How do I open a .wpg file?', 'Drop it on this page. The drawing is shown in your browser and can be saved as SVG.'],
       ['How do I convert WPG to PNG or JPG?', 'Open it here, then save the SVG and open it in any image editor, or print the page to PDF.'],
-      ['Is the picture uploaded?', 'No. It is read in your browser.']
+      ['Is the picture uploaded?', 'No. It is read in your browser.'],
+      ['Does it open WPG files from Corel Presentations and WordPerfect 6 or later?', 'Yes. Both WPG version 1 (WordPerfect 5) and version 2 (WordPerfect 6 and later, Corel Presentations) are read.'],
+      ['Can I edit the picture afterwards?', 'Save it as SVG and open it in Inkscape, Illustrator or another vector editor: the shapes stay editable rather than becoming pixels.']
     ],
     related: ['wpd', 'wmf', 'pict']
   },
@@ -993,6 +1045,7 @@ export const FORMATS = [
   },
   {
     slug: 'macpaint',
+    updated: '2026-10-08',
     category: 'media',
     needs: 'old Mac software',
     exts: ['mac', 'pntg', 'pnt'],
@@ -1012,12 +1065,15 @@ export const FORMATS = [
       ['How do I open a MacPaint file?', 'Drop it on this page. The picture appears straight away and can be saved as PNG.'],
       ['How do I convert MacPaint to PNG or JPG?', 'Open it here and press "Download PNG". Any image editor converts the PNG to JPEG if needed.'],
       ['My file has no extension. Will it work?', 'Yes. Classic Mac files rarely had extensions; the file is recognised from its contents.'],
-      ['Is my picture uploaded?', 'No. It is drawn in your browser.']
+      ['Is my picture uploaded?', 'No. It is drawn in your browser.'],
+      ['Can I open MacPaint files on Windows?', 'Yes. This page works in any browser on Windows, macOS, ChromeOS, Linux, iPhone and Android, and saves the picture as a PNG any image program opens.'],
+      ['Why is the picture black and white?', 'MacPaint only ever stored one-bit pictures: every pixel is black or white. Grey areas in the original are dither patterns, and they are kept exactly.']
     ],
     related: ['pict', 'macdraw', 'superpaint']
   },
   {
     slug: 'macdraw',
+    updated: '2026-10-08',
     category: 'media',
     label: 'MacDraw',
     exts: [],
@@ -1037,12 +1093,15 @@ export const FORMATS = [
       ['How do I open a MacDraw file?', 'Drop it on this page. The drawing is shown in your browser and can be saved as PNG, SVG or PDF.'],
       ['How do I edit an old MacDraw drawing?', 'Save it here as SVG and open that in Inkscape (free), Illustrator or Affinity Designer, where the shapes and text stay editable.'],
       ['Which versions work?', 'MacDraw, MacDraw II, MacDraw Pro and ClarisDraw.'],
-      ['Is my drawing uploaded?', 'No. It is read in your browser.']
+      ['Is my drawing uploaded?', 'No. It is read in your browser.'],
+      ['Can LibreOffice open MacDraw files?', 'Yes. LibreOffice Draw imports MacDraw, MacDraw II and MacDraw Pro with libmwaw, the same open-source library this page uses. This page needs no install.'],
+      ['How do I convert MacDraw to PDF?', 'Open the drawing here, press "Print or save as PDF" and pick "Save as PDF" as the printer. The shapes stay as vectors, so the PDF stays sharp when zoomed or printed large.']
     ],
     related: ['macdraft', 'canvas', 'pict']
   },
   {
     slug: 'macdraft',
+    updated: '2026-10-08',
     category: 'media',
     exts: ['drw'],
     program: 'MacDraft',
@@ -1061,12 +1120,15 @@ export const FORMATS = [
       ['How do I open a .drw file from MacDraft?', 'Drop it on this page. The drawing is shown in your browser and can be saved as PNG, SVG or PDF.'],
       ['Can I open MacDraft files on Windows?', 'Yes, here, in any browser. Nothing needs to be installed.'],
       ['Are dimensions and scale kept?', 'The drawing is kept as it looks on the page. Measuring and editing need a CAD program; the SVG copy imports into most of them.'],
-      ['Is my drawing uploaded?', 'No. It is read in your browser.']
+      ['Is my drawing uploaded?', 'No. It is read in your browser.'],
+      ['Can LibreOffice open MacDraft files?', 'Yes. LibreOffice Draw imports MacDraft drawings with libmwaw, the same open-source library this page uses. This page does it in the browser with nothing to install.'],
+      ['How do I convert a MacDraft plan to PDF?', 'Open it here, press "Print or save as PDF" and choose "Save as PDF". The lines stay as vectors, so the PDF prints sharply at any size.']
     ],
     related: ['macdraw', 'canvas', 'wmf']
   },
   {
     slug: 'canvas',
+    updated: '2026-10-08',
     category: 'media',
     label: 'Canvas',
     exts: [],
@@ -1085,12 +1147,15 @@ export const FORMATS = [
     faq: [
       ['How do I open an old Canvas file?', 'Drop it on this page. The drawing is shown in your browser and can be saved as PNG, SVG or PDF.'],
       ['Which Canvas versions work?', 'Files from the classic Mac versions, such as Canvas 2 and 3. Files from later versions may not open.'],
-      ['Is my drawing uploaded?', 'No. It is read in your browser.']
+      ['Is my drawing uploaded?', 'No. It is read in your browser.'],
+      ['Can LibreOffice open Canvas files?', 'LibreOffice Draw imports classic Mac Canvas drawings with libmwaw, the same open-source library this page uses. This page does it in the browser with nothing to install.'],
+      ['How do I convert a Canvas drawing to PDF or SVG?', 'Open it here, then press "Download SVG" for an editable vector copy, or "Print or save as PDF" and choose "Save as PDF".']
     ],
     related: ['macdraw', 'superpaint', 'macdraft']
   },
   {
     slug: 'superpaint',
+    updated: '2026-10-08',
     category: 'media',
     label: 'SuperPaint',
     exts: [],
@@ -1109,7 +1174,9 @@ export const FORMATS = [
     faq: [
       ['How do I open a SuperPaint file?', 'Drop it on this page. The picture is shown in your browser and can be saved as PNG, SVG or PDF.'],
       ['Are both the paint and draw layers shown?', 'Yes, both layers are combined into one picture.'],
-      ['Is my picture uploaded?', 'No. It is drawn in your browser.']
+      ['Is my picture uploaded?', 'No. It is drawn in your browser.'],
+      ['Can LibreOffice open SuperPaint files?', 'Yes. LibreOffice Draw imports SuperPaint with libmwaw, the same open-source library this page uses. This page needs no install.'],
+      ['How do I convert SuperPaint to JPG?', 'Open the file here and press "Download PNG". PNG keeps the picture exactly; any image program, including Preview and Paint, can save that PNG as a JPG.']
     ],
     related: ['macpaint', 'macdraw', 'pict']
   },
@@ -1139,6 +1206,7 @@ export const FORMATS = [
   },
   {
     slug: 'swf',
+    updated: '2026-10-08',
     needs: 'Flash Player',
     category: 'media',
     exts: ['swf'],
@@ -1157,7 +1225,9 @@ export const FORMATS = [
       ['How do I open a SWF file without Flash Player?', 'Drop it on this page. It plays in your browser through the Ruffle emulator, with no plugin and no download.'],
       ['How do I play a SWF game on a Chromebook or Mac?', 'Open this page and drop the .swf. It runs the same on ChromeOS, macOS, Windows and Linux.'],
       ['Why does my SWF game not work?', 'Some games built with ActionScript 3 use features Ruffle does not support yet, and games that load extra files from their original website will miss those files.'],
-      ['Is the file uploaded?', 'No. It is played locally in your browser.']
+      ['Is the file uploaded?', 'No. It is played locally in your browser.'],
+      ['Is it safe to play old SWF files here?', 'Ruffle is a new player written in Rust that runs inside the browser\'s sandbox, so it does not have the security holes of the old Flash Player plugin. Nothing needs to be installed.'],
+      ['Can it play FLV videos?', 'No. .flv files are Flash video, not Flash movies. VLC and most current video players open .flv files directly.']
     ],
     related: ['mid', 'mod', 'wmf']
   },
@@ -1187,6 +1257,7 @@ export const FORMATS = [
   },
   {
     slug: 'mod',
+    updated: '2026-10-08',
     needs: 'tracker software',
     category: 'media',
     exts: ['mod', 'xm', 's3m', 'it', 'mptm', 'mtm', '669', 'med'],
@@ -1204,12 +1275,15 @@ export const FORMATS = [
     faq: [
       ['How do I play a .mod file?', 'Drop it on this page and it starts playing. .xm, .s3m, .it and several rarer tracker formats work too.'],
       ['How do I play tracker music on a Mac or phone?', 'Use this page in any browser. No app is needed.'],
-      ['Is the file uploaded?', 'No. It is played in your browser.']
+      ['Is the file uploaded?', 'No. It is played in your browser.'],
+      ['What is the difference between .mod, .xm, .s3m and .it?', '.mod is the original Amiga format with four channels. .s3m came from Scream Tracker 3, .xm from FastTracker 2 and .it from Impulse Tracker; each added more channels, instruments and effects. This page plays all of them.'],
+      ['Can I convert a module to MP3 or WAV?', 'Not on this page yet: modules play in the page. OpenMPT, a free program for Windows, can render a module to WAV, MP3 or FLAC.']
     ],
     related: ['mid', 'swf', 'lzh']
   },
   {
     slug: 'wmf',
+    updated: '2026-10-08',
     needs: 'graphics software',
     category: 'media',
     exts: ['wmf', 'wmz'],
@@ -1228,12 +1302,15 @@ export const FORMATS = [
       ['How do I open a WMF file on a Mac?', 'Drop it on this page. It is drawn in your browser and can be saved as PNG or SVG for Preview, Keynote or Pages.'],
       ['How do I convert WMF to PNG?', 'Open the file here, choose a size and press "Download PNG".'],
       ['What is a .wmz file?', 'A gzip-compressed WMF. It opens here the same way.'],
-      ['Is the file uploaded?', 'No. It is rendered locally.']
+      ['Is the file uploaded?', 'No. It is rendered locally.'],
+      ['Can I convert WMF to SVG for editing?', 'Yes. Open the file here and press "Download SVG". The shapes stay as vectors, ready for Inkscape, Illustrator or Affinity Designer.'],
+      ['Why does some old clip art look different from Office?', 'WMF files are recordings of Windows drawing commands, and a few rarely used commands and fonts are drawn slightly differently outside Windows. Shapes, colours and text normally come through.']
     ],
     related: ['emf', 'xps', 'swf']
   },
   {
     slug: 'emf',
+    updated: '2026-10-08',
     needs: 'graphics software',
     category: 'media',
     exts: ['emf', 'emz'],
@@ -1252,7 +1329,9 @@ export const FORMATS = [
       ['How do I open an EMF file on a Mac?', 'Drop it here. The image is drawn in your browser and can be saved as PNG or SVG.'],
       ['How do I convert EMF to PNG?', 'Open it on this page and press "Download PNG".'],
       ['What is an .emz file?', 'A gzip-compressed EMF, often found inside Word and PowerPoint files. It opens here directly.'],
-      ['Is the file uploaded?', 'No. Rendering happens in your browser.']
+      ['Is the file uploaded?', 'No. Rendering happens in your browser.'],
+      ['Why does my EMF file show a message instead of a picture?', 'Some EMF files, mostly from newer Office versions, contain only EMF+ drawing records with no plain EMF copy. This page does not draw EMF+ yet and says so instead of showing a blank picture.'],
+      ['Can I convert EMF to SVG?', 'Yes. Open it here and press "Download SVG" for a vector copy you can edit in Inkscape or Illustrator.']
     ],
     related: ['wmf', 'xps', 'chm']
   }
@@ -1273,3 +1352,27 @@ export const PLANNED = [
   { exts: ['dcr'], name: 'Shockwave movie' },
   { exts: ['sid'], name: 'C64 SID tune' }
 ];
+
+// "Try a sample file" on each format page: a file from test/fixtures/ that
+// may be redistributed (see test/fixtures/README.md), published by the build
+// as /samples/sample-<slug>[.ext]. Pages missing here get no button; pub, psw
+// and swf are left out because their fixtures look empty or broken as demos.
+export const SAMPLES = {
+  wk1: 'Lotus.wk1', dbf: 'biblio.dbf', wq1: 'QuattroPro.wq1', xlr: 'Works_Windows.wks', wingz: 'Wingz_1.0.hqx',
+  wdb: 'Works_Windows.wdb', sam: 'amipro-synthetic.sam', wordstar: 'OCAPTAIN.WS', hlp: 'putty.hlp',
+  wpd: 'WP6.wpd', cwk: 'ClarisWorks_6.0.cwk', wps: 'Works_4.5.wps', macwrite: 'MacWrite_4.5', wri: 'Write_3.1.wri',
+  worddos: 'Word_5.0_DOS.doc', nisus: 'NisusWriter_4.0.hqx', fullwrite: 'FullWrite_2.0',
+  wordmac: 'MicrosoftWord_5.0', writenow: 'WriteNow_4.0', ragtime: 'RagTime_5.5.rag', worksmac: 'MicrosoftWorks_2.0',
+  beagleworks: 'BeagleWorks_v1.hqx', more: 'More.hqx', docmaker: 'DOCMaker_4.hqx', marinerwrite: 'MarinerWrite_3.5.hqx',
+  chm: 'putty.chm', xps: 'sample.xps', lzh: 'test_read_format_lha_lh7.lzh', arj: 'method4.arj', cab: 'test_read_format_cab_2.cab',
+  z: 'hello.txt.Z', adf: 'aros-boot.adf', wpg: 'WPG1.wpg', pict: 'tdf92789.pct', macpaint: 'MacPaint_2.0.hqx',
+  macdraw: 'MacDraw_Pro_1.0.hqx', macdraft: 'MacDraft_5.5.drw', canvas: 'Canvas_2.hqx', superpaint: 'SuperPaint_1.0.hqx',
+  mid: 'scale.mid', mod: 'test.mod', wmf: 'visio_import_source.wmf', emf: 'computer_mail.emf'
+};
+
+// sample-wk1.wk1, sample-fullwrite (no extension, like the Mac original).
+export const sampleName = (slug) => {
+  const src = SAMPLES[slug];
+  const m = src && /\.([A-Za-z][A-Za-z0-9]*)$/.exec(src);
+  return src ? 'sample-' + slug + (m ? '.' + m[1].toLowerCase() : '') : '';
+};

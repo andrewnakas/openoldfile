@@ -2,7 +2,7 @@
 // /js/app.js. Text comes from src/formats.mjs.
 
 import { SITE } from './site.mjs';
-import { FORMATS, CATEGORIES, PLANNED, ELSEWHERE, UPDATED } from './formats.mjs';
+import { FORMATS, CATEGORIES, PLANNED, ELSEWHERE, UPDATED, sampleName } from './formats.mjs';
 
 export const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const dotList = (exts) => exts.map((e) => '.' + e).join(', ');
@@ -65,7 +65,7 @@ function header() {
     <nav aria-label="Main">
       <a href="/#formats">All formats</a>
       <a href="/extensions/">Extensions A–Z</a>
-      <a href="/about/">About</a>
+      <a class="nav-about" href="/about/">About</a>
     </nav>
   </div>
 </header>`;
@@ -90,7 +90,7 @@ function footer() {
 // No accept= filter: iOS greys out every file whose extension it has no type
 // for (all of these formats), so the picker stays open and the engines check
 // the bytes instead.
-function tool({ accept, prompt, sub }) {
+function tool({ accept, prompt, sub, sample = null }) {
   return `<section class="tool" aria-label="Open a file">
   <label id="drop" class="drop">
     <input id="file" type="file"${accept ? ` accept="${esc(accept)}"` : ''}>
@@ -99,7 +99,7 @@ function tool({ accept, prompt, sub }) {
     <span class="btn">Choose a file</span>
   </label>
   <p class="privacy-line">🔒 Opened right here in your browser. Nothing is uploaded.</p>
-  <div id="status" class="status" role="status" aria-live="polite" hidden></div>
+${sample ? `  <p class="sample-line">No file to hand? <button type="button" id="sample" class="link-btn" data-src="/samples/${sample.file}">Try a sample ${esc(sample.label)} file</button></p>\n` : ''}  <div id="status" class="status" role="status" aria-live="polite" hidden></div>
   <div id="actions" class="actions"></div>
   <div id="result" class="result" hidden></div>
   <p id="after" class="after" hidden></p>
@@ -177,11 +177,36 @@ function ledeFor(f) {
   return `Drop your ${f.label || extPhrase(f.exts)} file to ${VERB[f.engine]}${saves.length ? ` and save it as ${list}` : ' right here'}.` + tail;
 }
 
+// "Try a sample .WKS file": named by the sample's own extension when the page
+// takes it, else by the page's label (BinHex copies of Mac files).
+function sampleFor(f) {
+  const file = sampleName(f.slug);
+  if (!file) return null;
+  const ext = (/\.([a-z0-9]+)$/.exec(file) || [])[1];
+  return { file, label: ext && f.exts.includes(ext) ? '.' + ext.toUpperCase() : extLabel(f) };
+}
+
+const longDate = (iso) => new Date(iso + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+// The spec's own picks first, then pages that pick this one (so no page is
+// left without links from its neighbours), then the rest of its category.
+const MAX_RELATED = 6;
+function relatedFor(f) {
+  const bySlug = (s) => FORMATS.find((x) => x.slug === s);
+  const out = [];
+  const add = (x) => { if (x && x !== f && !out.includes(x) && out.length < MAX_RELATED) out.push(x); };
+  f.related.map(bySlug).forEach(add);
+  FORMATS.filter((x) => x.related.includes(f.slug)).forEach(add);
+  FORMATS.filter((x) => x.category === f.category).forEach(add);
+  return out;
+}
+
 export function formatPage(f) {
   const path = `/open/${f.slug}/`;
   const main = extLabel(f);
-  const related = f.related.map((s) => FORMATS.find((x) => x.slug === s)).filter(Boolean);
   const cat = categoryOf(f);
+  const related = relatedFor(f);
+  const updated = f.updated || UPDATED;
   const trail = crumbs([{ name: cat.name, path: `/formats/${cat.id}/` }, { name: f.program, path }]);
   const saves = f.outputs.filter(SAVES);
   const jsonld = [
@@ -196,7 +221,10 @@ export function formatPage(f) {
       browserRequirements: 'Requires JavaScript and WebAssembly',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
       featureList: [`Open ${f.label || dotList(f.exts)} files`, ...saves.map((o) => 'Save as ' + o), 'No upload: runs entirely in the browser'],
-      dateModified: f.updated || UPDATED
+      dateModified: updated,
+      inLanguage: 'en',
+      image: `${SITE.origin}/og/${f.slug}.png`,
+      isAccessibleForFree: true
     },
     faqLd(f.faq),
     trail.ld
@@ -204,7 +232,8 @@ export function formatPage(f) {
   const body = `${trail.html}
 <h1>${esc(f.h1)}</h1>
 <p class="lede">${esc(ledeFor(f))}</p>
-${tool({ accept: '', prompt: `Drop your ${esc(main)} file here`, sub: esc(f.label ? MAC_SUB : dotList(f.exts)) })}
+${tool({ accept: '', prompt: `Drop your ${esc(main)} file here`, sub: esc(f.label ? MAC_SUB : dotList(f.exts)),
+    sample: sampleFor(f) })}
 
 <section>
 <h2>How to open a ${esc(main)} file</h2>
@@ -237,7 +266,8 @@ ${related.map((r) => `<li><a href="/open/${r.slug}/">${esc(r.h1)}</a></li>`).joi
 <li><a href="/formats/${cat.id}/">All ${esc(cat.name.toLowerCase())}</a></li>
 <li><a href="/">Open any old file</a></li>
 </ul>
-</section>`;
+</section>
+<p class="updated muted">Page updated <time datetime="${updated}">${longDate(updated)}</time>.</p>`;
   // The viewer is fetched once the page is idle (app.js), not preloaded:
   // some are over 1 MB and would compete with the page on a phone.
   return page({ title: f.title, desc: f.desc, path, jsonld, slug: f.slug, body, og: f.slug });
