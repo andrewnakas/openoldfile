@@ -109,8 +109,9 @@ export const FORMATS = [
     category: 'spreadsheets',
     exts: ['dbf'],
     program: 'dBASE, FoxPro and Clipper',
-    title: 'Open DBF Files Online, Free (dBASE, FoxPro) | No Upload',
+    title: 'Open DBF Files Online — dBASE & FoxPro to Excel, No Upload',
     h1: 'Open DBF files online',
+    answer: 'A .dbf file is a dBASE database table: a header describing the fields, then one row per record, used by dBASE, FoxPro, Clipper and the attribute table of every ESRI shapefile. To open one, drop it in the box below. The records appear as a table you can save as Excel (.xlsx) or CSV, and nothing is uploaded.',
     desc: 'View dBASE and FoxPro .dbf database files in your browser and export them to Excel or CSV. Free, no upload, no software to install.',
     engine: 'sheet',
     outputs: ['Excel (.xlsx)', 'CSV'],
@@ -120,6 +121,7 @@ export const FORMATS = [
       'This page reads the table, shows the records, and saves them as .xlsx or .csv. Memo fields stored in a separate .dbt or .fpt file are not read; everything else in the table is.'
     ],
     faq: [
+      ['What is a DBF file?', 'A single database table in the dBASE format: a header describing the fields, then one fixed-width row per record. dBASE III and IV, FoxPro, Clipper and many accounting and point-of-sale systems used it, and every ESRI shapefile carries its attributes in a .dbf beside the .shp.'],
       ['How do I open a DBF file without dBASE or FoxPro?', 'Drop it on this page. The records are shown as a table and you can download them as Excel (.xlsx) or CSV. It runs in your browser and nothing is uploaded.'],
       ['How do I convert DBF to Excel?', 'Open the file here and press "Download .xlsx". Each field becomes a column and each record a row.'],
       ['Can I open the .dbf from a shapefile?', 'Yes. The .dbf beside a .shp holds the attribute table, and it opens here like any other dBASE file.'],

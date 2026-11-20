@@ -41,6 +41,7 @@ h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.2; margin: 24px 0 8px
 h2 { font-size: 1.35rem; margin: 40px 0 12px; }
 h3 { font-size: 1.05rem; margin: 24px 0 8px; }
 .lede { font-size: 1.12rem; color: var(--muted); max-width: 46em; margin-top: 0; }
+.answer { font-size: 1.12rem; max-width: 46em; margin-top: 0; }
 .muted { color: var(--muted); }
 .crumbs { font-size: 0.9rem; color: var(--muted); margin-top: 20px; }
 .crumbs a { color: inherit; }
@@ -59,6 +60,7 @@ h3 { font-size: 1.05rem; margin: 24px 0 8px; }
 .site-footer ul { list-style: none; padding: 0; margin: 0; }
 .site-footer li { margin: 3px 0; }
 .footer-legal { color: var(--muted); margin-top: 20px; }
+.footer-tools ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0 24px; }
 
 /* tool */
 .tool { margin: 20px 0 8px; }
