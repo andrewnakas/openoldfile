@@ -78,10 +78,12 @@ function footer() {
     return `<div><h3><a href="/formats/${c.id}/">${esc(c.name)}</a></h3><ul>${items}</ul></div>`;
   }).join('');
   const sisters = SITE.sisters.map((s) => `<li><a href="${s.url}">${esc(s.name)}</a>: ${esc(s.blurb)}</li>`).join('');
+  const tools = SITE.tools.map((s) => `<li><a href="${s.url}">${esc(s.name)}</a> — ${esc(s.blurb)}</li>`).join('');
   return `<footer class="site-footer">
   <div class="wrap">
     <div class="footer-cols">${cols}</div>
     <div class="footer-sisters"><h3>Sister sites</h3><ul>${sisters}</ul></div>
+    <div class="footer-tools"><h3>More free tools that don't upload your files</h3><ul>${tools}</ul></div>
     <p class="footer-legal">Files are opened in your browser and never uploaded. <a href="/extensions/">File extensions A–Z</a> · <a href="/about/">About</a> · <a href="/privacy/">Privacy</a> · <a href="/contact/">Contact</a> · <a href="${SITE.source}">Source code</a></p>
   </div>
 </footer>`;
@@ -231,7 +233,7 @@ export function formatPage(f) {
   ];
   const body = `${trail.html}
 <h1>${esc(f.h1)}</h1>
-<p class="lede">${esc(ledeFor(f))}</p>
+${f.answer ? `<p class="answer">${esc(f.answer)}</p>\n` : ''}<p class="lede">${esc(ledeFor(f))}</p>
 ${tool({ accept: '', prompt: `Drop your ${esc(main)} file here`, sub: esc(f.label ? MAC_SUB : dotList(f.exts)),
     sample: sampleFor(f) })}
 
